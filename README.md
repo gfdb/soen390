@@ -2,7 +2,17 @@
 SOEN390 ... 
 
 # Team 15 - members:
-...
+|name                     |github id    |student id
+|---                      |---          |---     
+|              |  |
+|                |       |
+|          |   |
+|            | |
+|             |  |
+|         |   |
+| |  |
+|                |       |
+|              |       |
 
 # Meeting
 ```diff
