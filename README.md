@@ -5,12 +5,13 @@ SOEN390 ...
 ...
 
 # Meeting
-focus on your team meeting, the time, attendee, what you have fixed, your plan ...
+```diff
+- please give some basic notes about the meeting (team meeting and TA meeting) --- by TA
+- focus on your team meeting, the time, attendee, what you have fixed, your plan .... 
+```
+
 
 # Sprint 1 
-```diff
-- Please add all links to deliverables ASAP, so that I can give comments on them. --- by TA
-```
 1. [User Stories Backlog (USB)](https://docs.google.com/document/d/1gx_p1udjsAtIQG-c_sffNRaJYJguviCr1RBix7DzI5Q/edit)
 
    [User Stories Backlog (USB) excel sheet](https://docs.google.com/spreadsheets/d/12L9rgUXGn508rjnKgYhErNIvxcseMZd9BCg0DDjf3aw/edit#gid=0)
