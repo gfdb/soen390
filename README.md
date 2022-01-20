@@ -4,9 +4,9 @@ SOEN390 ...
 # Team 15 - members:
 |name                     |github id    |student id
 |---                      |---          |---     
-|              |  |
-|                |       |
-|          |   |
+|Gianfranco Dumoulin  | gfdb | 40097768
+|David Roper                | david-roper      | 40131739
+|Marita Brichan | maritabrichan | 40138194
 |            | |
 |             |  |
 |         |   |
