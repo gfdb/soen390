@@ -1,12 +1,17 @@
+//intilaizing express
 const express = require("express")
 const app = express()
+
+//setting up ejs 
+app.set("view engine", "ejs")
 
 //path for home
 app.get('/', (req, res) => {
     // console.log('home')
     // res.sendStatus(500)
-    // res.status(500).send('crash')
-    res.send('test')
+    // res.status(500).send('crash')or.json({message:error})
+    // res.send('test')
+    res.render('index.ejs')
 })
 
 //server start on port 300
