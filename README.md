@@ -4,7 +4,7 @@ SOEN390 ...
 # Team 15 - members:
 |name                     |github id    |student id
 |---                      |---          |---     
-|              |  |
+|Gianfranco Dumoulin  | gfdb | 40097768
 |                |       |
 |          |   |
 |            | |
