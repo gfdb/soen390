@@ -6,7 +6,7 @@ SOEN390 ...
 |---                      |---          |---     
 |Gianfranco Dumoulin  | gfdb | 40097768
 |David Roper                | david-roper      | 40131739
-|          |   |
+|Marita Brichan | maritabrichan | 40138194
 |            | |
 |             |  |
 |         |   |
