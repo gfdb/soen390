@@ -5,7 +5,7 @@ SOEN390 ...
 |name                     |github id    |student id
 |---                      |---          |---     
 |Gianfranco Dumoulin  | gfdb | 40097768
-|                |       |
+|David Roper                | david-roper      | 40131739
 |          |   |
 |            | |
 |             |  |
