@@ -11,8 +11,12 @@ app.get('/', (req, res) => {
     // res.sendStatus(500)
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
-    res.render('index.ejs')
+    res.render('index.ejs', { text: 'world' })
 })
+
+//setting up login routers
+const loginRouter = require('./routes/login')
+app.use('/login', loginRouter)
 
 //server start on port 300
 app.listen(3000)
