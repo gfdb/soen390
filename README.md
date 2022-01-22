@@ -8,7 +8,7 @@ SOEN390 ...
 |David Roper                | david-roper      | 40131739
 |Marita Brichan | maritabrichan | 40138194
 |Dionisia Poulios| dionisiapoulios | 40131986
-|             |  |
+|David Lemme| davrine| 40157270
 |         |   |
 | |  |
 |                |       |
