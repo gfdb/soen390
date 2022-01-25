@@ -10,7 +10,7 @@ SOEN390 ...
 |Dionisia Poulios| dionisiapoulios | 40131986
 |David Lemme| davrine| 40157270
 |Maxwell Lee | Cresfault  | 40120326
-| |  |
+|Omar Elkassouani|Omarelk09|40080394|
 |                |       |
 |              |       |
 
