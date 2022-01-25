@@ -11,7 +11,7 @@ SOEN390 ...
 |David Lemme| davrine| 40157270
 |Maxwell Lee | Cresfault  | 40120326
 |Omar Elkassouani|Omarelk09|40080394|
-|                |       |
+|Lea Lakkis|lealakkis|40125381
 |              |       |
 
 # Starting the Server
