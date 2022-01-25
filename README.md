@@ -14,6 +14,9 @@ SOEN390 ...
 |                |       |
 |              |       |
 
+# Starting the Server
+1. enter npm start (the server will automaticly update upon saving any js file)
+
 # Meeting
 ```diff
 - please give some basic notes about the meeting (team meeting and TA meeting) --- by TA
