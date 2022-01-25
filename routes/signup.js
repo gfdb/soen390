@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express()
+const db = require('../database')
+
 
 router.use(express.urlencoded({ extended: false }))
 
@@ -9,7 +11,8 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    console.log(req.body.email + req.body.pwd)
+    const { email, pwd } = req.body
+    console.log(email + " " + pwd)
 })
 
 
