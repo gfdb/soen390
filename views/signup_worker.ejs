@@ -51,7 +51,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li>
-              <a class="nav-link" href="signup.html"><i class="fas fa-user-plus"></i> Sign up</a>
+              <a class="nav-link" href="signup_worker.ejs"><i class="fas fa-user-plus"></i> Sign up</a>
           </li>
 
 
@@ -60,7 +60,7 @@
 
           <li class="nav-item dropdown">
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="login.html">Login</a>
+                <a class="dropdown-item" href="login_worker.ejs">Login</a>
             </div>
 
             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
@@ -75,7 +75,86 @@
 
 
 
+<div class="content">
+  <h1 class="title"><i class="fas fa-user-md"></i> Worker Sign Up</h1>
+  
+  <div class="form">
 
+    <form class="row g-3">
+
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">First Name</label>
+            <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+        </div>
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+        </div>
+        
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">Work Email</label>
+          <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com">
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">Password</label>
+          <input type="password" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputState" class="form-label">Position</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Select</option>
+                <option value="doc">Doctor</option>
+                <option value="nurse">Nurse</option>
+                <option value="IA">Immigration Agent</option>
+                <option value="other">Other Healthcare Worker</option>
+            </select>
+        </div>
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">Address</label>
+          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-12">
+          <label for="inputAddress2" class="form-label">Address 2</label>
+          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-md-6">
+          <label for="inputCity" class="form-label">City</label>
+          <input type="text" class="form-control" id="inputCity">
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Province/Territory</label>
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Select</option>
+            <option value="AB">Alberta</option>
+            <option value="BC">British Columbia</option>
+            <option value="MB">Manitoba</option>
+            <option value="NB">New Brunswick</option>
+            <option value="NL">Newfoundland and Labrador</option>
+            <option value="NT">Northwest Territories</option>
+            <option value="NS">Nova Scotia</option>
+            <option value="NU">Nunavut</option>
+            <option value="ON">Ontario</option>
+            <option value="PE">Prince Edward Island</option>
+            <option value="QC">Quebec</option>
+            <option value="3">Saskatchewan</option>
+            <option value="YT">Yukon</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="inputZip" class="form-label">Zip</label>
+          <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1">
+        </div>
+        <div class="col-12 submitbtn">
+          <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
+
+        </div>
+      </form>
+
+
+
+  </div>
+
+</div>
 
 
   <!--Footer Bar-->
