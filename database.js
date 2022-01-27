@@ -9,9 +9,13 @@ const db = mysql.createConnection({
 
 //below code isnt really necesarry after the creation of the table
 db.connect((err) => {
-    if (err) console.log(err)
-    console.log("Connected!")
-    var sql = "CREATE TABLE Users (name VARCHAR(255), lastName VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
+    if (err) {
+        console.log(err)
+    } else {
+        console.log("Connected!")
+        return
+    }
+    var sql = "CREATE TABLE Users (uuid VARCHAR(64), name VARCHAR(255), lastName VARCHAR(255), email VARCHAR(255), password VARCHAR(256))"
     db.query(sql, (err, result) => {
         if (err) console.log(err)
         console.log("Table created")
