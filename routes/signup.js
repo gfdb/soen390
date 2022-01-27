@@ -11,8 +11,10 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { email, pwd } = req.body
-    console.log(email + " " + pwd)
+    const { name, lName, email, pwd, cPwd } = req.body
+    console.log(name + " " + lName + " " + email + " " + pwd + " " + cPwd)
+    res.render('signup.ejs')
+
 })
 
 
