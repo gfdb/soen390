@@ -20,12 +20,20 @@ app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
+app.get('/signup_choice', (req, res) => {
+    // console.log('home')
+    // res.sendStatus(500)
+    // res.status(500).send('crash')or.json({message:error})
+    // res.send('test')
+    res.render('signup_choice.ejs')
+})
+
 app.get('/signup_patient', (req, res) => {
     // console.log('home')
     // res.sendStatus(500)
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
-    res.render('signup_patient')
+    res.render('signup_patient.ejs')
 })
 
 app.get('/signup_worker', (req, res) => {
@@ -33,7 +41,7 @@ app.get('/signup_worker', (req, res) => {
     // res.sendStatus(500)
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
-    res.render('signup_worker')
+    res.render('signup_worker.ejs')
 })
 
 app.get('/login_patient', (req, res) => {
@@ -41,7 +49,7 @@ app.get('/login_patient', (req, res) => {
     // res.sendStatus(500)
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
-    res.render('login_patient')
+    res.render('login_patient.ejs')
 })
 
 app.get('/login_worker', (req, res) => {
@@ -49,7 +57,15 @@ app.get('/login_worker', (req, res) => {
     // res.sendStatus(500)
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
-    res.render('login_worker')
+    res.render('login_worker.ejs')
+})
+
+app.get('/login_choice', (req, res) => {
+    // console.log('home')
+    // res.sendStatus(500)
+    // res.status(500).send('crash')or.json({message:error})
+    // res.send('test')
+    res.render('login_choice.ejs')
 })
 
 //server start on port 300
