@@ -1,0 +1,83 @@
+.header {
+    background-color: #f2f2f2 !important;
+}
+.logo{
+  width: 35%;
+  height:35%;
+}
+
+/* Nav Bar */
+/*-----Navigation Bar-----*/
+
+.navbar-custom {
+    background-color: black !important;
+}
+
+
+/*-----Navigation Bar Links-----*/
+
+a.navbar-brand:hover, a.navbar-brand:active {
+    color: white;
+}
+
+a:link, a:visited {
+    color: black;
+}
+
+
+/*-----Drop Down Menu Links-----*/
+a.drop-item:link, a.drop-item:visited {
+    color: black;
+}
+
+.rightnav{
+  float: right !important;
+}
+
+/*-----Content-----*/
+h1.title{
+    text-align: center;
+    font-family: Sans-serif;
+    padding-bottom: 20px;
+}
+
+.content{
+    padding-top: 40px;
+    background: #cecece; 
+}
+
+.form{
+    background: white;
+    border-radius: 25px 25px 0px 0px;
+    padding-left: 20%;
+	padding-right: 20%;
+    padding-top: 70px;
+    padding-bottom: 20px; 
+    
+}
+
+.col-md-2, .col-md-4, .col-md-6, .col-12{
+    padding-bottom: 12px; 
+}
+
+.submitbtn{
+    padding-top: 40px;
+    padding-bottom: 120px;
+    text-align: center;
+}
+
+
+
+
+/*-----Footer-----*/
+.footer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    left: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgrey;
+    color: #373737;
+    border: 1px black;
+}

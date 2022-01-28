@@ -15,7 +15,7 @@
         <title>CovidConnect | Login</title>
 
         <!--Link to CSS-->
-        <link rel="stylesheet" href="css/signup_choice.css">
+        <link rel="stylesheet" href="css/background.css">
 
     </head>
 
@@ -75,24 +75,35 @@
 
 
 
-<div class="topquestion">
-  <h1 class="title"><i class="fas fa-home"></i> Home</h1>
+<div class="content">
+  <h1 class="title"><i class="fas fa-sign-in-alt"></i> Patient Login</h1>
 
-<div class="form">
-  <div style="overflow-x:auto;">
-  <table class="tablecenter">
-    <tr>
-      <th><a href="login_choice"><img src="img/login.png" class="responsive zoom" style="width: 55%; height:55%"></a></th>
-      <th><a href="signup_choice"><img src="img/signup.png" class="responsive zoom" style="width: 55%; height:55%"></a></th>
-    </tr>
-    <tr>
-      <td><button type = "button" class="buttonuser"><a id="links" href="login_choice">Login</a></button></td>
-      <td><button type = "button" class="buttonuser"><a id="links" href="signup_choice">Sign Up</a></button></td>
-    </tr>
-  </table>
+  <div class="form">
+
+    <form>
+      <div style="padding-top: 60px; padding-left: 25%; padding-right: 25%;">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <div class="input-group mb-3">
+        
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="email" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="name@example.com">
+      </div>
+      </div>
+      <div class="mb-3" style="padding-top: 40px; padding-left: 25%; padding-right: 25%;">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+ 
+      <div class="col-12 submitbtn" style="padding-top: 80px; padding-bottom: 80px;">
+        <button type="submit" class="btn btn-outline-danger btn-lg">Sign In</button>
+
+      </div>
+    </form>
+
+
+</div>
   </div>
-</div>
-</div>
+
 
 
   <!--Footer Bar-->
