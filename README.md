@@ -45,7 +45,7 @@ npm i nodemon --save-dev
 ```
 9. navigate to package.json. Under the scripts name enter "start": "node,on server.js"
 
-10. enter <npm start> into terminal (the server will automaticly restart upon saving any js file)
+10. enter npm start into terminal (the server will automaticly restart upon saving any js file)
 
 # Meeting
 ```diff
