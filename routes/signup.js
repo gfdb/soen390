@@ -7,7 +7,16 @@ const db = require('../database')
 router.use(express.urlencoded({ extended: false }))
 
 router.get('/', (req, res) => {
-    res.render('signup.ejs')
+    res.render('signup_choice.ejs')
+
+})
+router.get('/patient/', (req, res) => {
+    res.render('signup_patient.ejs')
+
+})
+
+router.get('/worker/', (req, res) => {
+    res.render('signup_worker.ejs')
 
 })
 
