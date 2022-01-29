@@ -29,6 +29,8 @@ router.post('/patient/', async(req, res) => {
 
         const user = new User(req.body.fname, req.body.lname, hashedPassword, req.body.email, req.body.address,
             req.body.address2, req.body.city, req.body.province, req.body.zip)
+
+
         console.log("test")
         console.log(user)
         res.redirect('./login')
