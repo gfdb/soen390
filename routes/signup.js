@@ -23,15 +23,17 @@ router.get('/worker/', (req, res) => {
 
 //post routers
 router.post('/patient/', async(req, res) => {
-    const user = new User(req.body.fname)
-    const { name, lName, email, pwd, cPwd } = req.body
-    console.log(name + " " + lName + " " + email + " " + pwd + " " + cPwd)
-
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        const hashedPassword = await bcrypt.hash(req.body.pwd, 10)
+        console.log(hashedPassword)
 
+        const user = new User(req.body.fname, req.body.lname, hashedPassword, req.body.email, req.body.address,
+            req.body.address2, req.body.city, req.body.province, req.body.zip)
+        console.log("test")
+        console.log(user)
+        res.redirect('./login')
     } catch {
-
+        res.redirect('./patient/')
     }
 
 })
