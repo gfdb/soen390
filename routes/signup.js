@@ -2,6 +2,7 @@ const express = require('express')
 const router = express()
 const bcrypt = require('bcrypt')
 const db = require('../database')
+const User = require('../models/users')
 
 
 router.use(express.urlencoded({ extended: false }))
@@ -20,7 +21,9 @@ router.get('/worker/', (req, res) => {
 
 })
 
-router.post('/', async(req, res) => {
+//post routers
+router.post('/patient/', async(req, res) => {
+    const user = new User(req.body.fname)
     const { name, lName, email, pwd, cPwd } = req.body
     console.log(name + " " + lName + " " + email + " " + pwd + " " + cPwd)
 
