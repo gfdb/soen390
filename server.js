@@ -68,6 +68,22 @@ app.get('/login_choice', (req, res) => {
     res.render('login_choice.ejs')
 })
 
+app.get('/profile', (req, res) => {
+    // console.log('home')
+    // res.sendStatus(500)
+    // res.status(500).send('crash')or.json({message:error})
+    // res.send('test')
+    res.render('profile.ejs')
+})
+
+app.get('/edit-profile', (req, res) => {
+    // console.log('home')
+    // res.sendStatus(500)
+    // res.status(500).send('crash')or.json({message:error})
+    // res.send('test')
+    res.render('edit-profile.ejs')
+})
+
 //server start on port 300
 app.listen(3000)
 console.log('listening on 3000...http://localhost:3000')
