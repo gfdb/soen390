@@ -12,7 +12,7 @@ const db = mysql.createConnection({
 // db.connect((err) => {
 //     if (err) console.log(err)
 //     console.log("Connected!")
-//     var sql = "CREATE TABLE Users (uuid VARCHAR(64), name VARCHAR(255), lastName VARCHAR(255), email VARCHAR(255), password VARCHAR(256), address VARCHAR(256), address2 VARCHAR(256), city VARCHAR (256), province VARCHAR(256), zip VARCHAR(256))"
+//     var sql = "CREATE TABLE Patients (uuid VARCHAR(64), name VARCHAR(255), lastName VARCHAR(255), email VARCHAR(255), password VARCHAR(256), address VARCHAR(256), address2 VARCHAR(256), city VARCHAR (256), province VARCHAR(256), zip VARCHAR(256))"
 //     db.query(sql, (err, result) => {
 //         if (err) console.log(err)
 //         console.log("Table created")
@@ -21,6 +21,7 @@ const db = mysql.createConnection({
 
 
 // deleting table
+
 // db.connect(function(err) {
 //     if (err) console.log(err)
 //     let sql = "DROP TABLE Users"
@@ -30,4 +31,10 @@ const db = mysql.createConnection({
 //     })
 // })
 
+//viewing
+let sql = 'SELECT * FROM Patients';
+db.query(sql, function(err, data, fields) {
+    console.log(data)
+    if (err) throw err;
+})
 module.exports = db
