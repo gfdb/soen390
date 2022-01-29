@@ -32,9 +32,9 @@ const db = mysql.createConnection({
 // })
 
 //viewing
-let sql = 'SELECT * FROM Patients';
-db.query(sql, function(err, data, fields) {
-    console.log(data)
-    if (err) throw err;
-})
+// let sql = 'SELECT * FROM Patients';
+// db.query(sql, function(err, data, fields) {
+//     console.log(data)
+//     if (err) throw err;
+// })
 module.exports = db
