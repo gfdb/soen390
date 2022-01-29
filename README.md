@@ -7,12 +7,45 @@ SOEN390 ...
 |Gianfranco Dumoulin  | gfdb | 40097768
 |David Roper                | david-roper      | 40131739
 |Marita Brichan | maritabrichan | 40138194
-|            | |
-|             |  |
-|         |   |
-| |  |
-|                |       |
+|Dionisia Poulios| dionisiapoulios | 40131986
+|David Lemme| davrine| 40157270
+|Maxwell Lee | Cresfault  | 40120326
+|Omar Elkassouani|Omarelk09|40080394|
+|Lea Lakkis|lealakkis|40125381
 |              |       |
+
+# Setting up project
+1. Install node v16.13.2
+
+2. Navigate to repository directory
+
+3. To install npm enter the following command into the terminal:
+``` 
+npm install
+```
+4. Install ejs enter:
+```
+npm i ejs
+```
+5. Install express:
+```
+npm i express
+```
+6. Install mysql2
+```
+npm i mysql2
+```
+7. Install bcrypt
+```
+npm i bcrypt
+```
+8. Install nodemon
+```
+npm i nodemon --save-dev
+```
+9. navigate to package.json. Under the scripts name enter "start": "node,on server.js"
+
+10. enter npm start into terminal (the server will automaticly restart upon saving any js file)
 
 # Meeting
 ```diff
