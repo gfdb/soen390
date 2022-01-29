@@ -31,7 +31,7 @@ router.post('/patient/', async(req, res) => {
             req.body.address2, req.body.city, req.body.province, req.body.zip)
 
         db.query("SELECT email FROM Patients WHERE email = '" + user.email + "'", function(err, result, field) {
-            //checks if query is found in table if yes add user
+            //checks if query is found in table if yes dont add user
             if (result.length === 0) {
                 db.connect((err) => {
                     if (err) console.log(err)
