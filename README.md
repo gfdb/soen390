@@ -25,7 +25,7 @@ npm install
 ```
 4. Install ejs enter:
 ```
-npm i ejs
+npm i ejs 
 ```
 5. Install express:
 ```
@@ -38,6 +38,10 @@ npm i mysql2
 7. Install bcrypt
 ```
 npm i bcrypt
+```
+7.5 or use
+```
+npm i ejs express mysql2 bcrypt
 ```
 8. Install nodemon
 ```
