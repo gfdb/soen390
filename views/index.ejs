@@ -15,14 +15,14 @@
         <title>CovidConnect | Login</title>
 
         <!--Link to CSS-->
-        <link rel="stylesheet" href="css/signup_choice.css">
+        <link rel="stylesheet" href="css/choice.css">
 
     </head>
 
 <body>
   <!--Heading-->
   <div class="header" style="margin-bottom:0">
-      <img class="logo" src="img/logo.png" alt="logo">
+    <a class="navbar-brand" href="/"><img class="logo" src="img/logo.png" alt="logo"></a>
   </div>
 
 <!--Navigation Bar-->
@@ -80,16 +80,18 @@
 
 <div class="form">
   <div style="overflow-x:auto;">
-  <table class="tablecenter">
-    <tr>
-      <th><a href="login_choice"><img src="img/login.png" class="responsive zoom" style="width: 55%; height:55%"></a></th>
-      <th><a href="signup_choice"><img src="img/signup.png" class="responsive zoom" style="width: 55%; height:55%"></a></th>
-    </tr>
-    <tr>
-      <td><button type = "button" class="buttonuser"><a id="links" href="login_choice">Login</a></button></td>
-      <td><button type = "button" class="buttonuser"><a id="links" href="signup_choice">Sign Up</a></button></td>
-    </tr>
-  </table>
+    <center>
+      <div class="row">
+        <div class="col-sm-6"> 
+          <a href="login_patient"><img src="img/usercircle.png" class="responsive zoom"><br></a>
+          <button type = "button" class="buttonuser"><a id="links" href="login_patient">Patient</a></button>
+        </div>
+        <div class="col-sm-6"> 
+          <a href="login_worker"><img src="img/workercircle.png" class="responsive zoom"><br></a>
+          <button type = "button" class="buttonuser"><a id="links" href="login_worker">Worker</a></button>
+        </div>
+      </div>
+    </center>
   </div>
 </div>
 </div>
