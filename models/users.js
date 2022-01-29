@@ -1,4 +1,4 @@
-class User{
+module.exports=class Users{
     constructor(fname, lname, pwd, email, address, address2, city, province, zip){
         this.fname=fname;
         this.lname=lname
