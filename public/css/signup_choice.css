@@ -1,0 +1,112 @@
+
+
+.header {
+    background-color: #f2f2f2 !important;
+}
+.logo{
+  width: 35%;
+  height:35%;
+}
+
+/* Nav Bar */
+/*-----Navigation Bar-----*/
+
+.navbar-custom {
+    background-color: black !important;
+}
+
+
+/*-----Navigation Bar Links-----*/
+
+a.navbar-brand:hover, a.navbar-brand:active {
+    color: white;
+}
+
+a:link, a:visited {
+    color: black;
+}
+
+
+/*-----Drop Down Menu Links-----*/
+a.drop-item:link, a.drop-item:visited {
+    color: black;
+}
+
+.rightnav{
+  float: right !important;
+}
+
+/* Sign up Choice page */
+h1.title{
+    text-align: center;
+    font-family: Sans-serif;
+    padding-bottom: 20px;
+}
+
+.topquestion{
+    padding-top: 40px;
+    background: #cecece;
+}
+.form{
+    background: white;
+    padding-bottom: 100px;
+    border-radius: 25px 25px 0px 0px;
+}
+
+table{
+  text-align: center;
+}
+
+th{
+  padding: 5em;
+  padding-bottom: 0em;
+}
+
+.tablecenter{
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+.responsive{
+  width:100%;
+  height:auto;
+}
+
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.buttonuser{
+  background-color: white;
+  border-radius: 8px;
+  border-style: hidden;
+  border-color: black;
+  color: #e40714;
+  text-align: center;
+  display: inline-block;
+  font-size: 26px;
+  margin: auto;
+}
+#links{
+  text-decoration: none;
+}
+
+
+/*-----Footer-----*/
+.footer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    left: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgrey;
+    color: #373737;
+    border: 1px black;
+}
