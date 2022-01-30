@@ -10,7 +10,6 @@ app.use('/img', express.static(__dirname + 'public/img/'));
 //setting up ejs 
 app.set('views', './views');
 app.set('view engine','ejs')
-app.set("view-engine", "ejs")
 
 
 //TEMPORARY LOGIN STUFF###################################################################################################
