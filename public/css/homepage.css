@@ -1,0 +1,82 @@
+
+.header {
+    background-color: #f2f2f2 !important;
+}
+
+body {
+    background-image: url("../img/background-home-full.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+}
+
+  @media screen and (max-width: 1200px){
+    body{
+      background-image: url("../img/background-home.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+  }
+
+.logo{
+  width: 35%;
+  height:35%;
+}
+
+/* Nav Bar */
+/*-----Navigation Bar-----*/
+
+.navbar-custom {
+    background-color: black !important;
+}
+
+
+/*-----Navigation Bar Links-----*/
+
+a.navbar-brand:hover, a.navbar-brand:active {
+    color: white;
+}
+
+a:link, a:visited {
+    color: black;
+}
+
+
+/*-----Drop Down Menu Links-----*/
+a.drop-item:link, a.drop-item:visited {
+    color: black;
+}
+
+.rightnav{
+  float: right !important;
+}
+
+/* Home page*/
+.info{
+  text-align: left;
+  float: right;
+  padding-right: 100px;
+  padding-top: 30px;
+  color: white;
+}
+#links{
+  text-decoration: none;
+  color: white;
+}
+
+
+
+/*-----Footer-----*/
+.footer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    left: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgrey;
+    color: #373737;
+    border: 1px black;
+}
