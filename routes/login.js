@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 
 })
 
-router.post('/', (req, res) => {
-    res.render('login.ejs')
+router.get('/patient/', (req, res) => {
+    res.render('login_patient.ejs')
 })
 module.exports = router
