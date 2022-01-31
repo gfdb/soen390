@@ -65,7 +65,7 @@ npm i nodemon --save-dev
 2. Release Plan (Sprint #2 planning)
 3. [Software Architecture Document (SAD)](https://docs.google.com/document/d/1Vlq3SBM1zPuQGnx3fvnyioKAPnvmFM9waBz5x_Iiyuo/edit)
 4. Risk Assessment & Risk Management Plan (RMP)
-5. UI prototypes for Sprint #2 user stories
+5. [UI prototypes for Sprint #2 user stories] (https://www.figma.com/files/team/1066065344629609374/SOEN-390?fuid=1067596830345618178)
 6. Testing Plan
 7. Running prototype
 8. Short sprint retrospective
