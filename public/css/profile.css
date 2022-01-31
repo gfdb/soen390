@@ -67,6 +67,12 @@ h1.title{
   text-align: center;
 }
 
+.covid{
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 20px; 
+}
+
 
 /*-----Footer-----*/
 .footer {
