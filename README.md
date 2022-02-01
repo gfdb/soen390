@@ -12,7 +12,7 @@ SOEN390 ...
 |Maxwell Lee | Cresfault  | 40120326
 |Omar Elkassouani|Omarelk09|40080394|
 |Lea Lakkis|lealakkis|40125381
-|              |       |
+|Mohamed El-Chanati|mohamad-elchanati|40087462
 
 # Setting up project
 1. Install node v16.13.2
@@ -129,8 +129,8 @@ Meeting again before submission
 
 
 # Sprint 1 
-1. [User Stories Backlog (USB)](https://docs.google.com/document/d/1gx_p1udjsAtIQG-c_sffNRaJYJguviCr1RBix7DzI5Q/edit)
-
+* All documents are are also linked through [this summary document](https://docs.google.com/document/d/1m4W_HArM9-jJ0ciLCbH7UO0eRZ2To-rghA2l8L2_wlE/edit#)
+1. [User Stories Backlog (USB)](https://docs.google.com/document/d/1m4W_HArM9-jJ0ciLCbH7UO0eRZ2To-rghA2l8L2_wlE/edit#)
    [User Stories Backlog (USB) excel sheet](https://docs.google.com/spreadsheets/d/12L9rgUXGn508rjnKgYhErNIvxcseMZd9BCg0DDjf3aw/edit#gid=0)
 2. Release Plan (Sprint #2 planning)
 3. [Software Architecture Document (SAD)](https://docs.google.com/document/d/1Vlq3SBM1zPuQGnx3fvnyioKAPnvmFM9waBz5x_Iiyuo/edit)
