@@ -12,7 +12,7 @@ SOEN390 ...
 |Maxwell Lee | Cresfault  | 40120326
 |Omar Elkassouani|Omarelk09|40080394|
 |Lea Lakkis|lealakkis|40125381
-|              |       |
+|Mohamad El Chanati|mohamad-elchanati|40087462|
 
 # Setting up project
 1. Install node v16.13.2
