@@ -8,7 +8,9 @@ app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/img', express.static(__dirname + 'public/img'))
 
 //setting up ejs 
-app.set("view engine", "ejs")
+app.set('views', './views');
+app.set('view engine', 'ejs')
+
 
 //path for home
 app.get('/', (req, res) => {

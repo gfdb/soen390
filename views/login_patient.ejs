@@ -81,18 +81,18 @@
 
         <div class="form">
 
-            <form>
+            <form action="/signup/patient" method="POST">
                 <div style="padding-top: 60px; padding-left: 25%; padding-right: 25%;">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <div class="input-group mb-3">
 
                         <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="name@example.com">
+                        <input type="email" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
                     </div>
                 </div>
                 <div class="mb-3" style="padding-top: 40px; padding-left: 25%; padding-right: 25%;">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
                 </div>
 
                 <div class="col-12 submitbtn" style="padding-top: 80px; padding-bottom: 80px;">
