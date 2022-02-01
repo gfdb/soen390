@@ -56,6 +56,7 @@ router.post('/patient/', async(req, res) => {
         // console.log(user)
         res.redirect('../login')
     } catch {
+        console.log('err')
         res.redirect('./patient/')
     }
 
