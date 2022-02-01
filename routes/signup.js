@@ -25,11 +25,11 @@ router.get('/worker/', (req, res) => {
 router.post('/patient/', async(req, res) => {
     try {
         //hashes password
+        console.log('in')
         const hashedPassword = await bcrypt.hash(req.body.pwd, 10)
 
         const user = new User(req.body.fname, req.body.lname, hashedPassword, req.body.email, req.body.address,
             req.body.address2, req.body.city, req.body.province, req.body.zip)
-
         db.query("SELECT email FROM Patients WHERE email = '" + user.email + "'", function(err, result, field) {
             //checks if query is found in table if yes dont add user
             if (result.length === 0) {
@@ -54,8 +54,9 @@ router.post('/patient/', async(req, res) => {
 
         // console.log("test")
         // console.log(user)
-        res.redirect('../login')
+        res.redirect('../profile')
     } catch {
+        console.log('err')
         res.redirect('./patient/')
     }
 

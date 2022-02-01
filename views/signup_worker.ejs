@@ -23,7 +23,7 @@
 <body>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
-        <a class="navbar-brand" href="/"><img class="logo" src="img/logo.png" alt="logo"></a>
+        <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
     </div>
 
     <!--Navigation Bar-->
@@ -52,7 +52,7 @@
 
             <ul class="navbar-nav ml-auto">
                 <li>
-                    <a class="nav-link" href="signup_choice"><i class="fas fa-user-plus"></i> Sign up</a>
+                    <a class="nav-link" href="./"><i class="fas fa-user-plus"></i> Sign up</a>
                 </li>
 
 
@@ -81,50 +81,40 @@
 
         <div class="form">
 
-            <form class="row g-3">
+            <form class="row g-3" action="/signup/patient" method="POST">
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">First Name</label>
-                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="name" required>
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                    <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name="lastname" required>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Work Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com">
+                    <label for="inputEmail4" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com" name="email" required>
                 </div>
                 <div class="col-md-6">
                     <label for="inputPassword4" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4">
-                </div>
-                <div class="col-12">
-                    <label for="inputState" class="form-label">Position</label>
-                    <select class="form-select" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="doc">Doctor</option>
-                <option value="nurse">Nurse</option>
-                <option value="IA">Immigration Agent</option>
-                <option value="other">Other Healthcare Worker</option>
-            </select>
+                    <input type="password" class="form-control" id="inputPassword4" name="pwd">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="address" required>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label">Address 2</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" name="address2" required>
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label">City</label>
-                    <input type="text" class="form-control" id="inputCity">
+                    <input type="text" class="form-control" id="inputCity" name="city">
                 </div>
                 <div class="col-md-4">
                     <label for="inputState" class="form-label">Province/Territory</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" name="province" required>
             <option selected>Select</option>
             <option value="AB">Alberta</option>
             <option value="BC">British Columbia</option>
@@ -143,7 +133,7 @@
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1">
+                    <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1" name="zip" required>
                 </div>
                 <div class="col-12 submitbtn">
                     <button type="submit" class="btn btn-outline-danger btn-lg">Sign Up</button>
