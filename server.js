@@ -4,8 +4,8 @@ const app = express()
 
 // Static Files
 app.use(express.static('public'));
-app.use('/css', express.static(__dirname + 'public/css/'));
-app.use('/img', express.static(__dirname + 'public/img/'));
+app.use('/css', express.static(__dirname + 'public/css'))
+app.use('/img', express.static(__dirname + 'public/img'))
 
 //setting up ejs 
 app.set('views', './views');
@@ -20,26 +20,14 @@ app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
-//importing router
+//importing routers
 const signupRouter = require('./routes/signup')
 app.use('/signup', signupRouter)
 
-app.get('/profile', (req, res) => {
-    // console.log('home')
-    // res.sendStatus(500)
-    // res.status(500).send('crash')or.json({message:error})
-    // res.send('test')
-    res.render('profile.ejs')
-})
+const profileRouter = require('./routes/profile')
+app.use('/profile', profileRouter)
 
-app.get('/edit-profile', (req, res) => {
-    // console.log('home')
-    // res.sendStatus(500)
-    // res.status(500).send('crash')or.json({message:error})
-    // res.send('test')
-    res.render('edit-profile.ejs')
-})
 
-//server start on port 300
+//server start on port 3000
 app.listen(3000)
 console.log('listening on 3000...http://localhost:3000')
