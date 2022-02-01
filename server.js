@@ -2,6 +2,11 @@
 const express = require("express")
 const app = express()
 
+// Static Files
+app.use(express.static('public'));
+app.use('/css', express.static(__dirname + 'public/css'))
+app.use('/img', express.static(__dirname + 'public/img'))
+
 //setting up ejs 
 app.set("view engine", "ejs")
 
@@ -11,13 +16,17 @@ app.get('/', (req, res) => {
     // res.sendStatus(500)
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
-    res.render('index.ejs', { text: 'world' })
+    res.render('index.ejs')
 })
 
-//setting up login routers
-const loginRouter = require('./routes/login')
-app.use('/login', loginRouter)
+//importing routers
+const signupRouter = require('./routes/signup')
+app.use('/signup', signupRouter)
 
-//server start on port 300
+const profileRouter = require('./routes/profile')
+app.use('/profile', profileRouter)
+
+
+//server start on port 3000
 app.listen(3000)
 console.log('listening on 3000...http://localhost:3000')
