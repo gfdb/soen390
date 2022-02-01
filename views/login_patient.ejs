@@ -16,14 +16,14 @@
     <title>CovidConnect | Login</title>
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="css/background.css">
+    <link rel="stylesheet" href="/css/background.css">
 
 </head>
 
 <body>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
-        <a class="navbar-brand" href="/"><img class="logo" src="img/logo.png" alt="logo"></a>
+        <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
     </div>
 
     <!--Navigation Bar-->
@@ -52,7 +52,7 @@
 
             <ul class="navbar-nav ml-auto">
                 <li>
-                    <a class="nav-link" href="signup_choice"><i class="fas fa-user-plus"></i> Sign up</a>
+                    <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
                 </li>
 
 
@@ -61,7 +61,7 @@
 
                 <li class="nav-item dropdown">
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="login_choice">Login</a>
+                        <a class="dropdown-item" href="/login">Login</a>
                     </div>
 
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
@@ -81,18 +81,18 @@
 
         <div class="form">
 
-            <form>
+            <form action="/signup/patient" method="POST">
                 <div style="padding-top: 60px; padding-left: 25%; padding-right: 25%;">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <div class="input-group mb-3">
 
                         <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="name@example.com">
+                        <input type="email" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
                     </div>
                 </div>
                 <div class="mb-3" style="padding-top: 40px; padding-left: 25%; padding-right: 25%;">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
                 </div>
 
                 <div class="col-12 submitbtn" style="padding-top: 80px; padding-bottom: 80px;">

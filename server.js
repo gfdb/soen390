@@ -9,7 +9,8 @@ app.use('/img', express.static(__dirname + 'public/img'))
 
 //setting up ejs 
 app.set('views', './views');
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
+
 
 //path for home
 app.get('/', (req, res) => {
@@ -26,6 +27,10 @@ app.use('/signup', signupRouter)
 
 const profileRouter = require('./routes/profile')
 app.use('/profile', profileRouter)
+
+const loginRouter = require('./routes/login')
+app.use('/login', loginRouter)
+
 
 
 //server start on port 3000
