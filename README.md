@@ -53,6 +53,7 @@ npm i nodemon --save-dev
 
 # Meeting
 ```diff
+_________________________________________________________________________________________________________________________
 Meeting #: 1   Date/time January 13 2022
 
 Summary
@@ -76,7 +77,7 @@ Tasks
    Consistency and correspondences, Architecture decisions and rationale (Omar)
    Risk Assessment & Risk Management Plan 
    Tbd Monday
-
+_________________________________________________________________________________________________________________________
 
 Meeting #: 2   Monday, January 17, 2021 at 6:30PM
 
@@ -89,6 +90,7 @@ To-do
 Assess highlighted items in the user backlog
 Start/Complete SAD and other relevant documentation
 Discuss user backlog with TA during Tuesday’s meeting (January 18th)
+_________________________________________________________________________________________________________________________
 
 Meeting #: 3   January 19th, 7pm
 
@@ -98,7 +100,7 @@ Summary
 To-do
 Finish SAD for Monday
 Start on each task assigned
-
+_________________________________________________________________________________________________________________________
 
 Meeting #: 4   January 24th  7 pm
 
@@ -108,7 +110,7 @@ Summary
 
 To-do
 Ask the questions we have & focus on UI
-
+_________________________________________________________________________________________________________________________
 
 Meeting #: 5   January 31 6:15PM
 
@@ -123,6 +125,7 @@ To-do
 Risk assessment
 Testing document
 Meeting again before submission
+_________________________________________________________________________________________________________________________
 
 
 ```
