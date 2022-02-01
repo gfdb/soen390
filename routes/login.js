@@ -6,8 +6,7 @@ const db = require('../database')
 
 //TEMPORARY LOGIN STUFF###################################################################################################
 const username = "John@gmail.com"
-const password = bcrypt.hash("1234", 10)
-const plain_password = "1234"
+const plain_password = "asd"
 router.use(express.urlencoded({ extended: false }))
     //########################################################################################################################
 
