@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express()
 
-router.get('/profile', (req, res) => {
+router.get('/', (req, res) => {
     // console.log('home')
     // res.sendStatus(498)
     // res.status(498).send('crash')or.json({message:error})
@@ -9,7 +9,7 @@ router.get('/profile', (req, res) => {
     res.render('profile.ejs')
 })
 
-router.get('/profile/edit', (req, res) => {
+router.get('/edit', (req, res) => {
     // console.log('home')
     // res.sendStatus(498)
     // res.status(498).send('crash')or.json({message:error})
