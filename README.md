@@ -56,12 +56,12 @@ npm i nodemon --save-dev
 Meeting #: 1   Date/time January 13 2022
 
 Summary
-Gianfranco is project manager
-Next meeting Monday 6:15
-Meeting with TA every week Thursday 5:30, except the coming week it will be Tuesday at 6
-Came up with user stories
-Decided on user stories that will be done this sprint
-Split up the SAD
+- Gianfranco is project manager
+- Next meeting Monday 6:15
+- Meeting with TA every week Thursday 5:30, except the coming week it will be Tuesday at 6
+- Came up with user stories
+- Decided on user stories that will be done this sprint
+- Split up the SAD
 
 To-do
 Ask TA:
@@ -93,8 +93,8 @@ Discuss user backlog with TA during Tuesday’s meeting (January 18th)
 Meeting #: 3   January 19th, 7pm
 
 Summary
-Finished user stories, added story points
-Broke down each user story and assigned tasks to members
+- Finished user stories, added story points
+- Broke down each user story and assigned tasks to members
 To-do
 Finish SAD for Monday
 Start on each task assigned
@@ -103,8 +103,8 @@ Start on each task assigned
 Meeting #: 4   January 24th  7 pm
 
 Summary
-SAD review 
-Risk Assessment & Risk Management Plan  task division
+- SAD review 
+- Risk Assessment & Risk Management Plan  task division
 
 To-do
 Ask the questions we have & focus on UI
@@ -113,11 +113,11 @@ Ask the questions we have & focus on UI
 Meeting #: 5   January 31 6:15PM
 
 Summary
-How we will manage the rest of the documents: 
-Risk assessment: tonight
-Testing: tonight
-UBS & Formatting: tbd
-Sprint retrospectives: tbd
+- How we will manage the rest of the documents: 
+   Risk assessment: tonight
+   Testing: tonight
+   UBS & Formatting: tbd
+   Sprint retrospectives: tbd
 
 To-do
 Risk assessment
