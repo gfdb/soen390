@@ -14,8 +14,42 @@ SOEN390 ...
 |Lea Lakkis|lealakkis|40125381
 |              |       |
 
-# Starting the Server
-1. enter npm start (the server will automaticly update upon saving any js file)
+# Setting up project
+1. Install node v16.13.2
+
+2. Navigate to repository directory
+
+3. To install npm enter the following command into the terminal:
+``` 
+npm install
+```
+4. Install ejs enter:
+```
+npm i ejs 
+```
+5. Install express:
+```
+npm i express
+```
+6. Install mysql2
+```
+npm i mysql2
+```
+7. Install bcrypt
+```
+npm i bcrypt
+```
+7.5 or use
+```
+npm i ejs express mysql2 bcrypt
+```
+8. Install nodemon
+```
+npm i nodemon --save-dev
+```
+9. navigate to package.json. Under the scripts name enter "start": "node,on server.js"
+
+10. enter npm start into terminal (the server will automaticly restart upon saving any js file)
 
 # Meeting
 ```diff

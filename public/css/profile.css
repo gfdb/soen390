@@ -1,5 +1,3 @@
-
-
 .header {
     background-color: #f2f2f2 !important;
 }
@@ -36,65 +34,43 @@ a.drop-item:link, a.drop-item:visited {
   float: right !important;
 }
 
-/* Sign up Choice page */
+/*-----Content-----*/
 h1.title{
     text-align: center;
     font-family: Sans-serif;
     padding-bottom: 20px;
 }
 
-.topquestion{
+.content{
     padding-top: 40px;
     background: #cecece;
 }
+
 .form{
     background: white;
-    padding-bottom: 100px;
     border-radius: 25px 25px 0px 0px;
+    padding-left: 20%;
+	padding-right: 20%;
+    padding-top: 70px;
+    padding-bottom: 120px;
+
 }
 
-table{
+.col-md-2, .col-md-4, .col-md-6, .col-12{
+    padding-bottom: 12px;
+}
+
+.editing{
+  text-align: right;
+}
+.submitbtn{
   text-align: center;
 }
 
-th{
-  padding: 5em;
-  padding-bottom: 0em;
-}
-
-.tablecenter{
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-}
-
-.responsive{
-  width:100%;
-  height:auto;
-}
-
-.zoom {
-  transition: transform .2s; /* Animation */
-  margin: 0 auto;
-}
-
-.zoom:hover {
-  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
-
-.buttonuser{
-  background-color: white;
-  border-radius: 8px;
-  border-style: hidden;
-  border-color: black;
-  color: #e40714;
-  text-align: center;
-  display: inline-block;
-  font-size: 26px;
-  margin: auto;
-}
-#links{
-  text-decoration: none;
+.covid{
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 20px; 
 }
 
 

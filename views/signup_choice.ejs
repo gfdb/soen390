@@ -14,6 +14,8 @@
 
     <!--Title of Page-->
     <title>CovidConnect | Sign up</title>
+    <!--Link to CSS-->
+    <link rel="stylesheet" href="css/choice.css">
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/signup_choice.css">
@@ -23,7 +25,7 @@
 <body>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
-        <img class="logo" src="/img/logo.png" alt="logo">
+        <a class="navbar-brand" href="/"><img class="logo" src="img/logo.png" alt="logo"></a>
     </div>
 
     <!--Navigation Bar-->
@@ -40,7 +42,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="profile.html"><i class="fas fa-address-card"></i> Profile</a>
+                    <a class="nav-link" href="profile"><i class="fas fa-address-card"></i> Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contactdoctor.html"><i class="fas fa-stethoscope"></i> Contact Your Doctor</a>
@@ -81,20 +83,18 @@
 
         <div class="form">
             <div style="overflow-x:auto;">
-                <table class="tablecenter">
-                    <tr>
-                        <th>
-                            <a href="signup/patient"><img src="img/usercircle.png" class="responsive zoom"></a>
-                        </th>
-                        <th>
-                            <a href="signup/worker"><img src="img/workercircle.png" class="responsive zoom"></a>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="buttonuser"><a id="links" href="signup/patient">Patient</a></button></td>
-                        <td><button type="button" class="buttonuser"><a id="links" href="signup/worker">Worker</a></button></td>
-                    </tr>
-                </table>
+                <center>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a href="login_patient"><img src="img/usercircle.png" class="responsive zoom"><br></a>
+                            <button type="button" class="buttonuser"><a id="links" href="login_patient">Patient</a></button>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="login_worker"><img src="img/workercircle.png" class="responsive zoom"><br></a>
+                            <button type="button" class="buttonuser"><a id="links" href="login_worker">Worker</a></button>
+                        </div>
+                    </div>
+                </center>
             </div>
         </div>
     </div>
