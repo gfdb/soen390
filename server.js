@@ -26,6 +26,10 @@ app.use('/signup', signupRouter)
 const profileRouter = require('./routes/profile')
 app.use('/profile', profileRouter)
 
+const loginRouter = require('./routes/login')
+app.use('/login', loginRouter)
+
+
 
 //server start on port 3000
 app.listen(3000)
