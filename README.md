@@ -53,20 +53,8 @@ npm i nodemon --save-dev
 
 # Meeting
 ```diff
-Meeting #: 1
-Date/time January 13 2022
+Meeting #: 1   Date/time January 13 2022
 
-
-Attendance:
-Lea Lakkis
-David Lemme
-David Roper
-Maxwell Lee
-Omar Elkassouani
-Dionisia Poulios
-Marita Brichan
-Mohamed El-Chanati
-Gianfranco 
 Summary
 Gianfranco is project manager
 Next meeting Monday 6:15
@@ -75,70 +63,35 @@ Came up with user stories
 Decided on user stories that will be done this sprint
 Split up the SAD
 
-
 To-do
 Ask TA:
-if the GitHub should be public or private
-how to access Concordia’s servers to be able to launch the web app and to set up a database using SQL?
-What’s with the empty boxes on the template for user stories document? Do we need to use those boxes? “Cards-UserStories.pdf”
+   if the GitHub should be public or private
+   how to access Concordia’s servers to be able to launch the web app and to set up a database using SQL?
+   What’s with the empty boxes on the template for user stories document? Do we need to use those boxes? “Cards-UserStories.pdf”
 Tasks 
-SAD
-Introduction & Stakeholders and concerns (Mohamed)	
-Viewpoints+ (David Roper, Franco, Max)
-Views+ (Lea, David Lemme,  Marita, Dionisia)
-Consistency and correspondences, Architecture decisions and rationale (Omar)
-Risk Assessment & Risk Management Plan 
-Tbd Monday
+   SAD
+   Introduction & Stakeholders and concerns (Mohamed)	
+   Viewpoints+ (David Roper, Franco, Max)
+   Views+ (Lea, David Lemme,  Marita, Dionisia)
+   Consistency and correspondences, Architecture decisions and rationale (Omar)
+   Risk Assessment & Risk Management Plan 
+   Tbd Monday
 
 
+Meeting #: 2   Monday, January 17, 2021 at 6:30PM
 
-
-
-
-
-
-
-
-
-Meeting #: 2
-Date/time: Monday, January 17, 2021 at 6:30PM
-
-
-Attendance:
-Lea Lakkis
-David Lemme
-David Roper
-Maxwell Lee
-Omar Elkassouani
-Dionisia Poulios
-Marita Brichan
-Mohamed El-Chanati
-Gianfranco 
 Summary
--Added more stories 
--Assigned priorities to stories belonging to sprint 1 
--Fixed stories that had TA comments on it 
+- Added more stories 
+- Assigned priorities to stories belonging to sprint 1 
+- Fixed stories that had TA comments on it 
+
 To-do
 Assess highlighted items in the user backlog
 Start/Complete SAD and other relevant documentation
 Discuss user backlog with TA during Tuesday’s meeting (January 18th)
 
+Meeting #: 3   January 19th, 7pm
 
-
-Meeting #: 3
-January 19th, 7pm
-
-
-Attendance:
-Lea Lakkis
-David Lemme
-David Roper
-Maxwell Lee
-Omar Elkassouani
-Dionisia Poulios
-Marita Brichan
-Mohamed El-Chanati
-Gianfranco 
 Summary
 Finished user stories, added story points
 Broke down each user story and assigned tasks to members
@@ -147,62 +100,29 @@ Finish SAD for Monday
 Start on each task assigned
 
 
+Meeting #: 4   January 24th  7 pm
 
-
-
-
-
-Meeting #: 4
-January 24th  7 pm
-
-
-Attendance:
-Lea Lakkis
-David Lemme
-David Roper
-Maxwell Lee
-Omar Elkassouani
-Dionisia Poulios
-Marita Brichan
-Mohamed El-Chanati
-Gianfranco 
 Summary
 SAD review 
 Risk Assessment & Risk Management Plan  task division
 
-
 To-do
-Ask the questions we have
+Ask the questions we have & focus on UI
 
 
+Meeting #: 5   January 31 6:15PM
 
-
-Meeting #: 5
-January 31 6:15PM
-
-
-Attendance:
-Lea Lakkis
-David Lemme
-David Roper
-Maxwell Lee
-Omar Elkassouani
-Dionisia Poulios
-Marita Brichan
-Mohamed El-Chanati
-Gianfranco 
 Summary
 How we will manage the rest of the documents: 
 Risk assessment: tonight
 Testing: tonight
 UBS & Formatting: tbd
 Sprint retrospectives: tbd
+
 To-do
 Risk assessment
 Testing document
 Meeting again before submission
-
-
 
 
 ```
