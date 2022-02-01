@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Signup</title>
+
+    <!-- boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <h1>Signup</h1>
+    <form action="/signup" method="POST">
+        <div>
+            <!-- DONT HAVE TO KEEP THE LABELS OR ANYTHING PLEASE JUST MAKE SURE THE ID, AND NAME OF INPUTS STAYS THE SAME YOU CAN CHANGE ANYTHING ELSE ON THIS WHOLE PAGE -->
+            <label for="name">Email</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="lName">Email</label>
+            <input type="text" id="lName" name="lName" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="pwd">Password</label>
+            <input type="password" id="pwd" name="pwd" required>
+
+            <label for="cPwd">Confirm Password</label>
+            <input type="password" id="cPwd" name="cPwd" required>
+            <button type="submit">Signup!</button>
+        </div>
+    </form>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
