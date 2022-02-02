@@ -36,3 +36,5 @@ app.use('/login', loginRouter)
 //server start on port 3000
 app.listen(3000)
 console.log('listening on 3000...http://localhost:3000')
+
+module.exports = app // for tests
