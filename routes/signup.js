@@ -25,7 +25,6 @@ router.get('/worker/', (req, res) => {
 router.post('/patient/', async(req, res) => {
     try {
         //hashes password
-        console.log('in')
         const hashedPassword = await bcrypt.hash(req.body.pwd, 10)
 
         const user = new User(req.body.fname, req.body.lname, hashedPassword, req.body.email, req.body.address,
@@ -42,6 +41,7 @@ router.post('/patient/', async(req, res) => {
                         console.log("Number of records inserted: " + result.affectedRows)
                     })
                 })
+                res.status(200).send('OK: User Created')
             } else {
                 console.log('user already exists')
             }
@@ -58,6 +58,8 @@ router.post('/patient/', async(req, res) => {
     } catch {
         console.log('err')
         res.redirect('./patient/')
+        res.status(422).send('Unprocessable Entity: Email already exits')
+
     }
 
 })
