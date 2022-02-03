@@ -1,6 +1,6 @@
-const app = require('../server')
+const sever_modules = require('../server')
 const supertest = require("supertest")
-const request = supertest(app)
+const request = supertest(sever_modules.app)
 const {describe} = require('mocha');
 const {expect} = require('chai');
 
