@@ -1,6 +1,5 @@
 # COVID-19 Tracking App
-SOEN390 ... 
-
+![Could not find logo](./public/img/logo.png)
 # Team 15 - members:
 |name                     |github id    |student id
 |---                      |---          |---     
@@ -50,6 +49,23 @@ npm i nodemon --save-dev
 9. navigate to package.json. Under the scripts name enter "start": "node,on server.js"
 
 10. enter npm start into terminal (the server will automaticly restart upon saving any js file)
+
+# Running Test
+To run unit tests simply type
+```
+npm run test
+```
+
+To run unit tests and generate a coverage report in terminal
+```
+npm run coverage
+```
+
+To run unit tests and generate a full coverage report
+```
+npm run coverage-full
+```
+
 
 # Meeting
 ```diff
