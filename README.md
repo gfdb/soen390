@@ -52,10 +52,14 @@ npm i nodemon --save-dev
 
 # Running Test
 To run unit tests simply type
->`$ npm run test`
+```
+$ npm run test
+```
 
 To run unit tests and generate a coverage report type
->`$ npm run coverage`
+```
+$ npm run coverage
+```
 
 Note: The dollar sign is not apart of the command.
 
