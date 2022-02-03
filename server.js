@@ -31,10 +31,13 @@ app.use('/profile', profileRouter)
 const loginRouter = require('./routes/login')
 app.use('/login', loginRouter)
 
-
-
 //server start on port 3000
-app.listen(3000)
+var app_server = app.listen(3000)
+
 console.log('listening on 3000...http://localhost:3000')
 
-module.exports = app // for tests
+ // for tests
+module.exports = {
+    app: app,
+    app_server: app_server
+}
