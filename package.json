@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon server.js",
         "test": "mocha --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js --file ./test/signup.test.js --file ./test/teardown.test.js --exit",
-        "coverage": "nyc --reporter=lcov --report=text npm run test"
+        "coverage":"nyc --report=text npm run test",
+        "coverage-full": "nyc --reporter=lcov --report=text npm run test"
     },
     "repository": {
         "type": "git",
@@ -31,8 +32,5 @@
         "nodemon": "^2.0.15",
         "nyc": "^15.1.0",
         "supertest": "^6.2.2"
-    },
-    "nyc": {
-        "include": "routes"
     }
 }

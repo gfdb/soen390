@@ -56,9 +56,14 @@ To run unit tests simply type
 npm run test
 ```
 
-To run unit tests and generate a coverage report type
+To run unit tests and generate a coverage report in terminal
 ```
 npm run coverage
+```
+
+To run unit tests and generate a full coverage report
+```
+npm run coverage-full
 ```
 
 
