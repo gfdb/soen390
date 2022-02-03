@@ -15,22 +15,29 @@ router.get("/", (req, res) => {
     res.render('login_choice.ejs')
 })
 
-router.post("/patient/", (req, res) => {
-    if (username != req.body.email) {
-        return res.status(400).send("Invalid username")
-    }
+router.post("/patient/", async(req, res) => {
+    // if (username != req.body.email) {
+    //     return res.status(401).send("Invalid username")
+    // }
     try {
-        const password_check = bcrypt.compare(req.body.password, password)
-        if (plain_password == req.body.password) {
+        const password_check = await bcrypt.compare(req.body.password, password)
+        if (password_check) {
+            res.status(200).send('Sucessfull login')
             res.redirect("../profile")
-                //res.status(400).send('Incorrect Password!')
         } else {
-            res.status(400).send('Incorrect Password!')
-                //res.redirect("/profile")
+            throw new Error('email or password are invalid')
         }
-    } catch {
+
+        // if (plain_password == req.body.password) {
+        //     c //res.status(400).send('Incorrect Password!')
+        // } else {
+        //     res.status(401).send('Incorrect Password!')
+        //         //res.redirect("/profile")
+        // }
+    } catch (err) {
+        console.error(err)
+        res.status(401).send('Invalid username or password')
         res.redirect('./patient')
-        res.status(500).send()
     }
 })
 

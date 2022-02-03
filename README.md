@@ -1,6 +1,5 @@
 # COVID-19 Tracking App
-SOEN390 ... 
-
+![Could not find logo](./public/img/logo.png)
 # Team 15 - members:
 |name                     |github id    |student id
 |---                      |---          |---     
@@ -50,6 +49,23 @@ npm i nodemon --save-dev
 9. navigate to package.json. Under the scripts name enter "start": "node,on server.js"
 
 10. enter npm start into terminal (the server will automaticly restart upon saving any js file)
+
+# Running Test
+To run unit tests simply type
+```
+npm run test
+```
+
+To run unit tests and generate a coverage report in terminal
+```
+npm run coverage
+```
+
+To run unit tests and generate a full coverage report
+```
+npm run coverage-full
+```
+
 
 # Meeting
 ```diff
@@ -134,10 +150,16 @@ ________________________________________________________________________________
 # Sprint 1 
 * All documents are are also linked through [this summary document](https://docs.google.com/document/d/1m4W_HArM9-jJ0ciLCbH7UO0eRZ2To-rghA2l8L2_wlE/edit#)
 1. [User Stories Backlog (USB) excel sheet](https://docs.google.com/spreadsheets/d/12L9rgUXGn508rjnKgYhErNIvxcseMZd9BCg0DDjf3aw/edit#gid=0)
-2. Release Plan (Sprint #2 planning)
-3. [Software Architecture Document (SAD)](https://docs.google.com/document/d/1Vlq3SBM1zPuQGnx3fvnyioKAPnvmFM9waBz5x_Iiyuo/edit)
-4. Risk Assessment & Risk Management Plan (RMP)
-5. [UI prototypes for Sprint #2 user stories] (https://www.figma.com/files/team/1066065344629609374/SOEN-390?fuid=1067596830345618178)
-6. Testing Plan
-7. Running prototype
-8. Short sprint retrospective
+2. Release Plan (Sprint #1 and #2 planning): It is included in the\
+      [Summary document](https://docs.google.com/document/d/1m4W_HArM9-jJ0ciLCbH7UO0eRZ2To-rghA2l8L2_wlE/edit#)\
+      [User Stories Backlog (USB) excel sheet](https://docs.google.com/spreadsheets/d/12L9rgUXGn508rjnKgYhErNIvxcseMZd9BCg0DDjf3aw/edit#gid=0) 
+4. [Software Architecture Document (SAD)](https://docs.google.com/document/d/1Vlq3SBM1zPuQGnx3fvnyioKAPnvmFM9waBz5x_Iiyuo/edit)
+5. Risk Assessment & Risk Management Plan (RMP)\
+      [The Risk Management Plan (RMP)](https://docs.google.com/document/d/1Jw6hj5Wdn0MUeDm7lBl1yclw7GDgP7OFVZAfSyAbvHQ/edit?usp=sharing)\
+      [The Risk Analysis](https://docs.google.com/spreadsheets/d/197GQeYEscJZ31bu0-OaCv55lvQsjjKgstyS5xXJMvpw/edit?usp=sharing)
+7. [UI prototype project for Sprints #1 and #2 user stories:](https://www.figma.com/files/team/1066065344629609374/SOEN-390?fuid=1067596830345618178)\
+      [UI prototypes for Sprints #1](https://www.figma.com/file/eTfde749ktNYc97thhD57C/CovidConnect-Wireframes?node-id=59%3A2)\
+      [UI prototypes for Sprints #2](https://www.figma.com/file/eTfde749ktNYc97thhD57C/CovidConnect-Wireframes?node-id=0%3A1)
+9. [Testing Plan](https://docs.google.com/document/d/14w4WYYk8jju6ZzUTQsTMvMvo0vDpPUTCHBAa5jEFQiM/edit?usp=sharing)
+10. Running prototype
+11. [Short sprint retrospective](https://docs.google.com/document/d/1vi5dgDa3Zq_n6bCgo7x4GK0Hw-TseyV_KcP4LT5RmEg/edit?usp=sharing)
