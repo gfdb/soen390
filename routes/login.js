@@ -6,7 +6,12 @@ const db = require('../database')
 
 //TEMPORARY LOGIN STUFF###################################################################################################
 const username = "John@gmail.com"
+<<<<<<< HEAD
 const plain_password = "asd"
+=======
+const password = String(bcrypt.hashSync("1234", 10))
+const plain_password = "1234"
+>>>>>>> f7d56d5b9efdba43f51717617ba9f95e0c42363a
 router.use(express.urlencoded({ extended: false }))
     //########################################################################################################################
 
@@ -15,14 +20,13 @@ router.get("/", (req, res) => {
     res.render('login_choice.ejs')
 })
 
-router.post("/patient/", async(req, res) => {
+router.post("/patient/", (req, res) => {
     // if (username != req.body.email) {
     //     return res.status(401).send("Invalid username")
     // }
     try {
-        const password_check = await bcrypt.compare(req.body.password, password)
-        if (password_check) {
-            res.status(200).send('Sucessfull login')
+        if (bcrypt.compareSync(req.body.password, password)) {
+            //res.status(200).send('Sucessfull login')
             res.redirect("../profile")
         } else {
             throw new Error('email or password are invalid')
@@ -36,7 +40,7 @@ router.post("/patient/", async(req, res) => {
         // }
     } catch (err) {
         console.error(err)
-        res.status(401).send('Invalid username or password')
+        //res.status(401).send('Invalid username or password')
         res.redirect('./patient')
     }
 })
