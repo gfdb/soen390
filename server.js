@@ -1,6 +1,10 @@
-//intilaizing express
+//importing
 const express = require("express")
 const app = express()
+const passport = require('passport')
+
+const initializePassport = require('./passport-config')
+initialize(passport)
 
 // Static Files
 app.use(express.static('public'));
@@ -36,7 +40,7 @@ var app_server = app.listen(3000)
 
 console.log('listening on 3000...http://localhost:3000')
 
- // for tests
+// for tests
 module.exports = {
     app: app,
     app_server: app_server
