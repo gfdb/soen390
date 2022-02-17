@@ -49,6 +49,18 @@ app.get('/assignedPatients', (req, res) => {
     res.render('assigned_patients.ejs')
 })
 
+app.get('/adminIndex', (req, res) => {
+    res.render('admin_index.ejs')
+})
+
+app.get('/patientsAssign', (req, res) => {
+    res.render('patients_assign.ejs')
+})
+
+app.get('/selectDoctor', (req, res) => {
+    res.render('select_doctor.ejs')
+})
+
 
 //server start on port 3000
 var app_server = app.listen(3000)
