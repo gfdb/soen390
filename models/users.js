@@ -10,5 +10,16 @@ module.exports = class Users {
         this.province = province
         this.zip = zip
     }
+    constructor() {
+        this.name = ''
+        this.lastname = ''
+        this.password = ''
+        this.email = ''
+        this.address = ''
+        this.address2 = ''
+        this.city = ''
+        this.province = ''
+        this.zip = ''
+    }
 
 }

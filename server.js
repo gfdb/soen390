@@ -4,7 +4,9 @@ const app = express()
 const passport = require('passport')
 
 const initializePassport = require('./passport-config')
-initialize(passport)
+initialize(passport, email => {
+
+})
 
 // Static Files
 app.use(express.static('public'));
