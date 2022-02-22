@@ -20,7 +20,10 @@ pipeline {
             
     stage('Test') {
       steps {
-        echo 'testing app'
+        step{
+          echo 'testing app'
+        }
+        
       }
     }
   }
