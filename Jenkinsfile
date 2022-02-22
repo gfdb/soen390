@@ -7,7 +7,7 @@ pipeline {
         
     stage('Git') {
       steps {
-        git 'https://github.com/gfdb/soen390'
+        git 'https://github.com/gfdb/soen390.git'
       }
     }
      
