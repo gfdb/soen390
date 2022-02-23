@@ -19,6 +19,8 @@ app.get('/', (req, res) => {
     // res.status(500).send('crash')or.json({message:error})
     // res.send('test')
     res.render('index.ejs')
+
+
 })
 
 //importing routers
@@ -67,7 +69,7 @@ var app_server = app.listen(3000)
 
 console.log('listening on 3000...http://localhost:3000')
 
- // for tests
+// for tests
 module.exports = {
     app: app,
     app_server: app_server

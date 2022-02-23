@@ -6,12 +6,8 @@ const db = require('../database')
 
 //TEMPORARY LOGIN STUFF###################################################################################################
 const username = "John@gmail.com"
-<<<<<<< HEAD
-const plain_password = "asd"
-=======
 const password = String(bcrypt.hashSync("1234", 10))
 const plain_password = "1234"
->>>>>>> b7ef39611a4d8fa82f5d7d8f4f1703f77916cf64
 router.use(express.urlencoded({ extended: false }))
     //########################################################################################################################
 
@@ -40,7 +36,7 @@ router.post("/patient/", (req, res) => {
         // }
     } catch (err) {
         console.error(err)
-        //res.status(401).send('Invalid username or password')
+            //res.status(401).send('Invalid username or password')
         res.redirect('./patient')
     }
 })
