@@ -76,56 +76,27 @@ for (i = 0; i < dropdown.length; i++) {
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(doctors.length!=0){
+                            var i=1;
+                            doctors.forEach(function(data){                     
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>John</td>
-                              <td>Doe</td>
-                              <td>johndoe@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                  <button id="accept" onclick="verify(<%=data.user_uuid %>)" type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
                                   <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
                              </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Stephen</td>
-                                <td>Strange</td>
-                                <td>drstrange@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
                               </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Steve</td>
-                              <td>Rogers</td>
-                              <td>steverogers@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">4</th>
-                              <td>Tony</td>
-                              <td>Stark</td>
-                              <td>tonystark@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                           </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Natasha</td>
-                                <td>Romanoff</td>
-                                <td>NatashaRomanoff@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                              </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -147,36 +118,27 @@ for (i = 0; i < dropdown.length; i++) {
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(nurses.length!=0){
+                            var i=1;
+                            nurses.forEach(function(data){
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Wanda</td>
-                              <td>Maximoff</td>
-                              <td>johndoe@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
                                   <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
                                   <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
                              </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Pietro</td>
-                                <td>Maximoff</td>
-                                <td>pietromaximoff@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
                               </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Loki</td>
-                              <td>Laufeyson</td>
-                              <td>lokilaufeyson@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                              </td>
-                            </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -198,46 +160,27 @@ for (i = 0; i < dropdown.length; i++) {
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(healthOfficials.length!=0){
+                            var i=1;
+                            healthOfficials.forEach(function(data){
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Carol</td>
-                              <td>Danvers</td>
-                              <td>caroldanvers@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
                                   <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
                                   <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
                              </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Thor</td>
-                                <td>Odinson</td>
-                                <td>thorodinson@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
                               </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Bucky</td>
-                              <td>Barnes</td>
-                              <td>buckybarnes@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">4</th>
-                              <td>Sam</td>
-                              <td>Wilson</td>
-                              <td>samwilson@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                           </td>
-                            </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -261,26 +204,27 @@ for (i = 0; i < dropdown.length; i++) {
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(immigrationOfficers.length!=0){
+                            var i=1;
+                            immigrationOfficers.forEach(function(data){
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Peter</td>
-                              <td>Parker</td>
-                              <td>peterparker@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
                                   <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
                                   <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
                              </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Kate</td>
-                                <td>Bishop</td>
-                                <td>katebishop@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
                               </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -288,7 +232,12 @@ for (i = 0; i < dropdown.length; i++) {
     
     </div>
 
-
+    <script> type="text/javascript"
+      //const db = require('d:/Documents/6_Maxwell_Concordia/Winter Semester 3/SOEN390/Repo/soen390/database')
+      function verify(user_uuid){
+        alert(user_uuid)
+      }
+    </script>
 
 
     <!--Footer Bar-->
