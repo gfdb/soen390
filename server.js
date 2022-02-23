@@ -3,7 +3,7 @@ const express = require("express")
 const app = express()
 
 //initializing db 
-const db = require('d:/Documents/6_Maxwell_Concordia/Winter Semester 3/SOEN390/Repo/soen390/database')
+const db = require('c:/Users/moham/OneDrive/Desktop/Winter2022/twat1/soen390/database')
 
 // Static Files
 app.use(express.static('public'));

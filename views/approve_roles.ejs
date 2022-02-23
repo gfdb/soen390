@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +88,14 @@ for (i = 0; i < dropdown.length; i++) {
                               <td><%=data.last_name %></td>
                               <td><%=data.email %></td>
                               <td>
-                                  <button id="accept" onclick="verify(<%=data.user_uuid %>)" type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                  <button id="accept" onclick= "verify('<%=data.user_uuid %>')" type="button" class="btn btn-success">
+                                    
+                                    
+
+                                    
+                                    
+                                    <i class="fas fa-check"></i></button>
+                                  
                                   <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
                              </td>
                             </tr>
@@ -232,13 +240,33 @@ for (i = 0; i < dropdown.length; i++) {
     
     </div>
 
-    <script> type="text/javascript"
-      //const db = require('d:/Documents/6_Maxwell_Concordia/Winter Semester 3/SOEN390/Repo/soen390/database')
-      function verify(user_uuid){
-        alert(user_uuid)
-      }
-    </script>
+    <script type="text/javascript">
+      
 
+
+      function verify(user_uuid) {
+        
+
+        
+        //this is causing the isseu
+        const db = require("../database");
+        //
+        alert(user_uuid);
+        db.connect(function (err) {
+          if (err) throw err;
+          var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user_uuid + " );";
+          db.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+          });
+        });
+      }
+
+
+
+
+
+    </script>
 
     <!--Footer Bar-->
     <!--Footer-->
