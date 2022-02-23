@@ -58,9 +58,10 @@ a.drop-item:link, a.drop-item:visited {
   text-align: left;
   float: right;
   padding-right: 100px;
-  padding-top: 30px;
+  padding-top: 200px;
   padding-left: 50px;
   color: white;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 #links{
   text-decoration: none;
