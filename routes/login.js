@@ -6,7 +6,12 @@ const db = require('../database')
 
 //TEMPORARY LOGIN STUFF###################################################################################################
 const username = "John@gmail.com"
+<<<<<<< HEAD
 const plain_password = "asd"
+=======
+const password = String(bcrypt.hashSync("1234", 10))
+const plain_password = "1234"
+>>>>>>> b7ef39611a4d8fa82f5d7d8f4f1703f77916cf64
 router.use(express.urlencoded({ extended: false }))
     //########################################################################################################################
 
@@ -16,21 +21,27 @@ router.get("/", (req, res) => {
 })
 
 router.post("/patient/", (req, res) => {
-    if (username != req.body.email) {
-        return res.status(400).send("Invalid username")
-    }
+    // if (username != req.body.email) {
+    //     return res.status(401).send("Invalid username")
+    // }
     try {
-        const password_check = bcrypt.compare(req.body.password, password)
-        if (plain_password == req.body.password) {
+        if (bcrypt.compareSync(req.body.password, password)) {
+            //res.status(200).send('Sucessfull login')
             res.redirect("../profile")
-                //res.status(400).send('Incorrect Password!')
         } else {
-            res.status(400).send('Incorrect Password!')
-                //res.redirect("/profile")
+            throw new Error('email or password are invalid')
         }
-    } catch {
+
+        // if (plain_password == req.body.password) {
+        //     c //res.status(400).send('Incorrect Password!')
+        // } else {
+        //     res.status(401).send('Incorrect Password!')
+        //         //res.redirect("/profile")
+        // }
+    } catch (err) {
+        console.error(err)
+        //res.status(401).send('Invalid username or password')
         res.redirect('./patient')
-        res.status(500).send()
     }
 })
 
@@ -45,6 +56,6 @@ router.get('/patient/', (req, res) => {
 })
 
 router.get('/worker/', (req, res) => {
-    res.render('login_worker.ejs')
+    res.render('admin_login.ejs')
 })
 module.exports = router
