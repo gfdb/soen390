@@ -1,5 +1,8 @@
 const express = require('express')
 const router = express()
+    // const server_modules = require('../server')
+    // const checkAuthenticated = server_modules.checkAuthenticated
+
 
 router.get('/', (req, res) => {
     // console.log('home')

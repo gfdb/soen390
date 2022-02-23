@@ -25,23 +25,25 @@ router.get('/worker/', (req, res) => {
 router.post('/patient/', async(req, res) => {
     try {
         //hashes password
-        const hashedPassword = await bcrypt.hash(req.body.pwd, 10)
+        console.log(req.body.password)
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-        const user = new User(req.body.fname, req.body.lname, hashedPassword, req.body.email, req.body.address,
-            req.body.address2, req.body.city, req.body.province, req.body.zip)
-        db.query("SELECT email FROM Patients WHERE email = '" + user.email + "'", function(err, result, field) {
+        const user = new User(req.body.name, req.body.lastName, hashedPassword, req.body.email, req.body.address,
+            req.body.address2, req.body.city, req.body.province, req.body.zip, 'patient')
+        db.query("SELECT email FROM User WHERE email = '" + user.email + "'", function(err, result, field) {
             //checks if query is found in table if yes dont add user
             if (result.length === 0) {
                 db.connect((err) => {
-                    if (err) console.log(err)
-                    console.log("Connected!")
-                    var sql = "INSERT INTO Patients (uuid, name, lastName, email, password, address, address2, city, province, zip) VALUES (UUID(),'" + user.name + "','" + user.lastname + "','" + user.email + "','" + user.password + "','" + user.address + "','" + user.address2 + "','" + user.city + "','" + user.province + "','" + user.zip + "')";
-                    db.query(sql, function(err, result) {
                         if (err) console.log(err)
-                        console.log("Number of records inserted: " + result.affectedRows)
+                        console.log("Connected!")
+                        var sql = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" + user.name + "','" +
+                            user.lastname + "','" + user.email + "','" + user.password + "','" + user.permissionLevel + "')"
+                        db.query(sql, function(err, result) {
+                            if (err) console.log(err)
+                            console.log("Number of records inserted: " + result.affectedRows)
+                        })
                     })
-                })
-                res.status(200).send('OK: User Created')
+                    // res.status(200).send('OK: User Created')
             } else {
                 console.log('user already exists')
             }
@@ -55,10 +57,10 @@ router.post('/patient/', async(req, res) => {
         // console.log("test")
         // console.log(user)
         res.redirect('../profile')
-    } catch {
-        console.log('err')
+    } catch (err) {
+        console.log(err)
         res.redirect('./patient/')
-        res.status(422).send('Unprocessable Entity: Email already exits')
+            // res.status(422).send('Unprocessable Entity: Email already exits')
 
     }
 
