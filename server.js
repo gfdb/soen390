@@ -11,11 +11,11 @@ const flash = require('express-flash')
 const session = require('express-session')
 const initializePassport = require('./passport-config')
 
-initializePassport(passport, email => {
+initializePassport(
     passport,
-    email => user //user is aplacehgolder i need to retreive the user based on their email
+    email => user.email,
     id => user.id
-})
+)
 
 // Static Files
 app.use(express.static('public'));

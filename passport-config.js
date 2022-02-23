@@ -6,7 +6,7 @@ function initialize(passport, getUserByEmail, getUserById) {
 
     const authenticateUser = async(email, password, done) => {
         //below will need to be fixed User can be const and stuff sort out user
-        const user = new User()
+        let user = new User()
         user.email = getUserByEmail(email)
         if (user == null) {
             return done(null, false, { message: 'No user with that email' })
