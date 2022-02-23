@@ -52,6 +52,6 @@ router.get('/patient/', (req, res) => {
 })
 
 router.get('/worker/', (req, res) => {
-    res.render('login_worker.ejs')
+    res.render('admin_login.ejs')
 })
 module.exports = router

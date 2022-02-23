@@ -31,6 +31,37 @@ app.use('/profile', profileRouter)
 const loginRouter = require('./routes/login')
 app.use('/login', loginRouter)
 
+
+//added newly from front-end- probably need fixes on the backend
+app.get('/approveRoles', (req, res) => {
+    res.render('approve_roles.ejs')
+})
+
+app.get('/adminLogin', (req, res) => {
+    res.render('admin_login.ejs')
+})
+
+app.get('/doctorMonitor', (req, res) => {
+    res.render('doctor_monitor.ejs')
+})
+
+app.get('/assignedPatients', (req, res) => {
+    res.render('assigned_patients.ejs')
+})
+
+app.get('/adminIndex', (req, res) => {
+    res.render('admin_index.ejs')
+})
+
+app.get('/patientsAssign', (req, res) => {
+    res.render('patients_assign.ejs')
+})
+
+app.get('/selectDoctor', (req, res) => {
+    res.render('select_doctor.ejs')
+})
+
+
 //server start on port 3000
 var app_server = app.listen(3000)
 
