@@ -1,10 +1,16 @@
-const sever_modules = require('../server')
+const db = require('../database')
 const supertest = require("supertest")
-// const request = supertest(sever_modules.app)
-// const {describe} = require('mocha');
-// const {expect} = require('chai');
+const { describe } = require('mocha');
+const { expect } = require('chai');
 
 
-after(function() {
-    sever_modules.app_server.close();
-});
+// below code is for deleting the test user in test teardown
+db.connect((err) => {
+    if (err) console.log(err)
+        // console.log("Connected!")
+    var sql = "DELETE FROM User WHERE (email = 'test@user.com')"
+    db.query(sql, (err, result) => {
+        if (err) console.log(err)
+        else console.log('Rows affected' + result.affectedRows)
+    })
+})
