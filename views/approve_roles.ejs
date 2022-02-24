@@ -18,6 +18,8 @@
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/adminBackground.css">
 
+   
+
 </head>
 
 <body>
@@ -53,7 +55,38 @@ for (i = 0; i < dropdown.length; i++) {
 });
 }
 </script>
+<script src = "verifyU.js">
 
+  // function verify(user_uuid) {
+  //   alert(user_uuid)
+  //   alert("befire console")
+  //   console.log("It is inside varify");
+  //   alert("after console")
+  //   var user = user_uuid
+  //   alert("before database")
+  //   const db = require("c:/Users/moham/OneDrive/Desktop/Winter2022/twat1/soen390/database");
+  //   alert(user_uuid)
+
+  //   db.connect(function (err) {
+  //     if (err) throw err;
+  //     var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user + " );";
+  //     db.query(sql, function (err, result) {
+  //       if (err) throw err;
+  //       console.log(result);
+  //     });
+  //   });
+  //   $.ajax({
+  //     url: '/approveRoles',
+  //     type: 'DELETE',
+  //     data: { user_uuid: user_uuid },
+  //     dataType: 'json',
+  //     success: function(data) { }
+  //  });
+  //  alert("I'm done");
+
+  // }
+
+</script>
 
 
     <div class="content">
@@ -72,7 +105,8 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -87,8 +121,19 @@ for (i = 0; i < dropdown.length; i++) {
                               <td><%=data.last_name %></td>
                               <td><%=data.email %></td>
                               <td>
-                                  <button id="accept" onclick="verify(<%=data.user_uuid %>)" type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
+                              </td>
+                              <td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
                              </td>
                             </tr>
                             <%  i++; }) %>
@@ -114,14 +159,15 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
                             <%
                             if(nurses.length!=0){
                             var i=1;
-                            nurses.forEach(function(data){
+                            nurses.forEach(function(data){                     
                             %>
                             <tr>
                               <th scope="row"><%=i; %></th>
@@ -129,8 +175,19 @@ for (i = 0; i < dropdown.length; i++) {
                               <td><%=data.last_name %></td>
                               <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
+                              </td>
+                              <td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
                              </td>
                             </tr>
                             <%  i++; }) %>
@@ -156,14 +213,15 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
                             <%
                             if(healthOfficials.length!=0){
                             var i=1;
-                            healthOfficials.forEach(function(data){
+                            healthOfficials.forEach(function(data){                     
                             %>
                             <tr>
                               <th scope="row"><%=i; %></th>
@@ -171,8 +229,19 @@ for (i = 0; i < dropdown.length; i++) {
                               <td><%=data.last_name %></td>
                               <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
+                              </td>
+                              <td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
                              </td>
                             </tr>
                             <%  i++; }) %>
@@ -200,14 +269,15 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
                             <%
                             if(immigrationOfficers.length!=0){
                             var i=1;
-                            immigrationOfficers.forEach(function(data){
+                            immigrationOfficers.forEach(function(data){                     
                             %>
                             <tr>
                               <th scope="row"><%=i; %></th>
@@ -215,8 +285,19 @@ for (i = 0; i < dropdown.length; i++) {
                               <td><%=data.last_name %></td>
                               <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
+                              </td>
+                              <td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
                              </td>
                             </tr>
                             <%  i++; }) %>
@@ -232,13 +313,7 @@ for (i = 0; i < dropdown.length; i++) {
     
     </div>
 
-    <script> type="text/javascript"
-      //const db = require('d:/Documents/6_Maxwell_Concordia/Winter Semester 3/SOEN390/Repo/soen390/database')
-      function verify(user_uuid){
-        alert(user_uuid)
-      }
-    </script>
-
+    
 
     <!--Footer Bar-->
     <!--Footer-->

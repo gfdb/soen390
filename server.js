@@ -1,6 +1,7 @@
 //intilaizing express
 const express = require("express")
 const app = express()
+app.use(express.urlencoded({ extended: false }))
 
 //initializing db 
 const db = require('d:/Documents/6_Maxwell_Concordia/Winter Semester 3/SOEN390/Repo/soen390/database')
@@ -9,6 +10,7 @@ const db = require('d:/Documents/6_Maxwell_Concordia/Winter Semester 3/SOEN390/R
 app.use(express.static('public'));
 app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/img', express.static(__dirname + 'public/img'))
+
 
 //setting up ejs 
 app.set('views', './views');
@@ -81,6 +83,47 @@ app.get('/approveRoles', (req, res) => {
     })
     
 
+})
+
+// app.delete('/approveRoles',function(req,res)
+// {
+//     const user_uuid = req.body.user_uuid;
+//     db.query("UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  ? );",user_uuid,function(err,result,fields)
+//     {
+//         if (err) throw err;
+//     });
+//     res.redirect('/approveRoles');
+// }
+
+// )
+app.post('/verifyWorker', function(req,res) {
+    var user_uuid = req.body.uuid
+    //console.log("Im inside server")
+    //console.log(req.body.role);
+    db.connect(function(err) {
+        if (err) throw err;
+        var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  "+user_uuid+" );";
+        db.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log(result);
+        });
+      });
+    res.redirect('./approveRoles/')
+})
+
+app.post('/denyWorker', function(req,res) {
+    var user_uuid = req.body.uuid
+    //console.log("Im inside server")
+    //console.log(user_uuid);
+    db.connect(function(err) {
+        if (err) throw err;
+        var sql = "DELETE FROM Worker WHERE ( user_uuid  =  "+user_uuid+" );";
+        db.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log(result);
+        });
+      });
+    res.redirect('./approveRoles/')
 })
 
 app.get('/adminLogin', (req, res) => {
