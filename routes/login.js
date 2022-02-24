@@ -1,57 +1,41 @@
 //routes for login page
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
-const db = require('../database')
+const passport = require('passport')
 
-//TEMPORARY LOGIN STUFF###################################################################################################
-const username = "John@gmail.com"
-const password = String(bcrypt.hashSync("1234", 10))
-const plain_password = "1234"
-router.use(express.urlencoded({ extended: false }))
-    //########################################################################################################################
-
-//TEMPORARY LOGIN STUFF###################################################################################################
-router.get("/", (req, res) => {
-    res.render('login_choice.ejs')
-})
-
-router.post("/patient/", (req, res) => {
-    // if (username != req.body.email) {
-    //     return res.status(401).send("Invalid username")
-    // }
-    try {
-        if (bcrypt.compareSync(req.body.password, password)) {
-            //res.status(200).send('Sucessfull login')
-            res.redirect("../profile")
-        } else {
-            throw new Error('email or password are invalid')
+// login post 
+router.post('/',
+    // login handler
+    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+    function(req, res) {
+        // if admin
+        if (req.user.permissionLevel.localeCompare('admin') === 0){
+            console.log('admin')
+            res.redirect('/admin');
         }
+        // if patient
+        if (req.user.permissionLevel.localeCompare('patient') === 0) {
+            console.log('patient')
+            res.redirect('/profile')
+        }
+        // if doctor
+        if (req.user.permissionLevel.localeCompare('doctor') === 0) {
+            console.log('doctor')
+            res.redirect('/profile')
+        }
+        // else
+        if (!req.user) {
+            console.log('other')
+        }
+    })
 
-        // if (plain_password == req.body.password) {
-        //     c //res.status(400).send('Incorrect Password!')
-        // } else {
-        //     res.status(401).send('Incorrect Password!')
-        //         //res.redirect("/profile")
-        // }
-    } catch (err) {
-        console.error(err)
-        //res.status(401).send('Invalid username or password')
-        res.redirect('./patient')
-    }
-})
-
+// login 
 router.get('/', (req, res) => {
-    res.render('login_choice.ejs')
+    res.render('login_patient.ejs', {
+        err_msg: req.session.messages
+    })
+
 
 })
 
-router.get('/patient/', (req, res) => {
-    res.render('login_patient.ejs')
-
-})
-
-router.get('/worker/', (req, res) => {
-    res.render('admin_login.ejs')
-})
 module.exports = router
