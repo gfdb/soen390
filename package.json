@@ -6,7 +6,7 @@
     "scripts": {
         "start": "nodemon server.js",
         "test": "mocha --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js --file ./test/signup.test.js --file ./test/teardown.test.js --exit",
-        "integrationTest": "mocha --file ./test/integration-tests login.test.js  --exit",
+        "integrationTest": "mocha --file ./test/integration-tests/login.test.js  --exit",
         "coverage": "nyc --report=text npm run test",
         "coverage-full": "nyc --reporter=lcov --report=text npm run test"
     },
