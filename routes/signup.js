@@ -2,65 +2,56 @@ const express = require('express')
 const router = express()
 const bcrypt = require('bcrypt')
 const db = require('../database')
-const User = require('../models/users')
-
+const User = require('../models/user')
 
 router.use(express.urlencoded({ extended: false }))
 
 router.get('/', (req, res) => {
-    res.render('signup_choice.ejs')
-
-})
-router.get('/patient/', (req, res) => {
     res.render('signup_patient.ejs')
 
 })
 
-router.get('/worker/', (req, res) => {
-    res.render('signup_worker.ejs')
-
-})
-
-//post routers
-router.post('/patient/', async(req, res) => {
+// post for signup
+router.post('/', async(req, res) => {
+    // try the following
     try {
-        //hashes password
-        console.log(req.body.password)
+        // hash the password the user entered
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-        const user = new User(req.body.name, req.body.lastName, hashedPassword, req.body.email, req.body.address,
-            req.body.address2, req.body.city, req.body.province, req.body.zip, 'patient')
+        // create user model with sign up info
+        const user = new User(null, req.body.name, req.body.lastName, req.body.email, req.body.permissionLevel)
+
+        // query the database to check that a user with that email does not already exist
         db.query("SELECT email FROM User WHERE email = '" + user.email + "'", function(err, result, field) {
-            //checks if query is found in table if yes dont add user
+            // if user does not exist 
             if (result.length === 0) {
                 db.connect((err) => {
+                    if (err) console.log(err)
+                    console.log("Connected!")
+
+                    // if no error, insert User model into the database
+                    var sql = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" +
+                        user.name + "','" + user.lastname + "','" + user.email + "','" + hashedPassword + "','" + user.permissionLevel + "')"
+                    // result/error handling
+                    db.query(sql, function(err, result) {
                         if (err) console.log(err)
-                        console.log("Connected!")
-                        var sql = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" + user.name + "','" +
-                            user.lastname + "','" + user.email + "','" + user.password + "','" + user.permissionLevel + "')"
-                        db.query(sql, function(err, result) {
-                            if (err) console.log(err)
-                            console.log("Number of records inserted: " + result.affectedRows)
-                        })
+                        else
+                            console.log("Number of records inserted: " + result)
                     })
-                    // res.status(200).send('OK: User Created')
+                })
+                // redirect to profile
+                res.redirect('../profile')
+            // else if user does exist, return error message
             } else {
+                res.render("signup_worker.ejs", { error: 'Email already exists' });
                 console.log('user already exists')
+                return
             }
-            if (err) console.log(err);
         })
-
-
-        //stores user
-
-
-        // console.log("test")
-        // console.log(user)
-        res.redirect('../profile')
+    // catch errors, 
     } catch (err) {
-        console.log(err)
-        res.redirect('./patient/')
-            // res.status(422).send('Unprocessable Entity: Email already exits')
+        // catch error and return
+        res.render("signup_worker.ejs", { error: err });
 
     }
 
