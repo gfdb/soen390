@@ -50,13 +50,11 @@ app.get('/approveRoles', (req, res) => {
         var sql = "SELECT Worker.role, User.first_name, User.last_name, Worker.user_uuid, User.email  FROM Worker, User WHERE Worker.user_uuid = User.uuid AND verified = 0";
         db.query(sql, function(err, result) {
             if (err) console.log(err)
-             
-            //var row = result
-            //console.log(row[0].first_name)
+        
             for (let i = 0; i < result.length; i++) {
                 
                 role = result[i].role
-        
+                //Sorts users based on role
                 switch(role) {
                     case "doctor":
                         doctorList.push(result[i])
@@ -73,11 +71,7 @@ app.get('/approveRoles', (req, res) => {
                     default:
                         throw "Error: No role found when retrieving worker!"
                 }
-                //console.log("Ping")
             }
-
-            //console.log(doctorList)
-            //console.log(result)
             res.render('approve_roles.ejs', {doctors: doctorList, nurses: nurseList, healthOfficials: healthOffList, immigrationOfficers: immigrationOffList})
         })    
     })
@@ -85,21 +79,9 @@ app.get('/approveRoles', (req, res) => {
 
 })
 
-// app.delete('/approveRoles',function(req,res)
-// {
-//     const user_uuid = req.body.user_uuid;
-//     db.query("UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  ? );",user_uuid,function(err,result,fields)
-//     {
-//         if (err) throw err;
-//     });
-//     res.redirect('/approveRoles');
-// }
-
-// )
+//Approves a worker and changes their verification status from 0 to 1 in the database
 app.post('/verifyWorker', function(req,res) {
     var user_uuid = req.body.uuid
-    //console.log("Im inside server")
-    //console.log(req.body.role);
     db.connect(function(err) {
         if (err) throw err;
         var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  "+user_uuid+" );";
@@ -111,10 +93,9 @@ app.post('/verifyWorker', function(req,res) {
     res.redirect('./approveRoles/')
 })
 
+//Denies a worker and removes them from the Worker table in the database, thus removing their application
 app.post('/denyWorker', function(req,res) {
     var user_uuid = req.body.uuid
-    //console.log("Im inside server")
-    //console.log(user_uuid);
     db.connect(function(err) {
         if (err) throw err;
         var sql = "DELETE FROM Worker WHERE ( user_uuid  =  "+user_uuid+" );";
