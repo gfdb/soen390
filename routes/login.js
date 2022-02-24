@@ -9,7 +9,7 @@ router.post('/',
     passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
     function(req, res) {
         // if admin
-        if (req.user.permissionLevel.localeCompare('admin') === 0){
+        if (req.user.permissionLevel.localeCompare('admin') === 0) {
             console.log('admin')
             res.redirect('/admin');
         }

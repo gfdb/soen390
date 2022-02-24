@@ -51,7 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser('secret'));
 // body-parser 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 passport.serializeUser(function(user, done) {
     // only works with strings
     done(null, toString(user.id));
@@ -69,7 +69,7 @@ app.use(session({
 }));
 // initialize passport
 app.use(passport.initialize())
-// 
+    // 
 app.use(passport.session())
 
 
@@ -119,7 +119,7 @@ function CheckNotAuthenticated(req, res, next) {
 
 // check if admin
 function checkAdmin(req, res, next) {
-    if ( eq.isAuthenticated() && (req.user.permissionLevel.localeCompare('admin') === 0)) {
+    if (eq.isAuthenticated() && (req.user.permissionLevel.localeCompare('admin') === 0)) {
         return next()
     }
     res.redirect('/')
