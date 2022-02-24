@@ -10,7 +10,7 @@ const app = express()
 app.use(express.urlencoded({ extended: false }))
 
 //initializing db 
-const db = require('c:/Users/moham/OneDrive/Desktop/Winter2022/twat1/soen390/database')
+const db = require('./database')
 
 const passport = require('passport')
 const flash = require('express-flash')
