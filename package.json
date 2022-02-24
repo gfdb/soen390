@@ -8,7 +8,7 @@
         "node": "14.18.3"
     },
     "scripts": {
-        "start": "node app.js",
+        "start": "nodemon app.js",
         "test": "mocha --file ./test/teardown.test.js --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --file ./test/teardown.test.js  --exit",
         "intTest": "mocha --file ./test/teardown.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js  --file ./test/teardown.test.js --exit",
         "coverage": "nyc --report=text npm run test",
@@ -40,7 +40,8 @@
         "npm": ">=7.0.0",
         "package.json": "^2.0.1",
         "passport": "^0.5.2",
-        "passport-local": "^1.0.0"
+        "passport-local": "^1.0.0",
+        "nodemon": "^2.0.15"
     },
     "devDependencies": {
         "chai": "^4.3.6",
