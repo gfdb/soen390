@@ -149,14 +149,8 @@ app.get('/selectDoctor', (req, res) => {
 var app_server = app.listen(3000)
 console.log('listening on 3000...http://localhost:3000')
 
-<<
-<< << < HEAD
-// for tests
-    ===
-    === =
-    // export variables to be used elsewhere
-    >>>
-    >>> > 825259e9 f66cecd09476f9196fd369d4480df80f
+
+// export variables to be used elsewhere
 module.exports = {
     app: app,
     app_server: app_server,
