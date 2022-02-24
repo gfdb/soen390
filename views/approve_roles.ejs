@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +21,8 @@
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/adminBackground.css">
+
+   
 
 </head>
 
@@ -56,7 +59,38 @@ for (i = 0; i < dropdown.length; i++) {
 });
 }
 </script>
+<script src = "verifyU.js">
 
+  // function verify(user_uuid) {
+  //   alert(user_uuid)
+  //   alert("befire console")
+  //   console.log("It is inside varify");
+  //   alert("after console")
+  //   var user = user_uuid
+  //   alert("before database")
+  //   const db = require("c:/Users/moham/OneDrive/Desktop/Winter2022/twat1/soen390/database");
+  //   alert(user_uuid)
+
+  //   db.connect(function (err) {
+  //     if (err) throw err;
+  //     var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user + " );";
+  //     db.query(sql, function (err, result) {
+  //       if (err) throw err;
+  //       console.log(result);
+  //     });
+  //   });
+  //   $.ajax({
+  //     url: '/approveRoles',
+  //     type: 'DELETE',
+  //     data: { user_uuid: user_uuid },
+  //     dataType: 'json',
+  //     success: function(data) { }
+  //  });
+  //  alert("I'm done");
+
+  // }
+
+</script>
 
 
     <div class="content">
@@ -75,60 +109,43 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(doctors.length!=0){
+                            var i=1;
+                            doctors.forEach(function(data){                     
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>John</td>
-                              <td>Doe</td>
-                              <td>johndoe@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Stephen</td>
-                                <td>Strange</td>
-                                <td>drstrange@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                              </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Steve</td>
-                              <td>Rogers</td>
-                              <td>steverogers@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
                               </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">4</th>
-                              <td>Tony</td>
-                              <td>Stark</td>
-                              <td>tonystark@example.com</td>
                               <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                           </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Natasha</td>
-                                <td>Romanoff</td>
-                                <td>NatashaRomanoff@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
                              </td>
+                            </tr>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
                               </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -146,40 +163,43 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(nurses.length!=0){
+                            var i=1;
+                            nurses.forEach(function(data){                     
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Wanda</td>
-                              <td>Maximoff</td>
-                              <td>johndoe@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Pietro</td>
-                                <td>Maximoff</td>
-                                <td>pietromaximoff@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                              </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Loki</td>
-                              <td>Laufeyson</td>
-                              <td>lokilaufeyson@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
                               </td>
+                              <td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
+                             </td>
                             </tr>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
+                              </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -197,50 +217,43 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(healthOfficials.length!=0){
+                            var i=1;
+                            healthOfficials.forEach(function(data){                     
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Carol</td>
-                              <td>Danvers</td>
-                              <td>caroldanvers@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Thor</td>
-                                <td>Odinson</td>
-                                <td>thorodinson@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
-                              </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Bucky</td>
-                              <td>Barnes</td>
-                              <td>buckybarnes@example.com</td>
-                              <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
                               </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">4</th>
-                              <td>Sam</td>
-                              <td>Wilson</td>
-                              <td>samwilson@example.com</td>
                               <td>
-                                <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                           </td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
+                             </td>
                             </tr>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
+                              </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -260,30 +273,43 @@ for (i = 0; i < dropdown.length; i++) {
                               <th scope="col">First Name</th>
                               <th scope="col">Last Name</th>
                               <th scope="col">Email</th>
-                              <th scope="col">Approve/Refuse</th>
+                              <th scope="col">Approve</th>
+                              <th scope="col">Refuse</th>
                             </tr>
                           </thead>
                           <tbody>
+                            <%
+                            if(immigrationOfficers.length!=0){
+                            var i=1;
+                            immigrationOfficers.forEach(function(data){                     
+                            %>
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Peter</td>
-                              <td>Parker</td>
-                              <td>peterparker@example.com</td>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.email %></td>
                               <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                <form action="/verifyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <input type="hidden" name="role" value="<%=data.role %>">
+                                  <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                </form>
+                              </td>
+                              <td>
+                                <form action="/denyWorker" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.user_uuid %>">
+                                  <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                </form>
+                                  
+                              </td>  
                              </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Kate</td>
-                                <td>Bishop</td>
-                                <td>katebishop@example.com</td>
-                                <td>
-                                  <button type="button" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                  <button type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                             </td>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
                               </tr>
+                            <% } %>
                           </tbody>
                       </table>
                 </div>
@@ -291,8 +317,37 @@ for (i = 0; i < dropdown.length; i++) {
     
     </div>
 
+<<<<<<< HEAD
+    
+=======
+    <script type="text/javascript">
+      
 
 
+      function verify(user_uuid) {
+        
+
+        
+        //this is causing the isseu
+        const db = require("../database");
+        //
+        alert(user_uuid);
+        db.connect(function (err) {
+          if (err) throw err;
+          var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user_uuid + " );";
+          db.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+          });
+        });
+      }
+
+>>>>>>> 84d3c9eb2f4248beca2b13e4f446f5c3c6bc15dc
+
+
+
+
+    </script>
 
     <!--Footer Bar-->
     <!--Footer-->
