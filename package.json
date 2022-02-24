@@ -8,7 +8,7 @@
         "node": "14.18.3"
     },
     "scripts": {
-        "start": "nodemon app.js",
+        "start": "node app.js",
         "test": "mocha --file ./test/teardown.test.js --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --file ./test/teardown.test.js  --exit",
         "intTest": "mocha --file ./test/teardown.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js  --file ./test/teardown.test.js --exit",
         "coverage": "nyc --report=text npm run test",
