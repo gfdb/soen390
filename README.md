@@ -143,15 +143,72 @@ Testing document
 Meeting again before submission
 _________________________________________________________________________________________________________________________
 
+Meeting #: 6   February 7 8:00PM
+
+Summary
+- created tasks on github
+- assigned tasks on github
+- decided which stories were going to be done in sprint 3
+
+To-do
+work on each assigned task
+_________________________________________________________________________________________________________________________
+
+Meeting #: 7   February 14 8:00PM
+
+Summary
+- updated each other on our progress of our tasks
+
+To-do
+work on each assigned task
+
+_________________________________________________________________________________________________________________________
+
+Meeting #: 7   February 14 8:00PM
+
+Summary
+- updated each other on our progress of our tasks
+- assigned the documentation
+
+To-do
+work on each assigned task
+
+testing (franco, lemme, roper)
+testing plan (franco, lemme, roper)
+sad (each person updates their same part)
+sprint retrospective 
+website hosting (mohamad, dionisia)
+update risk assessment (roper)
+summary document (dionisia)
+_________________________________________________________________________________________________________________________
+
+Meeting #: 21   February 14 8:00PM
+
+Summary
+- updated each other on our progress of our tasks
+- assigned the rest of the documentation
+
+To-do
+work on/finish each assigned task
+
+testing (franco, lemme, roper)
+testing plan (franco, lemme, roper)
+sad (each person updates their same part)
+website hosting (mohamad, dionisia)
+update risk assessment (roper)
+summary document (dionisia)
+Sprint 2 retrospective (marita)
+Sprint 3 Planning (lea)
+_________________________________________________________________________________________________________________________
 
 ```
 
 
-# Sprint 1 
-* All documents are are also linked through [this summary document](https://docs.google.com/document/d/1m4W_HArM9-jJ0ciLCbH7UO0eRZ2To-rghA2l8L2_wlE/edit#)
+# Sprint 2
+* All documents are are also linked through [this summary document](https://docs.google.com/document/d/1buPl0-L5pfq7P2QNLHUxRvU1b5_fPhoOEgw0Nf9zQ_E/edit)
 1. [User Stories Backlog (USB) excel sheet](https://docs.google.com/spreadsheets/d/12L9rgUXGn508rjnKgYhErNIvxcseMZd9BCg0DDjf3aw/edit#gid=0)
-2. Release Plan (Sprint #1 and #2 planning): It is included in the\
-      [Summary document](https://docs.google.com/document/d/1m4W_HArM9-jJ0ciLCbH7UO0eRZ2To-rghA2l8L2_wlE/edit#)\
+2. Release Plan (Sprint #2 and #3 planning): It is included in the\
+      [Summary document](https://docs.google.com/document/d/1buPl0-L5pfq7P2QNLHUxRvU1b5_fPhoOEgw0Nf9zQ_E/edit)\
       [User Stories Backlog (USB) excel sheet](https://docs.google.com/spreadsheets/d/12L9rgUXGn508rjnKgYhErNIvxcseMZd9BCg0DDjf3aw/edit#gid=0) 
 4. [Software Architecture Document (SAD)](https://docs.google.com/document/d/1Vlq3SBM1zPuQGnx3fvnyioKAPnvmFM9waBz5x_Iiyuo/edit)
 5. Risk Assessment & Risk Management Plan (RMP)\
@@ -162,4 +219,4 @@ ________________________________________________________________________________
       [UI prototypes for Sprints #2](https://www.figma.com/file/eTfde749ktNYc97thhD57C/CovidConnect-Wireframes?node-id=0%3A1)
 9. [Testing Plan](https://docs.google.com/document/d/14w4WYYk8jju6ZzUTQsTMvMvo0vDpPUTCHBAa5jEFQiM/edit?usp=sharing)
 10. Running prototype
-11. [Short sprint retrospective](https://docs.google.com/document/d/1vi5dgDa3Zq_n6bCgo7x4GK0Hw-TseyV_KcP4LT5RmEg/edit?usp=sharing)
+11. [Short sprint retrospective](https://docs.google.com/document/d/14XhIAz7p2fz8g4POWZ9GUDy4xQLGXytDzPhbgpPETno/edit)

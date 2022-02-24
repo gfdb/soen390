@@ -80,28 +80,30 @@
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-sign-in-alt"></i> Patient Login</h1>
+        <h1 class="title"><i class="fas fa-sign-in-alt"></i> Login</h1>
 
         <div class="form">
 
-            <form action="/login/patient" method="POST">
+            <form action="/login" method="POST">
                 <div style="padding-top: 60px; padding-left: 25%; padding-right: 25%;">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <div class="input-group mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <%if(err_msg){%>
+                        <p style = "color: red;"><%=err_msg%></p>
+                            <%}%>
+                                <div class="input-group mb-3">
 
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
-                    </div>
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="email" id='email' class="form-control" aria-label="email" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
+                                </div>
                 </div>
                 <div class="mb-3" style="padding-top: 40px; padding-left: 25%; padding-right: 25%;">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <p style="text-align: center;">Don't have an account? <a href="/signup/patient" style="color: #0066CC;">Sign up today!</a></p>
 
                 <div class="col-12 submitbtn" style="padding-top: 80px; padding-bottom: 80px;">
                     <button type="submit" class="btn btn-outline-danger btn-lg">Sign In</button>
-
                 </div>
             </form>
 
