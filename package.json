@@ -8,12 +8,13 @@
         "node": "14.18.3"
     },
     "scripts": {
-        "start": "nodemon app.js",
+        "start": "node app.js",
         "test": "mocha --file ./test/teardown.test.js --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --file ./test/teardown.test.js  --exit",
         "intTest": "mocha --file ./test/teardown.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js  --file ./test/teardown.test.js --exit",
         "coverage": "nyc --report=text npm run test",
         "teardown": "mocha ./test/teardown.test.js --exit",
-        "coverage-full": "nyc --reporter=lcov --report=text npm run intTest && npm run teardown && npm run test"
+        "coverage-full": "nyc --reporter=lcov --report=text npm run intTest && npm run teardown && npm run test",
+        "dev": "nodemon app.js"
     },
     "repository": {
         "type": "git",
@@ -40,13 +41,14 @@
         "npm": ">=7.0.0",
         "package.json": "^2.0.1",
         "passport": "^0.5.2",
-        "passport-local": "^1.0.0",
-        "nodemon": "^2.0.15"
+        "passport-local": "^1.0.0"
+        
     },
     "devDependencies": {
         "chai": "^4.3.6",
         "mocha": "^9.2.0",
         "nyc": "^15.1.0",
-        "supertest": "^6.2.2"
+        "supertest": "^6.2.2",
+        "nodemon": "^2.0.15"
     }
 }
