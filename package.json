@@ -2,9 +2,13 @@
     "name": "soen390",
     "version": "1.0.0",
     "description": "",
-    "main": "server.js",
+    "main": "app.js",
+    "engines": {
+        "npm": ">=7.0.0",
+        "node": ">=16.0.0"
+    },
     "scripts": {
-        "start": "nodemon server.js",
+        "start": "nodemon app.js",
         "test": "mocha --file ./test/teardown.test.js --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --file ./test/teardown.test.js  --exit",
         "intTest": "mocha --file ./test/teardown.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js  --file ./test/teardown.test.js --exit",
         "coverage": "nyc --report=text npm run test",
@@ -13,7 +17,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/gfdb/soen390.git"
+        "url": "git+https://github.com/mohamad-elchanati/soen390.git"
     },
     "keywords": [],
     "author": "",
@@ -32,6 +36,8 @@
         "express-flash": "^0.0.2",
         "express-session": "^1.17.2",
         "mysql2": "^2.3.3",
+        "node": ">=16.0.0",
+        "npm": ">=7.0.0",
         "package.json": "^2.0.1",
         "passport": "^0.5.2",
         "passport-local": "^1.0.0"
