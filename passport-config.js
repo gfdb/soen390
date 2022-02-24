@@ -13,7 +13,6 @@ passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'passwor
         user = user[0]
 
         const check_pass = await bcrypt.compare(password, user.password);
-        console.log(check_pass)
 
         try {
             if (check_pass) {
@@ -36,45 +35,3 @@ passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'passwor
 
     });
 }));
-
-
-
-
-// function initialize(passport, getUserById) {
-
-//     const authenticateUser = async(email, password, done) => {
-//         console.log('yo')
-//         function getUserByEmail(email) {
-//             db.get('SELECT * FROM users WHERE email = ?', [ email ], function(err, user) {
-//                 if (err) { 
-//                     console.log(err)
-//                     return cb(err); 
-//                 }
-//                 if (!user) { 
-//                     return cb(null, false, { message: 'Incorrect email or password.' })
-//                 }
-//                 return user
-//             })
-//         }
-
-//         //below will need to be fixed User can be const and stuff sort out user
-//         let user = getUserByEmail(email);
-//         if (user == null) {
-//             return done(null, false, { message: 'No user with that email' })
-//         }
-//         try {
-//             if (await bcrypt.compare(password, user.password)) {
-//                 return done(null, user)
-//             } else {
-//                 return done(null, false, { message: 'Password incorrect' })
-//             }
-//         } catch (e) {
-//             return done(e)
-//         }
-//     }
-//     passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
-//     passport.serializeUser((user, done) => done(null, user.id))
-//     passport.deserializeUser((id, done) => done(null, getUserById(id)))
-
-// }
-// module.exports = initialize

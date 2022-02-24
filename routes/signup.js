@@ -43,7 +43,7 @@ router.post('/', async(req, res) => {
                 res.redirect('../profile')
             // else if user does exist, return error message
             } else {
-                res.render("signup_worker.ejs", { error: 'Email already exists' });
+                res.render("signup_patient.ejs", { error: 'Email already exists' });
                 console.log('user already exists')
                 return
             }
@@ -51,7 +51,7 @@ router.post('/', async(req, res) => {
     // catch errors, 
     } catch (err) {
         // catch error and return
-        res.render("signup_worker.ejs", { error: err });
+        res.render("signup_patient.ejs", { error: err });
 
     }
 
