@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -313,7 +314,37 @@ for (i = 0; i < dropdown.length; i++) {
     
     </div>
 
+<<<<<<< HEAD
     
+=======
+    <script type="text/javascript">
+      
+
+
+      function verify(user_uuid) {
+        
+
+        
+        //this is causing the isseu
+        const db = require("../database");
+        //
+        alert(user_uuid);
+        db.connect(function (err) {
+          if (err) throw err;
+          var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user_uuid + " );";
+          db.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log(result);
+          });
+        });
+      }
+
+>>>>>>> 84d3c9eb2f4248beca2b13e4f446f5c3c6bc15dc
+
+
+
+
+    </script>
 
     <!--Footer Bar-->
     <!--Footer-->
