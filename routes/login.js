@@ -31,9 +31,16 @@ router.post('/',
 
 // login 
 router.get('/', (req, res) => {
-    res.render('login_patient.ejs', {
-        err_msg: req.session.messages
-    })
+    if (req.session.messages) {
+        res.status(401).render('login_patient.ejs', {
+            err_msg: req.session.messages
+        })
+    } else {
+        res.render('login_patient.ejs', {
+            err_msg: req.session.messages
+        })
+    }
+
 
 
 })

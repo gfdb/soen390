@@ -43,18 +43,16 @@ router.post('/', async(req, res) => {
                     res.redirect('../profile')
                         // else if user does exist, return error message
                 } else {
-                    res.status(401).json({ status: 401, message: 'email already exists' })
-                        // res.status(401)
-                        // .send("email already exists");
-                    res.render("signup_patient.ejs", { error: 'Email already exists' })
-                        // console.log('user already exists')
+                    // res.status(401).json({ status: 401, message: 'email already exists' }).render('signup_patient.ejs')
+                    res.status(401).render("signup_patient.ejs", { error: 'Email already exists' })
+
                     return
                 }
             })
             // catch errors, 
     } catch (err) {
         // catch error and return
-        res.render("signup_patient.ejs", { error: err })
+        res.status(401).render("signup_patient.ejs", { error: err })
 
     }
 
