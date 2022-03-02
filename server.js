@@ -263,7 +263,7 @@ app.get('/doctorsPatientList', (req, res) => {
 
 
          var user_uuid = req.body.uuid
-         console.log(user_uuid);
+         
          var patientinfo  = []
       
     
@@ -309,7 +309,36 @@ app.get('/doctorsPatientList', (req, res) => {
  })
 
 
-
+//Approves a worker and changes their verification status from 0 to 1 in the database
+app.post('/changeCovidStatus', function(req,res) {
+    var user_uuid = req.body.uuid
+    var covid = req.body.covid
+    console.log(user_uuid);
+    console.log(covid);
+    if (covid == 1)
+    {
+        db.connect(function(err) {
+            if (err) throw err;
+            var sql = "UPDATE Patient SET covid = "+0+" WHERE (user_uuid = '"+user_uuid+"');";
+            db.query(sql, function (err, result) {
+              if (err) throw err;
+              console.log("SET TO 0");
+            });
+          });
+        res.redirect('./doctorsPatientList')
+    }
+    else{
+        db.connect(function(err) {
+            if (err) throw err;
+            var sql = "UPDATE Patient SET covid = "+1+" WHERE (user_uuid  = '"+user_uuid+"');";
+            db.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("SET TO 1");
+            });
+        });
+        res.redirect('./doctorsPatientList')
+    }
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)
