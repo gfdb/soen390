@@ -49,14 +49,14 @@
             <div class=" gap-2 mx-auto" style="text-align: center;">
             
 
-                <form action="/changeCovidStatus" method="POST">
+                <form action="/changeCovidStatus" method="POST" style="display: inline;">
                     <input type="hidden" name="uuid" value="<%=data.uuid %>">
                     <input type="hidden" name="covid" value="<%=data.covid %>">
                    
                     <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Change Patient's Covid status</button>
                 </form>
                 
-                <form action="/notifyExposure" method="POST">
+                <form action="/notifyExposure" method="POST" style="display: inline;">
                     <input type="hidden" name="uuid" value="<%=data.uuid %>">
                     
                    
