@@ -53,9 +53,9 @@
                 </thead>
                 <tbody>
                   <%
-                            if(patients.length!=0){
+                            if(positivepatients.length!=0){
                               var i=1;
-                            patients.forEach(function(data){                     
+                            positivepatients.forEach(function(data){                     
                             %>
                   <tr>
                     <th scope="row"><%=i; %></th>
@@ -103,67 +103,37 @@
 
         </div>
         <table class="table table-striped">
-            <thead>
-                <tr> 
-                  <th scope="col">#</th>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col" style="text-align: right;">View Patient's Profile</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Rachel</td>
-                  <td>Green</td>
-                  <td style="text-align: right;">
-                    <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                 </td>                
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Monica</td>
-                    <td>Geller</td>
-                    <td style="text-align: right;">
-                      <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                   </td>                  
-                  </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Phoebe</td>
-                  <td>Buffay</td>
-                  <td style="text-align: right;">
-                    <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                 </td>                
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Chandler</td>
-                  <td>Bing</td>
-                  <td style="text-align: right;">
-                    <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                 </td>                
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Joey</td>
-                    <td>Tribiani</td>
-                    <td style="text-align: right;">
-                      <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                   </td>                  
-                  </tr>
-
+              <thead>
                   <tr>
-                    <th scope="row">5</th>
-                    <td>Ross</td>
-                    <td>Geller</td>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col" style="text-align: right;">View Patient's Profile</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%
+                            if(negativepatients.length!=0){
+                              var i=1;
+                            negativepatients.forEach(function(data){                     
+                            %>
+                  <tr>
+                    <th scope="row"><%=i; %></th>
+                    <td><%=data.first_name %></td>
+                    <td><%=data.last_name %></td>
                     <td style="text-align: right;">
                       <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                   </td>                  
+                   </td>
                   </tr>
-                  </tr>
-              </tbody>
-          </table>
+                  <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Patients Found</td>
+                              </tr>
+                            <% } %>
+                    
+                </tbody>
+            </table>
           <!-- pagination nav -->
       <nav aria-label="Page navigation">
         <ul class="pagination">

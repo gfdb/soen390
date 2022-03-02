@@ -219,29 +219,29 @@ app.get('/doctorsPatientList', (req, res) => {
 
 
 
-    var patientList  = []
-    //var nurseList  = []
-    //var healthOffList = []
-    //var immigrationOffList = []
+    var positivepatientList  = []
+    var negativepatientList = []
+
     //Queries for the list of workers that have yet to be approved by the admin
     db.connect((err) => {
         if (err) console.log(err)
         console.log("Connected!")
-        var sql = "Select User.first_name, User.last_name, User.permission_level FROM User,Patient Where User.uuid = Patient.user_uuid AND Patient.doctor_uuid = 1 AND permission_level = 'patient';";
+        var sql = "Select User.first_name, User.last_name, User.permission_level,Patient.covid FROM User,Patient Where User.uuid = Patient.user_uuid AND Patient.doctor_uuid = 1 AND permission_level = 'patient';";
         db.query(sql, function(err, result) {
             if (err) console.log(err)
         
             for (let i = 0; i < result.length; i++) {
                 
-                permission_level = result[i].permission_level
+                covid = result[i].covid
+                
                 //Sorts users based on role
-                switch(permission_level) {
-                    case "patient":
-                        patientList.push(result[i])
+                switch(covid) {
+                    case 1:
+                        positivepatientList.push(result[i])
                         break;
-                    //case "nurse":
-                      //  nurseList.push(result[i])
-                        //break;
+                    case 0:
+                        negativepatientList.push(result[i])
+                        break;
                    // case "health official":
                      //   healthOffList.push(result[i])
                        // break;
@@ -252,7 +252,7 @@ app.get('/doctorsPatientList', (req, res) => {
                         throw "Error: No patient found when retrieving assigned patients for this doctor!"
                 }
             }
-            res.render('doctors_patient_list.ejs', {patients: patientList})
+            res.render('doctors_patient_list.ejs', {positivepatients: positivepatientList,negativepatients: negativepatientList})
         })    
     })
     
