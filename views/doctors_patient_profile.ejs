@@ -43,7 +43,12 @@
         <div class="form">
 
             <div class=" gap-2 mx-auto" style="text-align: center;">
- 
+            
+
+
+                
+
+
             <button type="button" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width: 600px;">Change Patient's Covid status</button>
             <button type="button" class="btn-style btn btn-danger" data-bs-toggle="button" style="height: auto; width: 600px;">Inform Patient of Possible Covid Exposure</button>
             </div>
@@ -53,36 +58,40 @@
             </h5>-->
 
             <form class="row g-3">
-
+                <%
+                if(patientinfo.length!=0){
+                var i=1;
+                patientinfo.forEach(function(data){                     
+                %>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>First Name</b></label>
-                    <!-- <input type="text" class="form-control" placeholder="First name" aria-label="First name"> -->
-                    <p>John</p>
+                    
+                    <p><%=data.first_name %></p>
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
-                    <!-- <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"> -->
-                    <p>Smith</p>
+                    
+                    <p><%=data.last_name %></p>
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>Email</b></label>
-                    <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                    <p>email@example.com</p>
+                   
+                    <p><%=data.email %></p>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label"><b>Address</b></label>
-                    <!-- <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"> -->
+                   
                     <p>123 concordia st.</p>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
-                    <!-- <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"> -->
+                    
                     <p>appt. 100</p>
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label"><b>City</b></label>
-                    <!-- <input type="text" class="form-control" id="inputCity"> -->
+                  
                     <p>Montreal</p>
                 </div>
 
@@ -92,30 +101,39 @@
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label"><b>Zip</b></label>
-                    <!-- <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1"> -->
+                   
                     <p>h1h h1h</p>
                 </div>
                 <div class="covid">
                     <center>
                         <div class="col-md-12">
                             <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
-                            <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
+                            
+                             <%
+                            if(data.covid==1){
+                            
+                                                 
+                            %>
+                           
                             <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
+                            <% } else{ %>
+                            <p style="background-color: red; color: white;" class="covid">NEGATIVE</p>
+                            <% } %>
                         </div>
                         <div class="col-md-12 covid" style="background-color: beige;">
                             <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
-                            <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
+                            
                             <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
                         </div>
                     </center>
                 </div>
-
-                <!--
-        <div class="col-12 submitbtn">
-          <button type="submit" class="btn btn-outline-danger btn-lg">Sign Up</button>
-
-        </div>
-        -->
+                <%  i++; }) %>
+                <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Users Found</td>
+                              </tr>
+                <% } %>
+               
             </form>
 
 

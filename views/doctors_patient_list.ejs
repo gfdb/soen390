@@ -62,7 +62,15 @@
                     <td><%=data.first_name %></td>
                     <td><%=data.last_name %></td>
                     <td style="text-align: right;">
-                      <a href="/doctorsPatientProfile"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+
+                      <form action="/doctorsPatientProfile" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.uuid %>">
+                                  
+                                  <button type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button>
+                      </form>
+
+
+                      
                    </td>
                   </tr>
                   <%  i++; }) %>
@@ -121,17 +129,26 @@
                     <th scope="row"><%=i; %></th>
                     <td><%=data.first_name %></td>
                     <td><%=data.last_name %></td>
+                    
                     <td style="text-align: right;">
-                      <a href="/doctorsPatientProfile"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                      
+
+                      <form action="/doctorsPatientProfile" method="POST">
+                                  <input type="hidden" name="uuid" value="<%=data.uuid%>">
+                                  
+                                  <button type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button>
+                      </form>
+
+                      
                    </td>                  
-                  </tr>
+                  
                   </tr>
                   <%  i++; }) %>
-                            <% } else{ %>
-                              <tr>
-                                  <td colspan="7">No Patients Found</td>
-                              </tr>
-                            <% } %>
+                  <% } else{ %>
+                    <tr>
+                      <td colspan="7">No Patients Found</td>
+                    </tr>
+                  <% } %>
                     
                 </tbody>
             </table>
