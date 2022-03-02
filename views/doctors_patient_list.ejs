@@ -52,56 +52,26 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <%
+                            if(patients.length!=0){
+                              var i=1;
+                            patients.forEach(function(data){                     
+                            %>
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Rachel</td>
-                    <td>Green</td>
+                    <th scope="row"><%=i; %></th>
+                    <td><%=data.first_name %></td>
+                    <td><%=data.last_name %></td>
                     <td style="text-align: right;">
-                      <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                      <a href="selectDoctor "><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
                    </td>
                   </tr>
-                  <tr>
-                      <th scope="row">2</th>
-                      <td>Monica</td>
-                      <td>Geller</td>
-                      <td style="text-align: right;">
-                          <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                   </td>
-                    </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Phoebe</td>
-                    <td>Buffay</td>
-                    <td style="text-align: right;">
-                      <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Chandler</td>
-                    <td>Bing</td>
-                    <td style="text-align: right;">
-                      <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                 </td>
-                  </tr>
-                  <tr>
-                      <th scope="row">4</th>
-                      <td>Joey</td>
-                      <td>Tribiani</td>
-                      <td style="text-align: right;">
-                          <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                   </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row">5</th>
-                      <td>Ross</td>
-                      <td>Geller</td>
-                      <td style="text-align: right;">
-                          <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                   </td>
-                    </tr>
-                    </tr>
+                  <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Patients Found</td>
+                              </tr>
+                            <% } %>
+                    
                 </tbody>
             </table>
             <!-- pagination nav -->
