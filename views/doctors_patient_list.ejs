@@ -39,7 +39,7 @@
     <div class="form">
       <div class="col-md-12 frame">
           <div class="col-md-6">
-              <h2>Current Patients</h2>
+              <h2>Covid Positive Patients</h2>
 
           </div>
           <table class="table table-striped">
@@ -62,7 +62,7 @@
                     <td><%=data.first_name %></td>
                     <td><%=data.last_name %></td>
                     <td style="text-align: right;">
-                      <a href="selectDoctor "><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                      <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
                    </td>
                   </tr>
                   <%  i++; }) %>
@@ -99,16 +99,16 @@
 
       <div class="col-md-12 frame">
         <div class="col-md-6">
-            <h2>Past Assigned Patients</h2>
+            <h2>Covid Negative Patients</h2>
 
         </div>
         <table class="table table-striped">
             <thead>
-                <tr>
+                <tr> 
                   <th scope="col">#</th>
                   <th scope="col">First Name</th>
                   <th scope="col">Last Name</th>
-                  <th scope="col">Email</th>
+                  <th scope="col" style="text-align: right;">View Patient's Profile</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,38 +116,50 @@
                   <th scope="row">1</th>
                   <td>Rachel</td>
                   <td>Green</td>
-                  <td>rg@rg.com</td>
+                  <td style="text-align: right;">
+                    <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                 </td>                
                 </tr>
                 <tr>
                     <th scope="row">2</th>
                     <td>Monica</td>
                     <td>Geller</td>
-                    <td>Monica@geller.com</td>
+                    <td style="text-align: right;">
+                      <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                   </td>                  
                   </tr>
                 <tr>
                   <th scope="row">3</th>
                   <td>Phoebe</td>
                   <td>Buffay</td>
-                  <td>Phoebe@Buffay.com</td>
+                  <td style="text-align: right;">
+                    <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                 </td>                
                 </tr>
                 <tr>
                   <th scope="row">4</th>
                   <td>Chandler</td>
                   <td>Bing</td>
-                  <td>Chandler@Bing.com</td>
+                  <td style="text-align: right;">
+                    <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                 </td>                
                 </tr>
                 <tr>
                     <th scope="row">4</th>
                     <td>Joey</td>
                     <td>Tribiani</td>
-                    <td>Joey@tribiani.com</td>
+                    <td style="text-align: right;">
+                      <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                   </td>                  
                   </tr>
 
                   <tr>
                     <th scope="row">5</th>
                     <td>Ross</td>
                     <td>Geller</td>
-                    <td>ross@geller.com</td>
+                    <td style="text-align: right;">
+                      <a href=""><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                   </td>                  
                   </tr>
                   </tr>
               </tbody>
