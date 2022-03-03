@@ -271,7 +271,7 @@ app.get('/doctorsPatientList', (req, res) => {
          db.connect((err) => {
              if (err) console.log(err)
              console.log("Connected!")
-             var sql = "Select User.first_name, User.last_name, User.email,Patient.covid,Patient.symptoms,User.uuid FROM User,Patient Where User.uuid = '"+user_uuid+"' AND Patient.doctor_uuid = 1 AND permission_level = 'patient';";
+             var sql = "Select User.first_name, User.last_name, User.email,Patient.covid,Patient.symptoms,User.uuid FROM User,Patient Where User.uuid = '"+user_uuid+"' AND Patient.doctor_uuid = 1 AND permission_level = 'patient' AND User.uuid = Patient.user_uuid;";
              db.query(sql, function(err, result) {
                  if (err) console.log(err)
             
