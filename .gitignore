@@ -1,6 +1,5 @@
 .DS_STORE
 **/.DS_Store
 node_modules
-.env
-.nyc_output
+.nyc_output`
 coverage

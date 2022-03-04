@@ -12,18 +12,8 @@ app.use(express.urlencoded({ extended: false }))
 //initializing db 
 const db = require('./database')
 
-const passport = require('passport')
-const flash = require('express-flash')
 const session = require('express-session')
-const initializePassport = require('./passport-config')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
 
-// initializePassport(
-//     passport,
-//     email => user.email,
-//     id => user.id
-// )
 
 
 // Static Files
@@ -36,9 +26,9 @@ app.use('/img', express.static(__dirname + 'public/img'))
 //setting up ejs 
 app.set('views', './views');
 app.set('view engine', 'ejs')
-app.use(flash())
 app.use(session({
     secret: '123',
+    cookie: { maxAge: 30000 },
     resave: false,
     saveUninitialized: false
 }))
@@ -47,37 +37,21 @@ app.use(session({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// cookie parser
-app.use(cookieParser('secret'));
-// body-parser 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-passport.serializeUser(function(user, done) {
-    // only works with strings
-    done(null, toString(user.id));
-});
 
-passport.deserializeUser(function(id, done) {
-    // only works with strings
-    done(null, toString(id));
-});
+
+
+
 // session config
 app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
 }));
-// initialize passport
-app.use(passport.initialize())
-    // 
-app.use(passport.session())
 
 
 //path for home
 app.get('/', (req, res) => {
-    res.render('index.ejs', {
-        isLoggedIn: req.isAuthenticated()
-    })
+    res.render('index.ejs')
 })
 
 //logout
@@ -90,32 +64,22 @@ app.get('/logout', (req, res) => {
 // importing routers
 // signup
 const signupRouter = require('./routes/signup')
-app.use('/signup', CheckNotAuthenticated, signupRouter)
+app.use('/signup', signupRouter)
 
 // profile
 const profileRouter = require('./routes/profile')
-app.use('/profile', checkAuthenticated, profileRouter)
+app.use('/profile', profileRouter)
 
 // login
 const loginRouter = require('./routes/login')
-app.use('/login', CheckNotAuthenticated, loginRouter)
+app.use('/login', loginRouter)
 
 //sesion middleware functions
 // check if authenticated
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next()
-    }
-    res.redirect('/login')
-}
+
 
 // check if not authenticated
-function CheckNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/profile')
-    }
-    next()
-}
+
 
 // check if admin
 function checkAdmin(req, res, next) {
@@ -127,23 +91,23 @@ function checkAdmin(req, res, next) {
 
 //added newly from front-end- probably need fixes on the backend
 app.get('/approveRoles', (req, res) => {
-    var doctorList  = []
-    var nurseList  = []
+    var doctorList = []
+    var nurseList = []
     var healthOffList = []
     var immigrationOffList = []
-    //Queries for the list of workers that have yet to be approved by the admin
+        //Queries for the list of workers that have yet to be approved by the admin
     db.connect((err) => {
         if (err) console.log(err)
         console.log("Connected!")
         var sql = "SELECT Worker.role, User.first_name, User.last_name, Worker.user_uuid, User.email  FROM Worker, User WHERE Worker.user_uuid = User.uuid AND verified = 0";
         db.query(sql, function(err, result) {
             if (err) console.log(err)
-        
+
             for (let i = 0; i < result.length; i++) {
-                
+
                 role = result[i].role
-                //Sorts users based on role
-                switch(role) {
+                    //Sorts users based on role
+                switch (role) {
                     case "doctor":
                         doctorList.push(result[i])
                         break;
@@ -160,38 +124,38 @@ app.get('/approveRoles', (req, res) => {
                         throw "Error: No role found when retrieving worker!"
                 }
             }
-            res.render('approve_roles.ejs', {doctors: doctorList, nurses: nurseList, healthOfficials: healthOffList, immigrationOfficers: immigrationOffList})
-        })    
+            res.render('approve_roles.ejs', { doctors: doctorList, nurses: nurseList, healthOfficials: healthOffList, immigrationOfficers: immigrationOffList })
+        })
     })
-    
+
 
 })
 
 //Approves a worker and changes their verification status from 0 to 1 in the database
-app.post('/verifyWorker', function(req,res) {
+app.post('/verifyWorker', function(req, res) {
     var user_uuid = req.body.uuid
     db.connect(function(err) {
         if (err) throw err;
-        var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  "+user_uuid+" );";
-        db.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log(result);
+        var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user_uuid + " );";
+        db.query(sql, function(err, result) {
+            if (err) throw err;
+            console.log(result);
         });
-      });
+    });
     res.redirect('./approveRoles/')
 })
 
 //Denies a worker and removes them from the Worker table in the database, thus removing their application
-app.post('/denyWorker', function(req,res) {
+app.post('/denyWorker', function(req, res) {
     var user_uuid = req.body.uuid
     db.connect(function(err) {
         if (err) throw err;
-        var sql = "DELETE FROM Worker WHERE ( user_uuid  =  "+user_uuid+" );";
-        db.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log(result);
+        var sql = "DELETE FROM Worker WHERE ( user_uuid  =  " + user_uuid + " );";
+        db.query(sql, function(err, result) {
+            if (err) throw err;
+            console.log(result);
         });
-      });
+    });
     res.redirect('./approveRoles/')
 })
 
@@ -213,10 +177,6 @@ app.get('/patientsAssign', (req, res) => {
 
 app.get('/selectDoctor', (req, res) => {
     res.render('select_doctor.ejs')
-})
-
-app.get('/doctorsPatientList', (req, res) => {
-    res.render('doctors_patient_List.ejs')
 })
 
 
