@@ -29,7 +29,7 @@ app.set('view engine', 'ejs')
 app.use(session({
     secret: '123',
     cookie: { maxAge: 30000 },
-    resave: false,
+    // resave: false,
     saveUninitialized: false
 }))
 
