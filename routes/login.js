@@ -20,11 +20,12 @@ router.use(session({
 router.post('/', (req, res) => {
     try {
         db.query('SELECT * FROM User WHERE User.email = \'' + req.body.email + '\'', async(err, rows) => {
-            if (err) console.log(err)
-            if (rows[0].length == 0) throw new Error('User doesn\'t exist')
-            console.log(rows[0])
+            try {
+                if (err) console.log(err)
+                if (rows.length == 0) throw new Error('User doesn\'t exist')
+                console.log(rows[0])
 
-            if (await bcrypt.compare(req.body.password, rows[0].password)) {
+                await bcrypt.compare(req.body.password, rows[0].password)
 
                 const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
 
@@ -33,17 +34,13 @@ router.post('/', (req, res) => {
 
                 console.log(req.session.user)
                 res.status(200).redirect('/profile')
-            } else {
+            } catch (err) {
                 res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }
-
         })
-
-
-
     } catch (err) {
         //some error
-        res.status(403).render("login.ejs", { error: err })
+        res.status(403).render("login_patient.ejs", { error: err })
 
     }
 })
