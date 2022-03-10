@@ -55,29 +55,12 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                
-                
+
+
 
                 <!-- Dropdown -->
-                <% if (isLoggedIn) { %>
-                    <li>
-                        <a class="nav-link" href="/logout"><i></i>Logout</a>
-                    </li>
-                <%} else { %>
-                    <li>
-                        <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <!--Backend should add a way to modify login button to logout button-->
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/login">Login</a>
-                        </div>
-    
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
-    
-                    </li>
-                <% } %>
-                
+
+
 
 
             </ul>
@@ -90,7 +73,7 @@
     <div class="info homePad">
         <h1>Welcome!</h1>
         <h2>Get ready to explore our many features <br>designed just for you.<br><br></h2>
-<!--
+        <!--
         <div class="zoom">
             <h5><a id=links href="/signup"><i class="fas fa-user-plus"></i> Create your account today.<br><br></a></h5>
         </div>

@@ -29,24 +29,33 @@ app.set('view engine', 'ejs')
 app.use(session({
     secret: '123',
     cookie: { maxAge: 30000 },
-    // resave: false,
+    resave: false,
     saveUninitialized: false
 }))
 
 // middleware
-
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+function checkAuthenticated(req, res, next) {
+    if (req.session.authenticated) {
+        return next()
+    }
+    res.status(200).redirect('/login')
+}
 
-
+function checkNotAuthenticated(req, res, next) {
+    if (req.session.authenticated) {
+        return res.status(200).redirect('/profile')
+    }
+    next()
+}
 
 // session config
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-}));
+// app.use(session({
+//     secret: 'secret',
+//     resave: true,
+//     saveUninitialized: true,
+// }));
 
 
 //path for home
@@ -64,15 +73,15 @@ app.get('/logout', (req, res) => {
 // importing routers
 // signup
 const signupRouter = require('./routes/signup')
-app.use('/signup', signupRouter)
+app.use('/signup', checkNotAuthenticated, signupRouter)
 
 // profile
 const profileRouter = require('./routes/profile')
-app.use('/profile', profileRouter)
+app.use('/profile', checkAuthenticated, profileRouter)
 
 // login
 const loginRouter = require('./routes/login')
-app.use('/login', loginRouter)
+app.use('/login', checkNotAuthenticated, loginRouter)
 
 //sesion middleware functions
 // check if authenticated
