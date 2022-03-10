@@ -22,10 +22,10 @@ router.post('/', (req, res) => {
         db.query('SELECT * FROM User WHERE User.email = \'' + req.body.email + '\'', async(err, rows) => {
             try {
                 if (err) console.log(err)
-                if (rows.length == 0) throw new Error('User doesn\'t exist')
+                if (rows.length == 0) throw new Error()
                 console.log(rows[0])
 
-                await bcrypt.compare(req.body.password, rows[0].password)
+                if (!await bcrypt.compare(req.body.password, rows[0].password)) throw new Error()
 
                 const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
 
@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
 
                 console.log(req.session.user)
                 res.status(200).redirect('/profile')
-            } catch (err) {
+            } catch {
                 res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }
         })
