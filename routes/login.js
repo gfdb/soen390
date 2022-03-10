@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
                 console.log(req.session.user)
                 res.status(200).redirect('/profile')
             } else {
-                res.status(401).render("login_patient.ejs", { error: 'Invalid Credentials' })
+                res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }
 
         })
