@@ -60,13 +60,13 @@ function checkNotAuthenticated(req, res, next) {
 
 //path for home
 app.get('/', (req, res) => {
-    res.render('index.ejs')
+    res.render('index.ejs', { authenticated: req.session.authenticated })
 })
 
 //logout
 app.get('/logout', (req, res) => {
     req.session.destroy()
-    req.logout()
+        // req.logout()
     res.redirect('/')
 })
 

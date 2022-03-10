@@ -24,16 +24,18 @@ router.post('/', (req, res) => {
             if (rows[0].length == 0) throw new Error('User doesn\'t exist')
             console.log(rows[0])
 
-            await bcrypt.compare(req.body.password, rows[0].password)
+            if (await bcrypt.compare(req.body.password, rows[0].password)) {
 
-            const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
+                const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
 
-            req.session.authenticated = true
-            req.session.user = {
-                user
+                req.session.authenticated = true
+                req.session.user = user
+
+                console.log(req.session.user)
+                res.status(200).redirect('/profile')
+            } else {
+                res.status(401).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }
-            console.log(req.session.user)
-            res.status(200).redirect('/profile')
 
         })
 
@@ -49,7 +51,7 @@ router.post('/', (req, res) => {
 // login 
 router.get('/', (req, res) => {
     res.render('login_patient.ejs', {
-        err_msg: req.session.messages
+        error: ''
     })
 
 
