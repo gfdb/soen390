@@ -83,6 +83,9 @@ app.use('/profile', checkAuthenticated, profileRouter)
 const loginRouter = require('./routes/login')
 app.use('/login', checkNotAuthenticated, loginRouter)
 
+const messagingRouter = require('./routes/messaging')
+app.use('/messaging', checkAuthenticated, messagingRouter)
+
 //sesion middleware functions
 // check if authenticated
 
