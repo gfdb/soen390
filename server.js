@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }))
 //initializing db 
 const db = require('./database')
 
-// const session = require('express-session')
+const session = require('express-session')
 
 // app.set('trustproxy', true)
 
@@ -27,11 +27,15 @@ app.use('/img', express.static(__dirname + 'public/img'))
 app.set('views', './views');
 app.set('view engine', 'ejs')
 
-const session = require('./routes/login')
-app.use(session)
-
-// middleware
-app.use(express.urlencoded({ extended: true }));
+// const session = require('./routes/login')
+app.use(session({
+        secret: '123',
+        cookie: { maxAge: 30000000000000 },
+        resave: false,
+        saveUninitialized: false
+    }))
+    // middleware
+    // app.use(express.urlencoded({ extended: true }));
 
 function checkAuthenticated(req, res, next) {
     if (req.session.authenticated) {
@@ -323,8 +327,8 @@ app.post('/doctorsPatientProfile', function(req, res) {
 app.post('/changeCovidStatus', function(req, res) {
     var user_uuid = req.body.uuid
     var covid = req.body.covid
-    //console.log(user_uuid);
-    //console.log(covid);
+        //console.log(user_uuid);
+        //console.log(covid);
     if (covid == 1) {
         db.connect(function(err) {
             if (err) throw err;
@@ -344,30 +348,30 @@ app.post('/changeCovidStatus', function(req, res) {
                 console.log("SET TO 1");
             });
         });
-        res.redirect('./doctorsPatientList')
+        res.status(200).redirect('./doctorsPatientList')
     }
 })
-app.post('/doctorMessaging', function(req, res)  {
+app.post('/doctorMessaging', function(req, res) {
     patient_uuid = req.body.uuid
     doctor_uuid = req.session.user.uuid
-    
+
     var messageList = []
     var doctorFirstName
     var doctorLastName
     var patientFirstName
     var patientLastName
-    
+
 
     //Queries for the list of workers that have yet to be approved by the admin
 
 
-    var sql1 = "Select User.first_name, User.last_name FROM User WHERE User.uuid = '"+patient_uuid+"';";
-    db.query(sql1, function(err, result) {
+    var sql1 = "Select User.first_name, User.last_name FROM User WHERE User.uuid = '" + patient_uuid + "';";
+    db.query(sql1, (err, result) => {
         if (err) console.log(err)
         patientFirstName = result[0].first_name
         patientLastName = result[0].last_name
-        //console.log(patientFirstName)
-        //console.log(patientLastName)
+            //console.log(patientFirstName)
+            //console.log(patientLastName)
     })
 
 
@@ -376,10 +380,10 @@ app.post('/doctorMessaging', function(req, res)  {
 
 
 
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-    var sql = "Select sender_uuid,receiver_uuid,message,date_time,User.first_name,User.last_name from Messages,User WHERE sender_uuid = '"+doctor_uuid+"' AND receiver_uuid = '"+patient_uuid+"' AND sender_uuid = User.uuid ORDER BY date_time DESC;";
-    db.query(sql, function(err, result) {
+    var sql = "Select sender_uuid,receiver_uuid,message,date_time,User.first_name,User.last_name from Messages,User WHERE sender_uuid = '" + doctor_uuid + "' AND receiver_uuid = '" + patient_uuid + "' AND sender_uuid = User.uuid ORDER BY date_time DESC;";
+    db.query(sql, (err, result) => {
         if (err) console.log(err)
         doctorFirstName = result[0].first_name
         doctorLastName = result[0].last_name
@@ -390,38 +394,38 @@ app.post('/doctorMessaging', function(req, res)  {
 
             //Sorts users based on role
             //switch (covid) {
-              //  case 1:
-                    messageList.push(result[i])
-                    
-                 //   break;
-               // case 0:
-                   // negativepatientList.push(result[i])
-                  ///  break;
-                    // case "health official":
-                    //   healthOffList.push(result[i])
-                    // break;
-                    // case "immigration officer":
-                    //   immigrationOffList.push(result[i])
-                    // break;
-                
-                    //throw "Error: No patient found when retrieving assigned patients for this doctor!"
-            }
-            console.log(patientFirstName)
-            console.log(patientLastName)
-          //  console.log(doctorFirstName)
-          //  console.log(doctorLastName)
-            
-           // console.log(messageList)
-        
+            //  case 1:
+            messageList.push(result[i])
+
+            //   break;
+            // case 0:
+            // negativepatientList.push(result[i])
+            ///  break;
+            // case "health official":
+            //   healthOffList.push(result[i])
+            // break;
+            // case "immigration officer":
+            //   immigrationOffList.push(result[i])
+            // break;
+
+            //throw "Error: No patient found when retrieving assigned patients for this doctor!"
+        }
+        console.log(patientFirstName)
+        console.log(patientLastName)
+            //  console.log(doctorFirstName)
+            //  console.log(doctorLastName)
+
+        // console.log(messageList)
+        res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName })
+
     })
-    
-   
-   // res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,messageList:messageList,doctorFirstName:doctorFirstName,doctorLastName:doctorLastName,patientFirstName:patientFirstName,patientLastName:patientLastName })
-   res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,patientFirstName:patientFirstName,patientLastName:patientLastName })
-    
+
+
+    // res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,messageList:messageList,doctorFirstName:doctorFirstName,doctorLastName:doctorLastName,patientFirstName:patientFirstName,patientLastName:patientLastName })
+
 })
 
-app.post('/sendMessage', function(req, res)  {
+app.post('/sendMessage', function(req, res) {
     let date_ob = new Date();
 
     // current date
@@ -451,18 +455,18 @@ app.post('/sendMessage', function(req, res)  {
     patient_uuid = req.body.patientuuid
     doctor_uuid = req.session.user.uuid
     message = req.body.doctormessage
-    //console.log(patient_uuid)
-    //console.log(doctor_uuid)
+        //console.log(patient_uuid)
+        //console.log(doctor_uuid)
     console.log(message)
     db.connect(function(err) {
         if (err) throw err;
-        var sql = "INSERT INTO Messages  VALUES ('"+doctor_uuid+"','"+patient_uuid+"','"+message+"','"+year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds+"')";
+        var sql = "INSERT INTO Messages  VALUES ('" + doctor_uuid + "','" + patient_uuid + "','" + message + "','" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')";
         db.query(sql, function(err, result) {
             if (err) throw err;
-           // console.log("SET TO 0");
+            // console.log("SET TO 0");
         });
     });
-    res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid })
+    res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid })
 })
 
 
