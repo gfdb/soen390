@@ -10,9 +10,9 @@ const bcrypt = require('bcrypt')
 
 router.use(session({
     secret: '123',
-    cookie: { maxAge: 30000 },
-    store,
-    resave: false,
+    cookie: { maxAge: 30000000000000 },
+    store: store,
+    resave: true,
     saveUninitialized: false
 }))
 
@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
                 req.session.user = user
 
                 console.log(req.session.user)
-                res.status(200).redirect('/profile')
+                req.session.save(() => { res.status(200).redirect('/profile') })
             } catch {
                 res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }

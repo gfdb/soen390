@@ -12,9 +12,9 @@ app.use(express.urlencoded({ extended: false }))
 //initializing db 
 const db = require('./database')
 
-const session = require('express-session')
+// const session = require('express-session')
 
-
+// app.set('trustproxy', true)
 
 // Static Files
 app.use(express.static('public'));
@@ -26,12 +26,9 @@ app.use('/img', express.static(__dirname + 'public/img'))
 //setting up ejs 
 app.set('views', './views');
 app.set('view engine', 'ejs')
-app.use(session({
-    secret: '123',
-    cookie: { maxAge: 30000 },
-    resave: false,
-    saveUninitialized: false
-}))
+
+const session = require('./routes/login')
+app.use(session)
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
