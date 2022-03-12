@@ -84,20 +84,21 @@
                                         <%= i+1 %>
                                     </th>
                                     <td>
-                                        <input class="readonly-inputs" name="fname" value="<%= patients[i].first_name %>" type="text">
+                                        <input class="readonly-inputs" name="fname" value="<%= patients[i].first_name %>" type="text" readonly>
                                     </td>
                                     <td>
-                                        <input class="readonly-inputs" name="lname" value="<%= patients[i].last_name %>" type="text">
+                                        <input class="readonly-inputs" name="lname" value="<%= patients[i].last_name %>" type="text" readonly>
                                     </td>
                                     <td><select class="form-select form-select-doctor" aria-label="Default select example" name="doctor" required>
-                                      <option selected>Select</option>
-                                      <% for(let i=0; i<doctors.length; i++){%>
+                                        <option value="" disabled="disabled" selected></option>
+                                    <% for(let i=0; i<doctors.length; i++){%>
                                         <option value='<%=doctors[i].uuid %>' > <%= doctors[i].first_name%> <%= doctors[i].last_name%></option>
-                                      <%} %> 
+                                    <%} %> 
                                       
                                     </select>
                                     </td>
                                     <td style="text-align: right;">
+                                        <input type="hidden" name="patient_uuid" value="<%= patients[i].uuid%>" readonly>
                                         <button type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button>
                                     </td>
                                 </tr>

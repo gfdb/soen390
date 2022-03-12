@@ -182,7 +182,8 @@ app.get('/adminIndex', (req, res) => {
 
 app.get('/patientsAssign', (req, res) => {
     try {
-        db.query("SELECT * FROM User WHERE permission_level = 'patient'OR permission_level='doctor'", (err, result, field) => {
+        db.query("SELECT * FROM User WHERE (permission_level = 'patient'OR permission_level='doctor') AND User.uuid NOT IN (SELECT Patient.user_uuid FROM Patient)", (err, result) => {
+            if (err) throw new Error()
             try {
                 let patients = []
                 let doctors = []
@@ -203,7 +204,7 @@ app.get('/patientsAssign', (req, res) => {
                 res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
 
             } catch {
-
+                res.status(403).render("patients_assign.ejs", { error: err })
             }
         })
     } catch (err) {
@@ -212,10 +213,21 @@ app.get('/patientsAssign', (req, res) => {
 })
 
 app.post('/patientsAssign', (req, res) => {
+    // console.log(req.body.fname)
+    // console.log(req.body.lname)
+    // console.log(req.body.doctor)
+    // console.log(req.body.patient_uuid)
 
-    console.log(req.body.fname)
-    console.log(req.body.lname)
 
+    const sql = "INSERT INTO Patient (user_uuid, doctor_uuid) VALUES ('" +
+        req.body.patient_uuid + "','" +
+        req.body.doctor + "')"
+
+    db.query(sql, (err, result) => {
+        if (err) console.log(err)
+        else
+            console.log(result[0])
+    })
     res.status(200).redirect('/patientsAssign')
 
 
