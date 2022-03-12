@@ -240,7 +240,116 @@ app.post('/patientsAssign', (req, res) => {
 app.get('/selectDoctor', (req, res) => {
     res.render('select_doctor.ejs')
 })
+app.get('/doctorsPatientList', checkAuthenticated, (req, res) => {
 
+
+
+    var positivepatientList = []
+    var negativepatientList = []
+
+    //Queries for the list of workers that have yet to be approved by the admin
+
+    var sql = "Select User.first_name, User.last_name, User.permission_level,Patient.covid,User.uuid FROM User,Patient Where User.uuid = Patient.user_uuid AND Patient.doctor_uuid = '" + req.session.user.uuid + "' AND permission_level = 'patient';";
+    db.query(sql, function(err, result) {
+        if (err) console.log(err)
+
+        for (let i = 0; i < result.length; i++) {
+
+            covid = result[i].covid
+
+            //Sorts users based on role
+            switch (covid) {
+                case 1:
+                    positivepatientList.push(result[i])
+                    break;
+                case 0:
+                    negativepatientList.push(result[i])
+                    break;
+                    // case "health official":
+                    //   healthOffList.push(result[i])
+                    // break;
+                    // case "immigration officer":
+                    //   immigrationOffList.push(result[i])
+                    // break;
+                default:
+                    throw "Error: No patient found when retrieving assigned patients for this doctor!"
+            }
+        }
+        res.render('doctors_patient_list.ejs', { positivepatients: positivepatientList, negativepatients: negativepatientList })
+    })
+})
+
+
+app.post('/doctorsPatientProfile', function(req, res) {
+    var user_uuid = req.body.uuid
+    var patientinfo = []
+        //Queries for the list of workers that have yet to be approved by the admin
+    var sql = "Select User.first_name, User.last_name, User.email,Patient.covid,Patient.symptoms,User.uuid FROM User,Patient Where User.uuid = '" + user_uuid + "' AND Patient.doctor_uuid = 1 AND permission_level = 'patient' AND User.uuid = Patient.user_uuid;";
+    db.query(sql, function(err, result) {
+        if (err) console.log(err)
+
+        //  if (result.length==0)
+        // {
+        //  throw "Error: No patient found when retrieving assigned patients for this doctor!"
+        // }
+        // else
+        // {
+
+
+        for (let i = 0; i < 1; i++) {
+
+            // covid = result[i].covid
+
+            //Sorts users based on role
+
+            patientinfo.push(result[i])
+
+
+            // case "health official":
+            //   healthOffList.push(result[i])
+            // break;
+            // case "immigration officer":
+            //   immigrationOffList.push(result[i])
+            // break;
+
+            //}   
+        }
+
+        res.render('doctors_patient_profile.ejs', { patientinfo: patientinfo })
+    })
+})
+
+
+
+
+//Approves a worker and changes their verification status from 0 to 1 in the database
+app.post('/changeCovidStatus', function(req, res) {
+    var user_uuid = req.body.uuid
+    var covid = req.body.covid
+    console.log(user_uuid);
+    console.log(covid);
+    if (covid == 1) {
+        db.connect(function(err) {
+            if (err) throw err;
+            var sql = "UPDATE Patient SET covid = " + 0 + " WHERE (user_uuid = '" + user_uuid + "');";
+            db.query(sql, function(err, result) {
+                if (err) throw err;
+                console.log("SET TO 0");
+            });
+        });
+        res.redirect('./doctorsPatientList')
+    } else {
+        db.connect(function(err) {
+            if (err) throw err;
+            var sql = "UPDATE Patient SET covid = " + 1 + " WHERE (user_uuid  = '" + user_uuid + "');";
+            db.query(sql, function(err, result) {
+                if (err) throw err;
+                console.log("SET TO 1");
+            });
+        });
+        res.redirect('./doctorsPatientList')
+    }
+})
 app.get('/doctorMessaging', (req, res) => {
     res.render('doctor_messaging.ejs')
 })
