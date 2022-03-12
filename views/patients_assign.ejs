@@ -77,33 +77,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <form>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Rachel</td>
-                                <td>Green</td>
-                                <td><select class="form-select form-select-doctor" aria-label="Default select example" name="doctor" required>
-                                  <option selected>Select</option>
-                                  <option value="AB">Alberta</option>
-                                  <option value="BC">British Columbia</option>
-                                  <option value="MB">Manitoba</option>
-                                  <option value="NB">New Brunswick</option>
-                                  <option value="NL">Newfoundland and Labrador</option>
-                                  <option value="NT">Northwest Territories</option>
-                                  <option value="NS">Nova Scotia</option>
-                                  <option value="NU">Nunavut</option>
-                                  <option value="ON">Ontario</option>
-                                  <option value="PE">Prince Edward Island</option>
-                                  <option value="QC">Quebec</option>
-                                  <option value="3">Saskatchewan</option>
-                                  <option value="YT">Yukon</option>
-                                </select>
-                                </td>
-                                <td style="text-align: right;">
-                                    <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                                </td>
-                            </tr>
-                        </form>
+                        <% for(let i=0; i<patients.length; i++){%>
+                            <form action="/patientsAssign" method="POST">
+                                <tr>
+                                    <th scope="row">
+                                        <%= i+1 %>
+                                    </th>
+                                    <td>
+                                        <%= patients[i].first_name %>
+                                    </td>
+                                    <td>
+                                        <%= patients[i].last_name %>
+                                    </td>
+                                    <td><select class="form-select form-select-doctor" aria-label="Default select example" name="doctor" required>
+                                      <option selected>Select</option>
+                                      <% for(let i=0; i<doctors.length; i++){%>
+                                        <option value='<%=doctors[i].uuid %>' > <%= doctors[i].first_name%> <%= doctors[i].last_name%>  </option>
+                                      <%} %> 
+                                      
+                                    </select>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <button type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button>
+                                    </td>
+                                </tr>
+                            </form>
+                            <%} %>
+
                     </tbody>
                 </table>
             </div>

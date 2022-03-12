@@ -184,10 +184,36 @@ app.get('/patientsAssign', (req, res) => {
     res.render('patients_assign.ejs')
 })
 
-app.post('/patientAssign', (req, res) => {
-    db.query("SELECT * FROM User", (err, result, field) => {
+app.post('/patientsAssign', (req, res) => {
+    try {
+        db.query("SELECT * FROM User WHERE permission_level = 'patient'OR permission_level='doctor'", (err, result, field) => {
+            try {
+                let patients = []
+                let doctors = []
+                let doctorCount = 0
+                let patientCount = 0
+                for (let i = 0; i < result.length; i++) {
+                    if (result[i].permission_level == 'patient') {
+                        patients[patientCount] = result[i]
+                        patientCount++
+                    } else {
+                        doctors[doctorCount] = result[i]
+                        doctorCount++
+                    }
+                }
+                // console.log(result)
+                console.log(doctors)
+                console.log(patients)
+                res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
 
-    })
+            } catch {
+
+            }
+        })
+    } catch (err) {
+        res.status(403).render("patients_assign.ejs", { error: err })
+    }
+
 })
 
 app.get('/selectDoctor', (req, res) => {
