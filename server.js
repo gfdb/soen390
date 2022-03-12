@@ -184,6 +184,12 @@ app.get('/patientsAssign', (req, res) => {
     res.render('patients_assign.ejs')
 })
 
+app.post('/patientAssign', (req, res) => {
+    db.query("SELECT * FROM User", (err, result, field) => {
+
+    })
+})
+
 app.get('/selectDoctor', (req, res) => {
     res.render('select_doctor.ejs')
 })

@@ -24,160 +24,109 @@
 </head>
 
 <body>
-   <!--Sidebar for Navigation-->
-   <div class="sidebar">
-    <a class="logoside" href="/adminIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
-    <a class="active" href="/adminIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
-    <a href="/approveRoles"><i class="fas fa-user-check"></i> Approve Roles</a>
-    <button class="dropdown-btn"><i class="fas fa-folder"></i> Doctor-Patient
+    <!--Sidebar for Navigation-->
+    <div class="sidebar">
+        <a class="logoside" href="/adminIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
+        <a class="active" href="/adminIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
+        <a href="/approveRoles"><i class="fas fa-user-check"></i> Approve Roles</a>
+        <button class="dropdown-btn"><i class="fas fa-folder"></i> Doctor-Patient
       <i class="fa fa-caret-down"></i>
     </button>
-    <div class="dropdown-container">
-    <a href="/patientsAssign">Assign Patients to Doctors</a>
-    <a href="/doctorMonitor">Monitor Patient Assignment</a>
-  </div>
-  </div>
+        <div class="dropdown-container">
+            <a href="/patientsAssign">Assign Patients to Doctors</a>
+            <a href="/doctorMonitor">Monitor Patient Assignment</a>
+        </div>
+    </div>
 
-  <!-- javascript to make dropdown functional & easy to add more elements -->
-  <script>
-  var dropdown = document.getElementsByClassName("dropdown-btn");
-  var i;
+    <!-- javascript to make dropdown functional & easy to add more elements -->
+    <script>
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
 
-  for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    }
-    else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-  </script>
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+    </script>
 
 
     <div class="content">
         <h1 class="title"><i class="fas fa-clipboard-check"></i> Assign Patients to a Doctor</h1>
         <div class="form">
-          <div class="col-md-12 doctors">
-              <div class="col-md-6">
-                  <h2>Patients</h2>
+            <div class="col-md-12 doctors">
+                <div class="col-md-6">
+                    <h2>Patients</h2>
 
-              </div>
-              <table class="table table-striped">
-                  <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col" style="text-align: right;">Select a Doctor</th>
-                      </tr>
+                </div>
+                <table class="table table-striped patient-doctor-select-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Select a Doctor</th>
+                            <th scope="col"></th>
+
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Rachel</td>
-                        <td>Green</td>
-                        <td style="text-align: right;">
-                          <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Monica</td>
-                          <td>Geller</td>
-                          <td style="text-align: right;">
-                              <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                        </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Phoebe</td>
-                        <td>Buffay</td>
-                        <td style="text-align: right;">
-                          <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">4</th>
-                        <td>Chandler</td>
-                        <td>Bing</td>
-                        <td style="text-align: right;">
-                          <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                     </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Joey</td>
-                          <td>Tribiani</td>
-                          <td style="text-align: right;">
-                              <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                        </tr>
-
-                        <tr>
-                          <th scope="row">5</th>
-                          <td>Ross</td>
-                          <td>Geller</td>
-                          <td style="text-align: right;">
-                              <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                        </tr>
-
-                        <tr>
-                          <th scope="row">6</th>
-                          <td>Janice</td>
-                          <td>Hosenstein</td>
-                          <td style="text-align: right;">
-                              <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                        </tr>
-
-
-                        <tr>
-                          <th scope="row">7</th>
-                          <td>Gunther</td>
-                          <td>NoLastName</td>
-                          <td style="text-align: right;">
-                              <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                        </tr>
-
-                        <tr>
-                          <th scope="row">8</th>
-                          <td>Ben</td>
-                          <td>Geller</td>
-                          <td style="text-align: right;">
-                              <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                       </td>
-                        </tr>
+                        <form>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Rachel</td>
+                                <td>Green</td>
+                                <td><select class="form-select form-select-doctor" aria-label="Default select example" name="doctor" required>
+                                  <option selected>Select</option>
+                                  <option value="AB">Alberta</option>
+                                  <option value="BC">British Columbia</option>
+                                  <option value="MB">Manitoba</option>
+                                  <option value="NB">New Brunswick</option>
+                                  <option value="NL">Newfoundland and Labrador</option>
+                                  <option value="NT">Northwest Territories</option>
+                                  <option value="NS">Nova Scotia</option>
+                                  <option value="NU">Nunavut</option>
+                                  <option value="ON">Ontario</option>
+                                  <option value="PE">Prince Edward Island</option>
+                                  <option value="QC">Quebec</option>
+                                  <option value="3">Saskatchewan</option>
+                                  <option value="YT">Yukon</option>
+                                </select>
+                                </td>
+                                <td style="text-align: right;">
+                                    <a href="selectDoctor"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
+                                </td>
+                            </tr>
+                        </form>
                     </tbody>
                 </table>
-          </div>
-          <!-- pagination nav -->
-          <nav aria-label="Page navigation">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-
-
+            </div>
+            <!-- pagination nav -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
     </div>
