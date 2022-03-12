@@ -84,15 +84,15 @@
                                         <%= i+1 %>
                                     </th>
                                     <td>
-                                        <%= patients[i].first_name %>
+                                        <input class="readonly-inputs" name="fname" value="<%= patients[i].first_name %>" type="text">
                                     </td>
                                     <td>
-                                        <%= patients[i].last_name %>
+                                        <input class="readonly-inputs" name="lname" value="<%= patients[i].last_name %>" type="text">
                                     </td>
                                     <td><select class="form-select form-select-doctor" aria-label="Default select example" name="doctor" required>
                                       <option selected>Select</option>
                                       <% for(let i=0; i<doctors.length; i++){%>
-                                        <option value='<%=doctors[i].uuid %>' > <%= doctors[i].first_name%> <%= doctors[i].last_name%>  </option>
+                                        <option value='<%=doctors[i].uuid %>' > <%= doctors[i].first_name%> <%= doctors[i].last_name%></option>
                                       <%} %> 
                                       
                                     </select>

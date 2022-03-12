@@ -181,10 +181,6 @@ app.get('/adminIndex', (req, res) => {
 })
 
 app.get('/patientsAssign', (req, res) => {
-    res.render('patients_assign.ejs')
-})
-
-app.post('/patientsAssign', (req, res) => {
     try {
         db.query("SELECT * FROM User WHERE permission_level = 'patient'OR permission_level='doctor'", (err, result, field) => {
             try {
@@ -202,8 +198,8 @@ app.post('/patientsAssign', (req, res) => {
                     }
                 }
                 // console.log(result)
-                console.log(doctors)
-                console.log(patients)
+                // console.log(doctors)
+                // console.log(patients)
                 res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
 
             } catch {
@@ -213,6 +209,16 @@ app.post('/patientsAssign', (req, res) => {
     } catch (err) {
         res.status(403).render("patients_assign.ejs", { error: err })
     }
+})
+
+app.post('/patientsAssign', (req, res) => {
+
+    console.log(req.body.fname)
+    console.log(req.body.lname)
+
+    res.status(200).redirect('/patientsAssign')
+
+
 
 })
 

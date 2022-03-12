@@ -189,6 +189,11 @@ h4.message {
     width: 40%;
 }
 
+.readonly-inputs {
+    border: none;
+    background: none;
+}
+
 
 /* 
 table {
