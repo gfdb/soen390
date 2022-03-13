@@ -354,7 +354,8 @@ app.post('/changeCovidStatus', function(req, res) {
 app.post('/doctorMessaging', function(req, res) {
     patient_uuid = req.body.uuid
     doctor_uuid = req.session.user.uuid
-
+    console.log(patient_uuid)
+    console.log(doctor_uuid)
     var messageList = []
 
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -393,7 +394,7 @@ app.post('/doctorMessaging', function(req, res) {
     {
     db.connect(function(err) {
         if (err) throw err;
-        patient_uuid = req.body.patientuuid
+        patient_uuid = req.body.uuid
         doctor_uuid = req.session.user.uuid
         message = req.body.doctormessage
         
@@ -444,8 +445,36 @@ app.post('/doctorMessaging', function(req, res) {
      //console.log(sql);
     db.query(sql, function(err, result) {
         if (err) console.log(err)
+        patient_uuid = req.body.uuid
+        doctor_uuid = req.session.user.uuid
+        doctorFirstName = ""
+        doctorLastName =""
+        patientFirstName = ""
+        patientLastName = ""
+       
 
-        if (doctor_uuid == result[0].sender_uuid)
+        if (result.length == 0)
+        {
+            console.log("I am inside empty message")
+            console.log(doctor_uuid)
+            console.log(patient_uuid)
+            var sql2 = "SELECT User.first_name,User.last_name FROM User WHERE User.uuid = '"+patient_uuid+"';"
+            db.query(sql2, function(err, result1) {
+                if (err) console.log(err)
+                patient_uuid = req.body.uuid
+                doctor_uuid = req.session.user.uuid
+                console.log(result1)
+               
+                patientFirstName = result1[0].first_name
+                patientLastName = result1[0].last_name
+            
+                res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,patientFirstName:patientFirstName,patientLastName:patientLastName,messageList:messageList })
+                
+            })
+        }
+        else
+        {
+         if (doctor_uuid == result[0].sender_uuid)
         {
             doctorFirstName = result[0].senderFirstName
             doctorLastName = result[0].senderLastName
@@ -459,7 +488,7 @@ app.post('/doctorMessaging', function(req, res) {
             patientFirstName = result[0].senderFirstName
             patientLastName = result[0].senderLastName
         }
-        //console.log(result)
+        
         for (let i = 0; i < result.length; i++) {
 
            
@@ -468,7 +497,7 @@ app.post('/doctorMessaging', function(req, res) {
             }
            
            res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,patientFirstName:patientFirstName,patientLastName:patientLastName,messageList:messageList })
-        
+        }
     })
     
    
@@ -527,7 +556,7 @@ app.post('/sendMessage', function(req, res) {
 })
 
 
-app.post('/patientMessaging', function(req, res) {
+app.get('/patientMessaging', function(req, res) {
     res.render('patient_messaging.ejs')
 })
 
