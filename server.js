@@ -352,7 +352,7 @@ app.post('/changeCovidStatus', function(req, res) {
     }
 })
 app.post('/doctorMessaging', function(req, res) {
-    patient_uuid = req.body.uuid
+    patient_uuid = req.body.patientuuid
     doctor_uuid = req.session.user.uuid
     console.log(patient_uuid)
     console.log(doctor_uuid)
@@ -394,7 +394,7 @@ app.post('/doctorMessaging', function(req, res) {
     {
     db.connect(function(err) {
         if (err) throw err;
-        patient_uuid = req.body.uuid
+        patient_uuid = req.body.patientuuid
         doctor_uuid = req.session.user.uuid
         message = req.body.doctormessage
         
