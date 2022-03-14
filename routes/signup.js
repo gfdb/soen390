@@ -25,15 +25,22 @@ router.post('/', async(req, res) => {
         db.query("SELECT email FROM User WHERE email = '" + user.email + "'", function(err, result, field) {
                 // if user does not exist 
                 if (result.length === 0) {
-                    db.connect((err) => {
-                            if (err) console.log(err)
-                            console.log("Connected!")
 
-                            // if no error, insert User model into the database
-                            var sql = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" +
-                                user.name + "','" + user.lastname + "','" + user.email + "','" + hashedPassword + "','" + user.permissionLevel + "')"
-                                // result/error handling
-                            db.query(sql, function(err, result) {
+
+                    // if no error, insert User model into the database
+                    const sqlUser = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" +
+                        user.name + "','" + user.lastname + "','" + user.email + "','" + hashedPassword + "','" + user.permissionLevel + "')"
+                        // result/error handling
+                    db.query(sqlUser, (err, result) => {
+                        if (err) console.log(err)
+                        else
+                            console.log("Number of records inserted: " + result)
+                    })
+                    db.query("SELECT uuid FROM User WHERE email = '" + user.email + "'", function(err, result, field) {
+
+                            const sqlAddress = "INSERT INTO Address (uuid, street_number,street_name , apartment_number, city, province, country, zipcode) VALUES ('" + result[0].uuid + "','" +
+                                null + "','" + req.body.address + "','" + req.body.address2 + "','" + req.body.city + "','" + req.body.province + "','" + null + "','" + req.body.zip + "')"
+                            db.query(sqlAddress, (err, result) => {
                                 if (err) console.log(err)
                                 else
                                     console.log("Number of records inserted: " + result)
