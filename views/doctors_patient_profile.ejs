@@ -38,34 +38,32 @@
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-address-card"></i> Profile</h1>
+        <h1 class="title"><i class="fas fa-address-card"></i> Patient Profile</h1>
 
         <div class="form">
             <%
-            if(patientinfo.length!=0){
-            var i=1;
-            patientinfo.forEach(function(data){                     
+            if(patientinfo) {
             %>
             <div class=" gap-2 mx-auto" style="text-align: center;">
             
 
                 <form action="/changeCovidStatus" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=data.uuid %>">
-                    <input type="hidden" name="covid" value="<%=data.covid %>">
+                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
+                    <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
                    
                     <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Change Patient's Covid status</button>
                 </form>
                 
                 <form action="/notifyExposure" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=data.uuid %>">
+                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
                     
                    
                     <button type="submit" class="btn-style btn btn-danger" data-bs-toggle="button" style="height: auto; width: 600px;">Inform Patient of Possible Covid Exposure</button>
                 </form>
 
                 <form action="/doctorMessaging" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=data.uuid %>">
-                    <input type="hidden" name="covid" value="<%=data.covid %>">
+                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
+                    <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
                    
                     <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Message this Patient</button>
                 </form>
@@ -81,18 +79,18 @@
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>First Name</b></label>
                     
-                    <p><%=data.first_name %></p>
+                    <p><%=patientinfo.first_name %></p>
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
                     
-                    <p><%=data.last_name %></p>
+                    <p><%=patientinfo.last_name %></p>
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>Email</b></label>
                    
-                    <p><%=data.email %></p>
+                    <p><%=patientinfo.email %></p>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label"><b>Address</b></label>
@@ -125,13 +123,13 @@
                             <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
                             
                              <%
-                            if(data.covid==1){
+                            if(patientinfo.covid==1){
                             
                                                  
                             %>
                            
                             <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
-                            <% } else if (data.covid==0) { %>
+                            <% } else if (patientinfo.covid==0) { %>
                             <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
                             <% } %>
                         </div>
@@ -142,10 +140,9 @@
                         </div>
                     </center>
                 </div>
-                <%  i++; }) %>
                 <% } else{ %>
                               <tr>
-                                  <td colspan="7">No Users Found</td>
+                                  <td colspan="7">Patient Not Found</td>
                               </tr>
                 <% } %>
                
