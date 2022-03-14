@@ -1,38 +1,54 @@
 //routes for login page
 const express = require('express')
 const router = express.Router()
-const passport = require('passport')
+const db = require('../database')
+const User = require('../models/user')
+const session = require('express-session')
+const store = new session.MemoryStore()
+const bcrypt = require('bcrypt')
+
+
+router.use(session({
+    secret: '123',
+    cookie: { maxAge: 30000000000000 },
+    store: store,
+    resave: true,
+    saveUninitialized: false
+}))
 
 // login post 
-router.post('/',
-    // login handler
-    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-    function(req, res) {
-        // if admin
-        if (req.user.permissionLevel.localeCompare('admin') === 0) {
-            console.log('admin')
-            res.redirect('/admin');
-        }
-        // if patient
-        if (req.user.permissionLevel.localeCompare('patient') === 0) {
-            console.log('patient')
-            res.redirect('/profile')
-        }
-        // if doctor
-        if (req.user.permissionLevel.localeCompare('doctor') === 0) {
-            console.log('doctor')
-            res.redirect('/profile')
-        }
-        // else
-        if (!req.user) {
-            console.log('other')
-        }
-    })
+router.post('/', (req, res) => {
+    try {
+        db.query('SELECT * FROM User WHERE User.email = \'' + req.body.email + '\'', async(err, rows) => {
+            try {
+                if (err) console.log(err)
+                if (rows.length == 0) throw new Error()
+                console.log(rows[0])
+
+                if (!await bcrypt.compare(req.body.password, rows[0].password)) throw new Error()
+
+                const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
+
+                req.session.authenticated = true
+                req.session.user = user
+
+                console.log(req.session.user)
+                req.session.save(() => { res.status(200).redirect('/profile') })
+            } catch {
+                res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
+            }
+        })
+    } catch (err) {
+        //some error
+        res.status(403).render("login_patient.ejs", { error: err })
+
+    }
+})
 
 // login 
 router.get('/', (req, res) => {
     res.render('login_patient.ejs', {
-        err_msg: req.session.messages
+        error: ''
     })
 
 

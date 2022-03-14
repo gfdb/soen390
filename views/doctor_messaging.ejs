@@ -43,34 +43,28 @@
           <img src="/img/user2.png">
         </div>
         <div class="activated">
-          <h4>John Lewis</h4>
-          <h6>3 hours ago...</h6>
+          <h4><%=patientFirstName%> <%=patientLastName %></h4>
+          
         </div>
       </div>
-
+  
       <div class="chat-page">
         <div class="msg-inbox">
           <div class="chats">
             <div class="msg-page">
+              
+                <%if(messageList.length!=0){%>
+                  <%var i=1;%>
+                  <% messageList.forEach(function(data){%>                     
+                
 
-
-                <div class="received-chats">
-                  <div class="received-chats-img">
-                    <img src="/img/user2.png">
-                  </div>
-                  <div class="received-msg">
-                    <div class="received-msg-inbox">
-                      <p>Hi! This is a sample message.</p>
-                      <span class="time">11:01 AM | October 11 </span>
-                    </div>
-                  </div>
-                </div>
+                <% if (data.sender_uuid == doctor_uuid){ %>
 
                 <div class="outgoing-chats">
 
                   <div class="outgoing-chats-msg">
-                      <p>Hi! This is a sample message back.</p>
-                      <span class="time">11:03 AM | October 11 </span>
+                      <p><%=data.message%></p>
+                      <span class="time"><%=data.date_time%> </span>
 
                   </div>
                   <div class="outgoing-chats-img">
@@ -78,29 +72,26 @@
                   </div>
                 </div>
 
+                <% } else {%>
                 <div class="received-chats">
                   <div class="received-chats-img">
                     <img src="/img/user2.png">
                   </div>
                   <div class="received-msg">
                     <div class="received-msg-inbox">
-                      <p>Wow! SOEN 390 is my favourite course.</p>
-                      <span class="time">11:05 AM | October 11 </span>
+                      <p><%=data.message%></p>
+                      <span class="time"><%=data.date_time%> </span>
                     </div>
                   </div>
                 </div>
 
-                <div class="outgoing-chats">
+                <% } i++; }) %>
+                <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Previous Conversation Found</td>
+                              </tr>
+                <% } %>
 
-                  <div class="outgoing-chats-msg">
-                      <p>Tell me about it! I can't get enough!</p>
-                      <span class="time">11:08 AM | October 11 </span>
-
-                  </div>
-                  <div class="outgoing-chats-img">
-                    <img src="/img/doctor_user.png">
-                  </div>
-                </div>
 
             </div>
           </div>
@@ -108,15 +99,25 @@
 
         <div class="msg-bottom">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Write a message...">
+            <form action="/doctorMessaging" method="POST" style="display: inline;">
+              <input type="hidden" name="doctoruuid" value="<%=doctor_uuid %>">
+              <input type="hidden" name="patientuuid" value="<%=patient_uuid %>">
+              <input type="hidden" name="check" value="true">
+              
+              
+            
+              <input type="text" class="form-control" placeholder="Write a message..." name="doctormessage">
+              
             <div class="input-group-append">
-              <span class="input-group-text"><i class="fa fa-paper-plane"></i></span>
+              <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Send</button>
             </div>
+          </form>
+
           </div>
         </div>
 
       </div>
-
+     
     </div>
 
   </div>

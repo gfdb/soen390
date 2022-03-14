@@ -87,14 +87,16 @@
             <form action="/login" method="POST">
                 <div style="padding-top: 60px; padding-left: 25%; padding-right: 25%;">
                     <label for="email" class="form-label">Email address</label>
-                    <%if(err_msg){%>
-                        <p style = "color: red;"><%=err_msg%></p>
-                            <%}%>
-                                <div class="input-group mb-3">
+                    <%if(error){%>
+                        <p style="color: red;">
+                            <%=error%>
+                        </p>
+                        <%}%>
+                            <div class="input-group mb-3">
 
-                                    <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="email" id='email' class="form-control" aria-label="email" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
-                                </div>
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                                <input type="email" id='email' class="form-control" aria-label="email" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
+                            </div>
                 </div>
                 <div class="mb-3" style="padding-top: 40px; padding-left: 25%; padding-right: 25%;">
                     <label for="password" class="form-label">Password</label>

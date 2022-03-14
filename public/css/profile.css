@@ -73,6 +73,10 @@ h1.title{
     padding: 20px; 
 }
 
+.btn-style {
+    margin-bottom: 5%;
+}
+
 
 /*-----Footer-----*/
 .footer {
