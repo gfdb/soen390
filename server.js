@@ -246,7 +246,7 @@ app.post('/patientsAssign', (req, res) => {
 app.get('/selectDoctor', (req, res) => {
     res.render('select_doctor.ejs')
 })
-app.get('/doctorsPatientList', checkAuthenticated, (req, res) => {
+app.get('/doctorsPatientList', checkDoctor, (req, res) => {
 
 
     const doctor_uuid = req.session.user.uuid
@@ -331,9 +331,10 @@ app.post('/doctorsPatientProfile', checkDoctor, function(req, res) {
     })
 })
 
-app.get('/doctorsPatientProfile', checkDoctor, function(req, res) {
-    // store doctor uuid
-    var doctor_uuid = req.session.user.uuid
+app.get('/doctorsPatientProfile/:patient_id', checkDoctor, function(req, res) {
+    // patient uuid
+    const patient_uuid = req.params.patient_id
+
     // initialize patient list
     var patientinfo = []
     
@@ -341,9 +342,7 @@ app.get('/doctorsPatientProfile', checkDoctor, function(req, res) {
     var sql = `
         Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
         FROM User u1, Patient
-        WHERE Patient.user_uuid in (SELECT Patient.user_uuid from Doctor, Patient 
-                                    WHERE Doctor.user_uuid = ${doctor_uuid} 
-                                    AND Doctor.patient_uuid = Patient.user_uuid) 
+        WHERE Patient.user_uuid = '${patient_uuid}'
         AND Patient.user_uuid = u1.uuid;`
 
     // query the database with above query
@@ -356,7 +355,7 @@ app.get('/doctorsPatientProfile', checkDoctor, function(req, res) {
             patientinfo.push(result[i])
 
         console.log(patientinfo)
-        res.render('doctors_patient_profile.ejs', { patientinfo: patientinfo })
+        res.render('doctors_patient_profile.ejs', { patientinfo: patientinfo[0] })
     })
 })
 
