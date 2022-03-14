@@ -63,12 +63,8 @@
                     <td><%=data.last_name %></td>
                     <td style="text-align: right;">
 
-                      <form action="/doctorsPatientProfile" method="POST">
-                                  <input type="hidden" name="uuid" value="<%=data.uuid %>">
                                   
-                                  <button type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button>
-                      </form>
-
+                    <a href = "/doctorsPatientProfile/<%= data.uuid %>" type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></a>
 
                       
                    </td>
@@ -133,11 +129,7 @@
                     <td style="text-align: right;">
                       
 
-                      <form action="/doctorsPatientProfile" method="POST">
-                                  <input type="hidden" name="uuid" value="<%=data.uuid%>">
-                                  
-                                  <button type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button>
-                      </form>
+                    <a href = "/doctorsPatientProfile/<%= data.uuid %>" type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></a>
 
                       
                    </td>                  
