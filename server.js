@@ -51,13 +51,18 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 
-// session config
-// app.use(session({
-//     secret: 'secret',
-//     resave: true,
-//     saveUninitialized: true,
-// }));
-
+// check if current user is a doctor
+function checkDoctor(req, res, next) {
+    if (!req.session.authenticated) {
+        // redirect to login if user is not logged in
+        res.status(403).redirect('/login')
+    }
+    // check if they are a doctor
+    else if (req.session.user.permissionLevel.localeCompare('doctor') === 0)
+        return next()
+    // 403 forbidden if the user is not a doctor
+    res.status(403).redirect('/')
+}
 
 //path for home
 app.get('/', (req, res) => {
@@ -244,13 +249,19 @@ app.get('/selectDoctor', (req, res) => {
 app.get('/doctorsPatientList', checkAuthenticated, (req, res) => {
 
 
-
+    const doctor_uuid = req.session.user.uuid
     var positivepatientList = []
     var negativepatientList = []
 
     //Queries for the list of workers that have yet to be approved by the admin
+    var sql = `
+        Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
+        FROM User u1, Patient
+        WHERE Patient.user_uuid in (SELECT Patient.user_uuid from Doctor, Patient 
+                                    WHERE Doctor.user_uuid = ${doctor_uuid} 
+                                    AND Doctor.patient_uuid = Patient.user_uuid) 
+        AND Patient.user_uuid = u1.uuid;`
 
-    var sql = "Select User.first_name, User.last_name, User.permission_level,Patient.covid,User.uuid FROM User,Patient Where User.uuid = Patient.user_uuid AND Patient.doctor_uuid = '" + req.session.user.uuid + "' AND permission_level = 'patient';";
     db.query(sql, function(err, result) {
         if (err) console.log(err)
 
@@ -281,7 +292,7 @@ app.get('/doctorsPatientList', checkAuthenticated, (req, res) => {
 })
 
 
-app.post('/doctorsPatientProfile', function(req, res) {
+app.post('/doctorsPatientProfile', checkDoctor, function(req, res) {
     var user_uuid = req.body.uuid
     var patientinfo = []
         //Queries for the list of workers that have yet to be approved by the admin
@@ -316,6 +327,35 @@ app.post('/doctorsPatientProfile', function(req, res) {
             //}   
         }
 
+        res.render('doctors_patient_profile.ejs', { patientinfo: patientinfo })
+    })
+})
+
+app.get('/doctorsPatientProfile', checkDoctor, function(req, res) {
+    // store doctor uuid
+    var doctor_uuid = req.session.user.uuid
+    // initialize patient list
+    var patientinfo = []
+    
+    //Query for the list of patients of the logged in doctor
+    var sql = `
+        Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
+        FROM User u1, Patient
+        WHERE Patient.user_uuid in (SELECT Patient.user_uuid from Doctor, Patient 
+                                    WHERE Doctor.user_uuid = ${doctor_uuid} 
+                                    AND Doctor.patient_uuid = Patient.user_uuid) 
+        AND Patient.user_uuid = u1.uuid;`
+
+    // query the database with above query
+    db.query(sql, function(err, result) {
+        // if error, print it
+        if (err) console.log(err)
+
+        // create list of patients returned from the query
+        for (let i = 0; i < result.length; i++)
+            patientinfo.push(result[i])
+
+        console.log(patientinfo)
         res.render('doctors_patient_profile.ejs', { patientinfo: patientinfo })
     })
 })
