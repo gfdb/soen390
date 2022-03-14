@@ -76,7 +76,11 @@
 
     </nav>
 
-
+    <%
+    if(User.length!=0){
+    var i=1;
+    User.forEach(function(data){                     
+    %>
 
     <div class="content">
         <h1 class="title"><i class="fas fa-address-card"></i> Edit Profile</h1>
@@ -87,24 +91,24 @@
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">First Name</label>
-                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    <input type="text" class="form-control" value="<%=data.first_name %>" aria-label="First name" >
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                    <input type="text" class="form-control" value="<%=data.last_name %>" aria-label="Last name">
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com">
+                    <input type="email" class="form-control" id="inputEmail4" value="<%=data.email %>">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    <input type="text" class="form-control" id="inputAddress" value="1234 Main St">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label">Address 2</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                    <input type="text" class="form-control" id="inputAddress2" value="Apartment, studio, or floor">
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label">City</label>
@@ -131,7 +135,7 @@
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1">
+                    <input type="text" class="form-control" id="inputZip" value="X1X 1X1">
                 </div>
                 <div class="col-12">
                     <label for="inputState" class="form-label">Covid Status</label>
@@ -146,11 +150,18 @@
                     <textarea class="form-control" aria-label="With textarea"></textarea>
                 </div>
                 <div class="submitbtn">
-                    <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
+                    <form action="profile/edit" method="POST">
+                        <input type="hidden" name="email" value="<%=data.email %>">
+                        <input type="hidden" name="first_name" value="<%=data.first_name %>">
+                        <input type="hidden" name="last_name" value="<%=data.last_name %>">
+                        <button type="submit" class="btn btn-outline-danger btn-lg"><i class="fas fa-times"></i>Submit</button>
+                      </form>
+                    
 
                 </div>
 
-
+                <%  i++; }) %>
+                <% } %>
             </form>
 
 
