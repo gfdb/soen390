@@ -24,6 +24,14 @@
 </head>
 
 <body>
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -113,8 +121,7 @@
                     <label for="inputAddress" class="form-label"><b>Address</b></label>
                     <!-- <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"> -->
                     <p>
-                        <%= address.street_number %>
-                            <%= address.street_name %>
+                        <%= address.street_name %>
                     </p>
                 </div>
                 <div class="col-12">

@@ -16,14 +16,40 @@ router.get('/edit', (req, res) => {
 })
 
 router.post('/edit', (req, res) => {
-    var sql = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" +
-        user.name + "','" + user.lastname + "','" + user.email + "','" + hashedPassword + "','" + user.permissionLevel + "')"
-        // result/error handling
-    db.query(sql, function(err, result) {
-        if (err) console.log(err)
-        else
-            console.log("Number of records inserted: " + result)
-    })
+    try {
+        var sql = 'Update User, Address SET User.first_name = \'' + req.body.firstName + '\', User.last_name = \'' +
+            req.body.lastName + '\', User.email= \'' + req.body.email + '\', Address.street_name = \'' +
+            req.body.address + '\', Address.apartment_number = \'' + req.body.appartment + '\', Address.city = \'' + req.body.city + '\', Address.province = \'' +
+            req.body.province + '\', Address.zipcode = \'' + req.body.zip + '\' WHERE User.uuid = \'' + req.session.user.uuid + '\' AND Address.uuid = \'' + req.session.address.uuid + '\''
+        db.query(sql, (err, result) => {
+            try {
+                if (err) throw new Error(err)
+                    // console.log(result[0])
+                req.session.user.name = req.body.firstName
+                req.session.user.lastname = req.body.lastName
+                req.session.user.email = req.body.email
+
+                req.session.address.street_name = req.body.street_name
+                req.session.address.apartment_number = req.body.appartment
+                req.session.address.city = req.body.city
+                req.session.address.province = req.body.province
+                req.session.address.zip = req.body.zip
+                req.session.save()
+
+                console.log(req.session.user.name)
+
+                console.log("updated: " + result[0])
+
+            } catch (err) {
+                console.log(err, '1')
+
+            }
+
+        })
+    } catch (err) {
+        console.log(err, '2')
+    }
+    res.status(200).redirect('/profile')
 
 })
 
