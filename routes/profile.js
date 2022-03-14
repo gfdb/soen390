@@ -36,7 +36,7 @@ router.post('/edit', (req, res) => {
                 req.session.address.zip = req.body.zip
                 req.session.save()
 
-                console.log(req.session.user.name)
+                console.log(req.session.address.street_name)
 
                 console.log("updated: " + result[0])
 
