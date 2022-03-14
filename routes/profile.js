@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
 
 // edit profile
 router.get('/edit', (req, res) => {
-
     res.render('edit-profile.ejs', { user: req.session.user, address: req.session.address })
 })
 
@@ -25,20 +24,25 @@ router.post('/edit', (req, res) => {
             try {
                 if (err) throw new Error(err)
                     // console.log(result[0])
+                console.log(req.session.address)
+
+                //updating user in session
                 req.session.user.name = req.body.firstName
                 req.session.user.lastname = req.body.lastName
                 req.session.user.email = req.body.email
 
-                req.session.address.street_name = req.body.street_name
+                //updating address in session
+                req.session.address.street_name = req.body.address
                 req.session.address.apartment_number = req.body.appartment
                 req.session.address.city = req.body.city
                 req.session.address.province = req.body.province
                 req.session.address.zip = req.body.zip
+
                 req.session.save()
 
-                console.log(req.session.address.street_name)
 
-                console.log("updated: " + result[0])
+
+                // console.log("updated: " + result[0])
 
             } catch (err) {
                 console.log(err, '1')
