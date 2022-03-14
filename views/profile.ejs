@@ -90,33 +90,46 @@
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>First Name</b></label>
                     <!-- <input type="text" class="form-control" placeholder="First name" aria-label="First name"> -->
-                    <p>John</p>
+                    <p>
+                        <%= user.name %>
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
                     <!-- <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"> -->
-                    <p>Smith</p>
+                    <p>
+                        <%= user.lastname %>
+                    </p>
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label"><b>Email</b></label>
                     <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                    <p>email@example.com</p>
+                    <p>
+                        <%= user.email %>
+                    </p>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label"><b>Address</b></label>
                     <!-- <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"> -->
-                    <p>123 concordia st.</p>
+                    <p>
+                        <%= address.street_number %>
+                            <%= address.street_name %>
+                    </p>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
                     <!-- <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"> -->
-                    <p>appt. 100</p>
+                    <p>appt.
+                        <%= address.appartment_number %>
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label"><b>City</b></label>
                     <!-- <input type="text" class="form-control" id="inputCity"> -->
-                    <p>Montreal</p>
+                    <p>
+                        <%= address.city %>
+                    </p>
                 </div>
 
                 <div class="col-md-4">
@@ -137,12 +150,16 @@
             <option value="3">Saskatchewan</option>
             <option value="YT">Yukon</option>
           </select> -->
-                    <p>Quebec</p>
+                    <p>
+                        <%= address.province %>
+                    </p>
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label"><b>Zip</b></label>
                     <!-- <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1"> -->
-                    <p>h1h h1h</p>
+                    <p>
+                        <%= address.zip %>
+                    </p>
                 </div>
                 <div class="covid">
                     <center>

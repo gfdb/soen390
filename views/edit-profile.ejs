@@ -63,7 +63,7 @@
 
                 <li class="nav-item dropdown">
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="/">Logout</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
 
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
@@ -87,24 +87,25 @@
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">First Name</label>
-                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                    <input type="text" class="form-control" name="firstName" value="<%= user.name %> " aria-label="First name">
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                    <input type="text" class="form-control" name="lastName" value="<%= user.lastname %>" aria-label="Last name">
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com">
+                    <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= user.email %>">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    <input type="text" class="form-control" id="inputAddress" name="address" value=<%=a ddress.street_number %>
+                    <%= address.street_name %>>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label">Address 2</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                    <input type="text" class="form-control" id="inputAddress2" name="appartment" value="<%= address.appartment_number %>">
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label">City</label>
