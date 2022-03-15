@@ -7,6 +7,7 @@ const Address = require('../models/address')
 const session = require('express-session')
 const store = new session.MemoryStore()
 const bcrypt = require('bcrypt')
+const Patient = require('../models/patient')
 
 
 router.use(session({
@@ -20,7 +21,7 @@ router.use(session({
 // login post 
 router.post('/', (req, res) => {
     try {
-        db.query('SELECT * FROM User,Address WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid', async(err, rows) => {
+        db.query('SELECT * FROM User,Address,Patient WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid AND User.uuid=Patient.user_uuid', async(err, rows) => {
             try {
 
                 if (err) console.log(err)
@@ -31,10 +32,13 @@ router.post('/', (req, res) => {
 
                 const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
                 const address = new Address(rows[0].uuid, rows[0].street_number, rows[0].street_name, rows[0].apartment_number, rows[0].city, rows[0].province, rows[0].zipcode)
+                const patient = new Patient(rows[0].user_uuid,rows[0].covid,rows[0].symptoms, rows[0].doctor_uuid, rows[0].diary)
+                
                 req.session.authenticated = true
                 req.session.user = user
                 req.session.address = address
-
+                req.session.patient = patient
+                console.log(req.session.patient)
 
                 // console.log(req.session.address)
                 req.session.save(() => { res.status(200).redirect('/profile') })
