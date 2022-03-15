@@ -5,21 +5,23 @@ const db = require('../database')
 // profile
 router.get('/', (req, res) => {
 
-    res.render('profile.ejs', { user: req.session.user, address: req.session.address })
+    res.render('profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
 
 })
 
 // edit profile
 router.get('/edit', (req, res) => {
-    res.render('edit-profile.ejs', { user: req.session.user, address: req.session.address })
+    res.render('edit-profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
 })
 
 router.post('/edit', (req, res) => {
     try {
-        var sql = 'Update User, Address SET User.first_name = \'' + req.body.firstName + '\', User.last_name = \'' +
+        var sql = 'Update User, Address, Patient SET User.first_name = \'' + req.body.firstName + '\', User.last_name = \'' +
             req.body.lastName + '\', User.email= \'' + req.body.email + '\', Address.street_name = \'' +
             req.body.address + '\', Address.apartment_number = \'' + req.body.appartment + '\', Address.city = \'' + req.body.city + '\', Address.province = \'' +
-            req.body.province + '\', Address.zipcode = \'' + req.body.zip + '\' WHERE User.uuid = \'' + req.session.user.uuid + '\' AND Address.uuid = \'' + req.session.address.uuid + '\''
+            req.body.province + '\', Address.zipcode = \'' + req.body.zip + '\' , Patient.symptoms = \'' + req.body.symptoms 
+            + '\' , Patient.diary = \'' + req.body.diary + '\'  WHERE User.uuid = \'' + req.session.user.uuid + '\' AND Address.uuid = \'' + req.session.address.uuid 
+            + '\' AND Patient.user_uuid = \'' + req.session.user.uuid + '\' '
         db.query(sql, (err, result) => {
             try {
                 if (err) throw new Error(err)
@@ -38,6 +40,11 @@ router.post('/edit', (req, res) => {
                 req.session.address.province = req.body.province
                 req.session.address.zip = req.body.zip
 
+                //updating patient in session
+                req.session.patient.symptoms = req.body.symptoms
+                req.session.patient.diary = req.body.diary
+
+                console.log(req.session.patient)
                 req.session.save()
 
 
