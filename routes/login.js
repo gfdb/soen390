@@ -47,15 +47,20 @@ router.post('/', (req, res) => {
                 if(user.permissionLevel === 'patient'){
                     
                     try{
-                        db.query('Select * From User, Patient Where User.email = \'' + req.body.email + '\' AND User.uuid=Patient.user_uuid', async(err, rows2) => {
+                        try{
+                            db.query('Select * From User, Patient Where User.email = \'' + req.body.email + '\' AND User.uuid=Patient.user_uuid', async(err, rows2) => {
                             
-                            //set session patient variable with patient model
-                            const patient = new Patient(rows2[0].user_uuid,rows2[0].covid,rows2[0].symptoms, rows2[0].diary)
-                            req.session.patient = patient
-                            console.log(req.session.patient)
-                            req.session.save(() => { res.status(200).redirect('/profile') })
+                                //set session patient variable with patient model
+                                const patient = new Patient(rows2[0].user_uuid,rows2[0].covid,rows2[0].symptoms, rows2[0].diary)
+                                req.session.patient = patient
+                                console.log(req.session.patient)
+                                req.session.save(() => { res.status(200).redirect('/profile') })
+                            
+                            })
+                        }catch{
+                            res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
+                        }
                         
-                        })
 
                     }catch{
                         res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
