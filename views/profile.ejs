@@ -174,7 +174,15 @@
                         <div class="col-md-12">
                             <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
                             <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
+                            <%
+                            if(patient.covid==1){
+                                                
+                            %>
+                           
                             <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
+                            <% } else if (patient.covid==0) { %>
+                            <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
+                            <% } %>
                         </div>
                         <div class="col-md-12 covid" style="background-color: beige;">
                             <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
