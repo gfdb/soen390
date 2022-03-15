@@ -300,10 +300,10 @@ app.get('/doctorsPatientProfile/:patient_id', checkDoctor, function(req, res) {
     
     //Query for the list of patients of the logged in doctor
     var sql = `
-        Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
-        FROM User u1, Patient
+        Select  u1.uuid ,u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms,Patient.diary, Address.street_number,Address.street_name , Address.apartment_number, Address.city, Address.province, Address.country, Address.zipcode
+        FROM User u1, Patient,Address
         WHERE Patient.user_uuid = '${patient_uuid}'
-        AND Patient.user_uuid = u1.uuid;`
+        AND Patient.user_uuid = u1.uuid AND Address.uuid = u1.uuid;`
 
     // query the database with above query
     db.query(sql, function(err, result) {
