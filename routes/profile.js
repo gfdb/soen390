@@ -16,6 +16,7 @@ router.get('/edit', (req, res) => {
 
 router.post('/edit', (req, res) => {
     try {
+        //query to update user, address and patient info of user with the form info
         var sql = 'Update User, Address, Patient SET User.first_name = \'' + req.body.firstName + '\', User.last_name = \'' +
             req.body.lastName + '\', User.email= \'' + req.body.email + '\', Address.street_name = \'' +
             req.body.address + '\', Address.apartment_number = \'' + req.body.appartment + '\', Address.city = \'' + req.body.city + '\', Address.province = \'' +
@@ -44,7 +45,7 @@ router.post('/edit', (req, res) => {
                 req.session.patient.symptoms = req.body.symptoms
                 req.session.patient.diary = req.body.diary
 
-                console.log(req.session.patient)
+                
                 req.session.save()
 
 

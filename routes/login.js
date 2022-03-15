@@ -30,15 +30,17 @@ router.post('/', (req, res) => {
 
                 if (!await bcrypt.compare(req.body.password, rows[0].password)) throw new Error()
 
+                //creating user, address, patient model variables
                 const user = new User(rows[0].uuid, rows[0].first_name, rows[0].last_name, rows[0].email, rows[0].permission_level)
                 const address = new Address(rows[0].uuid, rows[0].street_number, rows[0].street_name, rows[0].apartment_number, rows[0].city, rows[0].province, rows[0].zipcode)
-                const patient = new Patient(rows[0].user_uuid,rows[0].covid,rows[0].symptoms, rows[0].doctor_uuid, rows[0].diary)
+                const patient = new Patient(rows[0].user_uuid,rows[0].covid,rows[0].symptoms, rows[0].diary)
                 
+                //setting session variables to model variables
                 req.session.authenticated = true
                 req.session.user = user
                 req.session.address = address
                 req.session.patient = patient
-                console.log(req.session.patient)
+                
 
                 // console.log(req.session.address)
                 req.session.save(() => { res.status(200).redirect('/profile') })
