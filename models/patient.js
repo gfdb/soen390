@@ -3,9 +3,7 @@ module.exports = class Patient {
         this.uuid = uuid
         this.covid = covid
         this.symptoms = symptoms
-        
         // this.address_uuid = address_uuid
-        
         this.diary = diary
     }
 }
