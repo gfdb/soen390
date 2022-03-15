@@ -184,6 +184,10 @@ app.get('/adminIndex', (req, res) => {
     res.render('admin_index.ejs')
 })
 
+app.get('/healthOfficial', (req, res) => {
+    res.render('health_official.ejs')
+})
+
 app.get('/patientsAssign', (req, res) => {
     try {
         db.query("SELECT * FROM User WHERE (permission_level = 'patient'OR permission_level='doctor') AND User.uuid NOT IN (SELECT Patient.user_uuid FROM Patient)", (err, result) => {
