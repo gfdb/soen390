@@ -99,12 +99,7 @@
 
         <div class="msg-bottom">
           <div class="input-group">
-            <form action="/doctorMessaging" method="POST" style="display: inline;">
-              <input type="hidden" name="doctoruuid" value="<%=doctor_uuid %>">
-              <input type="hidden" name="patientuuid" value="<%=patient_uuid %>">
-              <input type="hidden" name="check" value="true">
-              
-              
+            <form action="/doctorMessaging/<%=patient_uuid %>" method="POST" style="display: inline;">
             
               <input type="text" class="form-control" placeholder="Write a message..." name="doctormessage">
               

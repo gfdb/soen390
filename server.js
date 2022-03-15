@@ -360,61 +360,63 @@ app.post('/changeCovidStatus', function(req, res) {
         res.status(200).redirect('./doctorsPatientList')
     }
 })
-app.post('/doctorMessaging', function(req, res) {
-    patient_uuid = req.body.uuid
-    doctor_uuid = req.session.user.uuid
+
+app.post('/doctorMessaging/:patient_uuid', function(req, res) {
+
+    
+    db.connect(function(err) {
+        if (err) throw err;
+        patient_uuid = req.params.patient_uuid
+        doctor_uuid = req.session.user.uuid
+        message = req.body.doctormessage
+        console.log(patient_uuid)
+        
+        let date_ob = new Date();
+
+        // current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+        // current year
+        let year = date_ob.getFullYear();
+
+        // current hours
+        let hours = date_ob.getHours();
+
+        // current minutes
+        let minutes = date_ob.getMinutes();
+
+        // current seconds
+        let seconds = date_ob.getSeconds();
+        
+        var sql = "INSERT INTO Messages  VALUES ('"+doctor_uuid+"','"+patient_uuid+"','"+message+"','"+year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds+"')";
+        db.query(sql, function(err, result) {
+            if (err) throw err;
+           
+            res.status(200).redirect(req.originalUrl)
+        
+    });})
+
+})
+
+
+app.get('/doctorMessaging/:patient_uuid', function(req, res) {
+    const patient_uuid = req.params.patient_uuid
+    const doctor_uuid = req.session.user.uuid
 
     var messageList = []
 
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
-    let date_ob = new Date();
-
-    // current date
-    // adjust 0 before single digit date
-    let date = ("0" + date_ob.getDate()).slice(-2);
-
-    // current month
-    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-
-    // current year
-    let year = date_ob.getFullYear();
-
-    // current hours
-    let hours = date_ob.getHours();
-
-    // current minutes
-    let minutes = date_ob.getMinutes();
-
-    // current seconds
-    let seconds = date_ob.getSeconds();
 
    
-    
-    // console.log(req.body.messageList)
-    // console.log(doctor_uuid)
-    // console.log(patient_uuid)
-    // console.log(message)
-    // console.log(patientFirstName)
 
-    if (req.body.check)
-    {
-    db.connect(function(err) {
-        if (err) throw err;
-        patient_uuid = req.body.patientuuid
-        doctor_uuid = req.session.user.uuid
-        message = req.body.doctormessage
-        
-        
-        console.log(messageList[0])
-        var sql = "INSERT INTO Messages  VALUES ('"+doctor_uuid+"','"+patient_uuid+"','"+message+"','"+year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds+"')";
-        db.query(sql, function(err, result) {
-            if (err) throw err;
-           
-        
-        
-    });})}
+
+ 
 
     const sql = `
         SELECT * FROM (SELECT message.sender_uuid,message.receiver_uuid,message.message,message.first_name as senderFirstName, message.last_name AS senderLastName, message.date_time,receiver.first_name AS receiverFirstName, receiver.last_name AS receiverLastName
@@ -444,8 +446,8 @@ app.post('/doctorMessaging', function(req, res) {
     
         db.query(sql, function(err, result) {
             if (err) console.log(err)
-            patient_uuid = req.body.uuid
-            doctor_uuid = req.session.user.uuid
+           // patient_uuid = req.params.patient_uuid
+           // doctor_uuid = req.session.user.uuid
             doctorFirstName = ""
             doctorLastName =""
             patientFirstName = ""
@@ -459,8 +461,8 @@ app.post('/doctorMessaging', function(req, res) {
                 var sql2 = "SELECT User.first_name,User.last_name FROM User WHERE User.uuid = '"+patient_uuid+"';"
                 db.query(sql2, function(err, result1) {
                     if (err) console.log(err)
-                    patient_uuid = req.body.uuid
-                    doctor_uuid = req.session.user.uuid
+                  //  patient_uuid = req.params.patient_uuid
+                  //  doctor_uuid = req.session.user.uuid
                     console.log(result1)
                    
                     patientFirstName = result1[0].first_name
@@ -489,9 +491,12 @@ app.post('/doctorMessaging', function(req, res) {
                 for (let i = 0; i < result.length; i++)
                     messageList.push(result[i])
 
-               res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,patientFirstName:patientFirstName,patientLastName:patientLastName,messageList:messageList })
+               //res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,patientFirstName:patientFirstName,patientLastName:patientLastName,messageList:messageList })
             }
+
+            res.render('doctor_messaging.ejs',{ doctor_uuid: doctor_uuid,patient_uuid: patient_uuid,patientFirstName:patientFirstName,patientLastName:patientLastName,messageList:messageList })
         })
+
 })
 
 

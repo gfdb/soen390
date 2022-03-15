@@ -61,12 +61,10 @@
                     <button type="submit" class="btn-style btn btn-danger" data-bs-toggle="button" style="height: auto; width: 600px;">Inform Patient of Possible Covid Exposure</button>
                 </form>
 
-                <form action="/doctorMessaging" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
-                    <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
+                
                    
-                    <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Message this Patient</button>
-                </form>
+                <a href = "/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Message this Patient</a>
+                
             
             </div>
             <!--            
