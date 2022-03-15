@@ -45,7 +45,8 @@ router.post('/', async(req, res) => {
                                 else
                                     console.log("Number of records inserted: " + result)
                             })
-                            if(user.permissionLevel = 'patient'){
+                            
+                            if(req.body.permissionLevel === 'patient'){
                                 
                                 //query to insert patient info into patient table
                                 const sqlPatient = "INSERT INTO Patient (user_uuid, covid, symptoms, diary) Values ('"
@@ -56,11 +57,12 @@ router.post('/', async(req, res) => {
                                     else
                                         console.log("Number of records inserted: " + result)
                                 })
+                                
                             }
                             
                         })
                         
-                        
+                    
                     // redirect to profile
                     res.redirect('../profile')
                         // else if user does exist, return error message
