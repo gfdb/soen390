@@ -48,6 +48,7 @@ router.post('/', (req, res) => {
                     
                     try{
                         try{
+                            //query to find patient info using user email and user id
                             db.query('Select * From User, Patient Where User.email = \'' + req.body.email + '\' AND User.uuid=Patient.user_uuid', async(err, rows2) => {
                             
                                 //set session patient variable with patient model
