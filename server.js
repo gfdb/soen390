@@ -257,7 +257,7 @@ app.get('/doctorsPatientList', checkDoctor, (req, res) => {
     const doctor_uuid = req.session.user.uuid
     var positivepatientList = []
     var negativepatientList = []
-
+    var allpatients = [] 
     //Queries for the list of workers that have yet to be approved by the admin
     var sql = `
         Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
@@ -273,7 +273,7 @@ app.get('/doctorsPatientList', checkDoctor, (req, res) => {
         for (let i = 0; i < result.length; i++) {
 
             covid = result[i].covid
-
+            allpatients.push(result[i])
             //Sorts users based on role
             switch (covid) {
                 case 1:
@@ -287,7 +287,7 @@ app.get('/doctorsPatientList', checkDoctor, (req, res) => {
                     throw "Error: No patient found when retrieving assigned patients for this doctor!"
             }
         }
-        res.render('doctors_patient_list.ejs', { positivepatients: positivepatientList, negativepatients: negativepatientList })
+        res.render('doctors_patient_list.ejs', {  allpatients:allpatients})
     })
 })
 

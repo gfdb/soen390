@@ -20,7 +20,7 @@
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="css/adminBackground.css">
-
+   
 </head>
 
 <body>
@@ -39,28 +39,40 @@
     <div class="form">
       <div class="col-md-12 frame">
           <div class="col-md-6">
-              <h2>Covid Positive Patients</h2>
+              <h2>Patients Assigned to me</h2>
 
           </div>
-          <table class="table table-striped">
+          <h2>Covid Status</h2>
+          <select id="list1" onchange="myFunction()" class='form-control'>
+            <option></option>
+          <option>POSITIVE</option>
+          <option>NEGATIVE</option>
+          </select>
+          <table class="table table-striped" id="table1">
               <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
+                    <th scope="col">Covid Status</th>
                     <th scope="col" style="text-align: right;">View Patient's Profile</th>
                   </tr>
                 </thead>
                 <tbody>
                   <%
-                            if(positivepatients.length!=0){
+                            if(allpatients.length!=0){
                               var i=1;
-                            positivepatients.forEach(function(data){                     
+                            allpatients.forEach(function(data){                     
                             %>
                   <tr>
                     <th scope="row"><%=i; %></th>
                     <td><%=data.first_name %></td>
                     <td><%=data.last_name %></td>
+                    <% if(data.covid == 1){%>
+                      <td>POSITIVE</td>
+                    <%} else {%>
+                      <td>NEGATIVE</td>
+                    <%}%>
                     <td style="text-align: right;">
 
                                   
@@ -101,70 +113,7 @@
       </div>
 
 
-      <div class="col-md-12 frame">
-        <div class="col-md-6">
-            <h2>Covid Negative Patients</h2>
-
-        </div>
-        <table class="table table-striped">
-              <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col" style="text-align: right;">View Patient's Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <%
-                            if(negativepatients.length!=0){
-                              var i=1;
-                            negativepatients.forEach(function(data){                     
-                            %>
-                  <tr>
-                    <th scope="row"><%=i; %></th>
-                    <td><%=data.first_name %></td>
-                    <td><%=data.last_name %></td>
-                    
-                    <td style="text-align: right;">
-                      
-
-                    <a href = "/doctorsPatientProfile/<%= data.uuid %>" type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></a>
-
-                      
-                   </td>                  
-                  
-                  </tr>
-                  <%  i++; }) %>
-                  <% } else{ %>
-                    <tr>
-                      <td colspan="7">No Patients Found</td>
-                    </tr>
-                  <% } %>
-                    
-                </tbody>
-            </table>
-          <!-- pagination nav -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    
 
 
     </div>
@@ -192,6 +141,30 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
+
+    
+    <script language="javascript" type="text/javascript">  
+        function myFunction() {
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("list1");
+          filter = input.value.toUpperCase();
+          
+          table = document.getElementById("table1");
+          tr = table.getElementsByTagName("tr");
+          console.log(table);
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            console.log(td)
+            if (td) {
+              if (td.innerHTML.toUpperCase() == filter ) {
+                tr[i].style.display = "" ;
+              } else {
+                tr[i].style.display = "none";
+              }
+            }       
+          }
+        } 
+    </script> 
 </body>
 
 </html>
