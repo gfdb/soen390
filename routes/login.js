@@ -37,17 +37,19 @@ router.post('/', (req, res) => {
                 const address = new Address(rows[0].uuid, rows[0].street_number, rows[0].street_name, rows[0].apartment_number, rows[0].city, rows[0].province, rows[0].zipcode)
                 
                 
-                //setting session variables to model variables
+                //setting session user and address variables to model variables
                 
                 req.session.authenticated = true
-                
                 req.session.user = user
                 req.session.address = address
+
+                //if the user is a patient display the profile page
                 if(user.permissionLevel === 'patient'){
+                    
                     try{
                         db.query('Select * From User, Patient Where User.email = \'' + req.body.email + '\' AND User.uuid=Patient.user_uuid', async(err, rows2) => {
                             
-                            
+                            //set session patient variable with patient model
                             const patient = new Patient(rows2[0].user_uuid,rows2[0].covid,rows2[0].symptoms, rows2[0].diary)
                             req.session.patient = patient
                             console.log(req.session.patient)
@@ -61,6 +63,7 @@ router.post('/', (req, res) => {
                     
                     
                 }
+                //if not a patient redirect to home page after login
                 else{
                     // console.log(req.session.address)
                     

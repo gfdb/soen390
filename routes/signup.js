@@ -46,12 +46,14 @@ router.post('/', async(req, res) => {
                                     console.log("Number of records inserted: " + result)
                             })
                             
+                            //if the patient role is selected, create a patient object in database
                             if(req.body.permissionLevel === 'patient'){
                                 
                                 //query to insert patient info into patient table
                                 const sqlPatient = "INSERT INTO Patient (user_uuid, covid, symptoms, diary) Values ('"
                                 + result[0].uuid +"','" + 0 + "','" + "add via edit profile" + "','" + "add via edit profile" + "')"
 
+                                //run the query
                                 db.query(sqlPatient, (err, result) => {
                                     if (err) console.log(err)
                                     else
