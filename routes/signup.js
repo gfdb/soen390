@@ -37,7 +37,7 @@ router.post('/', async(req, res) => {
                             console.log("Number of records inserted: " + result)
                     })
                     db.query("SELECT uuid FROM User WHERE email = '" + user.email + "'", function(err, result, field) {
-
+                            console.log(result[0].uuid)
                             const sqlAddress = "INSERT INTO Address (uuid, street_number,street_name , apartment_number, city, province, country, zipcode) VALUES ('" + result[0].uuid + "','" +
                                 null + "','" + req.body.address + "','" + req.body.address2 + "','" + req.body.city + "','" + req.body.province + "','" + null + "','" + req.body.zip + "')"
                             db.query(sqlAddress, (err, result) => {
@@ -45,8 +45,17 @@ router.post('/', async(req, res) => {
                                 else
                                     console.log("Number of records inserted: " + result)
                             })
+                            const sqlPatient = "INSERT INTO Patient (user_uuid, covid, symptoms, doctor_uuid, diary) Values ('"+ result[0].uuid +"','" + 0 + "','" + "" + "','"+ 1 +"','" + "" + "')"
+
+                            db.query(sqlPatient, (err, result) => {
+                                if (err) console.log(err)
+                                else
+                                    console.log("Number of records inserted: " + result)
+                            })
                         })
                         // redirect to profile
+                        //"INSERT INTO Patient (uuid, covid, symptoms, doctor_uuid, diary) Values ('"+ result[0].uuid +"','" + 0 + "','" + "" + "','"+ 0 +"','" + "" + "')"
+                    
                     res.redirect('../profile')
                         // else if user does exist, return error message
                 } else {
