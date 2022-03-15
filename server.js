@@ -487,7 +487,7 @@ app.get('/patientMessaging', function(req, res) {
 
     db.connect(function(err) { 
     // This query will check if the patient is assigned to a doctor. if yes, he/she will be able to message the doctor.
-    var sql = `SELECT Doctor.user_uuid FROM Doctor WhERE Doctor.patient_uuid = ${patient_uuid}`
+    var sql = `SELECT Doctor.user_uuid FROM Doctor WhERE Doctor.patient_uuid = '${patient_uuid}'`
     db.query(sql, function(err, result) {
         if (err) throw err;
 
