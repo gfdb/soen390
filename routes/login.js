@@ -21,13 +21,13 @@ router.use(session({
 // login post 
 router.post('/', (req, res) => {
     try {
-        db.query('SELECT * FROM User,Address WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid', async(err, rows) => {
+        db.query('SELECT * FROM User, Address WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid', async(err, rows) => {
             try {
                 
                 if (err) console.log(err)
                 
                 if (rows.length == 0) throw new Error()
-                    console.log(rows[0])
+                    // console.log(rows[0])
                 
                 if (!await bcrypt.compare(req.body.password, rows[0].password)) throw new Error()
 
@@ -64,6 +64,7 @@ router.post('/', (req, res) => {
                         
 
                     }catch{
+                        console.log(rows[0])
                         res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                     }
                     
