@@ -49,7 +49,7 @@
                     <a class="nav-link" href="/profile"><i class="fas fa-address-card"></i> Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contactdoctor"><i class="fas fa-stethoscope"></i> Contact Your Doctor</a>
+                    <a class="nav-link" href="/patientMessaging"><i class="fas fa-stethoscope"></i> Contact Your Doctor</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
@@ -85,8 +85,8 @@
                   <img src="/img/doctor_user.png">
                 </div>
                 <div class="activated">
-                  <h4>Dr. Corona</h4>
-                  <h6>3 hours ago...</h6>
+                  <h4>Dr. <%=doctorLastName %> </h4>
+                  
                 </div>
               </div>
 
@@ -94,42 +94,60 @@
                 <div class="msg-inbox">
                   <div class="chats">
                     <div class="msg-page">
-
-
-                        <div class="received-chats">
-                          <div class="received-chats-img">
-                            <img src="/img/doctor_user.png">
-                          </div>
-                          <div class="received-msg">
-                            <div class="received-msg-inbox">
-                              <p>Hi! This is a sample message.</p>
-                              <span class="time">11:01 AM | October 11 </span>
-                            </div>
-                          </div>
-                        </div>
-
+                      <%if(messageList.length!=0){%>
+                        <%var i=1;%>
+                        <% messageList.forEach(function(data){%>                     
+                      
+      
+                      <% if (data.sender_uuid == patient_uuid){ %>
                         <div class="outgoing-chats">
 
                           <div class="outgoing-chats-msg">
-                              <p style="background-color: #a8a8a8">Hi! This is a sample message back.</p>
-                              <span class="time">11:03 AM | October 11 </span>
+                              <p style="background-color: #a8a8a8"><%=data.message%></p>
+                              <span class="time"><%=data.date_time%>  </span>
 
                           </div>
+                          
                           <div class="outgoing-chats-img">
                             <img src="/img/user2.png">
                           </div>
                         </div>
-
+                        
+                        <% } else {%>
+                          <div class="received-chats">
+                            <div class="received-chats-img">
+                              <img src="/img/doctor_user.png">
+                            </div>
+                            <div class="received-msg">
+                              <div class="received-msg-inbox">
+                                <p><%=data.message%></p>
+                                <span class="time"><%=data.date_time%> </span>
+                              </div>
+                            </div>
+                          </div>
+                        <% } i++; }) %>
+                      <% } else{ %>
+                          <tr>
+                              <td colspan="7">No Previous Conversation Found</td>
+                          </tr>
+                        <% } %>
+                        
+                       
                     </div>
                   </div>
                 </div>
 
-                <div class="msg-bottom" style="background-color: #5e5e5e">
+                <div class="msg-bottom">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Write a message...">
+                    <form action="/patientMessaging" method="POST" style="display: inline;">
+                    
+                      <input type="text" class="form-control" placeholder="Write a message..." name="patientmessage">
+                      
                     <div class="input-group-append">
-                      <span class="input-group-text"><i class="fa fa-paper-plane"></i></span>
+                      <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Send</button>
                     </div>
+                  </form>
+        
                   </div>
                 </div>
 
