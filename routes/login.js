@@ -21,9 +21,11 @@ router.use(session({
 // login post 
 router.post('/', (req, res) => {
     try {
+        //Query to find user infor that matched the login form email, outputs user info and their address info
         db.query('SELECT * FROM User, Address WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid', async(err, rows) => {
             try {
                 
+                //log any query errors and throw an error if now rows are found
                 if (err) console.log(err)
                 
                 if (rows.length == 0) throw new Error()
@@ -82,7 +84,7 @@ router.post('/', (req, res) => {
 
                 
             } catch {
-                
+                //display invalid credentials if login fails or user with that email is not found
                 res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }
         })

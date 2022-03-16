@@ -5,12 +5,14 @@ const db = require('../database')
 // profile
 router.get('/', (req, res) => {
 
+    //render profile page and send session user, address and patient info
     res.render('profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
 
 })
 
 // edit profile
 router.get('/edit', (req, res) => {
+    //render edit profile page and send session user, address and patient info
     res.render('edit-profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
 })
 
