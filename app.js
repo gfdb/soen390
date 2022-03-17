@@ -162,7 +162,7 @@ app.post('/verifyWorker', checkAdmin, function(req, res) {
     db.connect(function(err) {
         if (err) throw err;
         //update worker verified status in worked database, finds worker by user id
-        var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user_uuid + " );";
+        var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  '" + user_uuid + "' );";
         db.query(sql, function(err, result) {
             if (err) throw err;
             console.log(result);
