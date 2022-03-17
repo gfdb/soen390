@@ -1,4 +1,4 @@
-const server_modules = require('../../server')
+const server_modules = require('../../app')
 const supertest = require("supertest")
 const request = supertest(server_modules.app)
 const { describe } = require('mocha');
