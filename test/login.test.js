@@ -11,9 +11,12 @@ describe('GET /login', () => {
             // make a get request to the login page
 
             const response = await request.get("/login")
-
-            // expect the response's status code
-            // to be 200 (OK)
+                .send({
+                    email: 'david@example.com',
+                    password: 'd'
+                })
+                .set("Content-Type", "application/x-www-form-urlencoded")
+                .type("form")
             expect(response.statusCode).to.equal(200)
         })
     })
