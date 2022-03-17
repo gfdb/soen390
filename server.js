@@ -638,6 +638,10 @@ app.post('/patientMessaging', function(req, res) {
 
 })
 
+app.get('/doctorIndex', (req, res) => {
+    res.render('doctor_index.ejs')
+})
+
 
 //server start on port 3000
 var app_server = app.listen(3000)
