@@ -607,7 +607,7 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
     let seconds = date_ob.getSeconds();
 
     db.connect(function(err) {
-        var sql = `SELECT Doctor.user_uuid FROM Doctor WhERE Doctor.patient_uuid = ${patient_uuid}` // fetch the doctor's uuid
+        var sql = `SELECT Doctor.user_uuid FROM Doctor WhERE Doctor.patient_uuid = '${patient_uuid}'` // fetch the doctor's uuid
         db.query(sql, function(err, result1) {
             if (err) throw err;
             const doctor_uuid = result1[0].user_uuid
