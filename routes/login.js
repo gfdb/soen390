@@ -1,4 +1,6 @@
 //routes for login page
+
+//create variable which require info from other files
 const express = require('express')
 const router = express.Router()
 const db = require('../database')
@@ -9,7 +11,7 @@ const store = new session.MemoryStore()
 const bcrypt = require('bcrypt')
 const Patient = require('../models/patient')
 
-
+//create session
 router.use(session({
     secret: '123',
     cookie: { maxAge: 30000000000000 },
@@ -21,9 +23,11 @@ router.use(session({
 // login post 
 router.post('/', (req, res) => {
     try {
+        //Query to find user infor that matched the login form email, outputs user info and their address info
         db.query('SELECT * FROM User, Address WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid', async(err, rows) => {
             try {
                 
+                //log any query errors and throw an error if now rows are found
                 if (err) console.log(err)
                 
                 if (rows.length == 0) throw new Error()
@@ -59,11 +63,13 @@ router.post('/', (req, res) => {
                             
                             })
                         }catch{
+                            //catch error and display invalid credentials
                             res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                         }
                         
 
                     }catch{
+                        //catch error and display invalid credentials
                         console.log(rows[0])
                         res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                     }
@@ -82,12 +88,12 @@ router.post('/', (req, res) => {
 
                 
             } catch {
-                
+                //display invalid credentials if login fails or user with that email is not found
                 res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
             }
         })
     } catch (err) {
-        //some error
+        //renders an error on login_patient page
         res.status(403).render("login_patient.ejs", { error: err })
 
     }
