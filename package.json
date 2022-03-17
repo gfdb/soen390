@@ -9,8 +9,8 @@
     },
     "scripts": {
         "start": "node app.js",
-        "test": "mocha --file ./test/teardown.test.js --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --file ./test/teardown.test.js  --exit",
-        "intTest": "mocha --file ./test/teardown.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js  --file ./test/teardown.test.js --exit",
+        "test": "mocha  --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --exit",
+        "intTest": "mocha --file ./test/integration-tests/doctor-msg.test.js --file ./test/integration-tests/patient-msg.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js   --file ./test/integration-tests/edit-profile.test.js --exit",
         "coverage": "nyc --report=text npm run test",
         "teardown": "mocha ./test/teardown.test.js --exit",
         "coverage-full": "nyc --reporter=lcov --report=text npm run intTest && npm run teardown && npm run test",
@@ -36,6 +36,7 @@
         "express": "^4.17.2",
         "express-flash": "^0.0.2",
         "express-session": "^1.17.2",
+        "jest": "^27.5.1",
         "mysql2": "^2.3.3",
         "node": "14.18.3",
         "npm": ">=7.0.0",

@@ -20,8 +20,8 @@ describe('Integration main to login', () => {
                 // valid user credentials
                 const login = await request.post('/login')
                     .send({
-                        email: 'second@user.com',
-                        password: 'second'
+                        email: 'david@example.com',
+                        password: 'd'
                     })
                     .set("Content-Type", "application/x-www-form-urlencoded")
                     .type("form")
@@ -47,7 +47,7 @@ describe('Integration main to login', () => {
                     .type("form")
                     // expect to be redirected to the login page
                     // to try again
-                expect(login.statusCode).to.equal(302)
+                expect(login.statusCode).to.equal(403)
 
             })
 

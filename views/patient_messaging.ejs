@@ -19,12 +19,14 @@
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/homepage.css">
+    <link rel="stylesheet" href="/css/background.css">
+    <link rel="stylesheet" href="/css/messagingBackground.css">
 
     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
 </head>
 
 <body>
+
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -59,54 +61,103 @@
 
 
                 <!-- Dropdown -->
-                <% if (authenticated) { %>
                     <li>
                         <a class="nav-link" href="/logout"><i></i>Logout</a>
                     </li>
-                    <%} else { %>
-                        <li>
-                            <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <!--Backend should add a way to modify login button to logout button-->
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="/login">Login</a>
-                            </div>
-
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
-
-                        </li>
-                        <% } %>
-
-
 
             </ul>
         </div>
 
     </nav>
 
+    <div class="sidebar" style="background-color: #e6e6e6">
+        <a ><h4>Meet your doctor!</h4></a>
+        <a ><h6>Send them a message if you have any questions.</h6></a>
+
+      </div>
 
 
-    <div class="info homePad">
-        <h1>Welcome!</h1>
-        <h2>Get ready to explore our many features <br>designed just for you.<br><br></h2>
-        <!--
-        <div class="zoom">
-            <h5><a id=links href="/signup"><i class="fas fa-user-plus"></i> Create your account today.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-briefcase-medical"></i> Stay connected with a doctor.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-info-circle"></i> Stay informed about Covid-19 in your area.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-virus-slash"></i> Stay healthy.<br><br></a></h5>
-        </div>-->
+<div class="content">
+    <div class="info-home">
+        <div class="container" style="max-width: 1000px">
+              <div class="msg-header" style="background-color: #5e5e5e">
+                <div class="msg-header-img">
+                  <img src="/img/doctor_user.png">
+                </div>
+                <div class="activated">
+                  <h4>Dr. <%=doctorLastName %> </h4>
+                  
+                </div>
+              </div>
+
+              <div class="chat-page">
+                <div class="msg-inbox">
+                  <div class="chats">
+                    <div class="msg-page">
+                      <%if(messageList.length!=0){%>
+                        <%var i=1;%>
+                        <% messageList.forEach(function(data){%>                     
+                      
+      
+                      <% if (data.sender_uuid == patient_uuid){ %>
+                        <div class="outgoing-chats">
+
+                          <div class="outgoing-chats-msg">
+                              <p style="background-color: #a8a8a8"><%=data.message%></p>
+                              <span class="time"><%=data.date_time%>  </span>
+
+                          </div>
+                          
+                          <div class="outgoing-chats-img">
+                            <img src="/img/user2.png">
+                          </div>
+                        </div>
+                        
+                        <% } else {%>
+                          <div class="received-chats">
+                            <div class="received-chats-img">
+                              <img src="/img/doctor_user.png">
+                            </div>
+                            <div class="received-msg">
+                              <div class="received-msg-inbox">
+                                <p><%=data.message%></p>
+                                <span class="time"><%=data.date_time%> </span>
+                              </div>
+                            </div>
+                          </div>
+                        <% } i++; }) %>
+                      <% } else{ %>
+                          <tr>
+                              <td colspan="7">No Previous Conversation Found</td>
+                          </tr>
+                        <% } %>
+                        
+                       
+                    </div>
+                  </div>
+                </div>
+
+                <div class="msg-bottom">
+                  <div class="input-group">
+                    <form action="/patientMessaging" method="POST" style="display: inline;">
+                    
+                      <input type="text" class="form-control" placeholder="Write a message..." name="patientmessage">
+                      
+                    <div class="input-group-append">
+                      <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Send</button>
+                    </div>
+                  </form>
+        
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
 
     </div>
 
-
+</div>
 
     <!--Footer Bar-->
     <!--Footer-->
