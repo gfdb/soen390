@@ -18,7 +18,7 @@ router.post('/', async(req, res) => {
         // hash the password the user entered
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-        // create user model with sign up info
+        // create user model with dat from sign up form
         const user = new User(null, req.body.name, req.body.lastName, req.body.email, req.body.permissionLevel)
 
         // query the database to check that a user with that email does not already exist
@@ -27,7 +27,7 @@ router.post('/', async(req, res) => {
                 if (result.length === 0) {
 
 
-                    // if no error, insert User model into the database
+                    // if no error, insert new User model into the database
                     const sqlUser = "INSERT INTO User (uuid, first_name, last_Name, email, password, permission_level) VALUES (UUID(),'" +
                         user.name + "','" + user.lastname + "','" + user.email + "','" + hashedPassword + "','" + user.permissionLevel + "')"
                         // result/error handling
@@ -36,8 +36,10 @@ router.post('/', async(req, res) => {
                         else
                             console.log("Number of records inserted: " + result)
                     })
+                    //query to find user id with email from sign up form
                     db.query("SELECT uuid FROM User WHERE email = '" + user.email + "'", function(err, result, field) {
-                            //query to insert form info into address table
+                            
+                        //query to insert form info into address table
                             const sqlAddress = "INSERT INTO Address (uuid, street_number,street_name , apartment_number, city, province, country, zipcode) VALUES ('" + result[0].uuid + "','" +
                                 null + "','" + req.body.address + "','" + req.body.address2 + "','" + req.body.city + "','" + req.body.province + "','" + null + "','" + req.body.zip + "')"
                             db.query(sqlAddress, (err, result) => {

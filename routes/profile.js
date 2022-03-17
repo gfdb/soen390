@@ -5,12 +5,14 @@ const db = require('../database')
 // profile
 router.get('/', (req, res) => {
 
+    //render profile page and send session user, address and patient info
     res.render('profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
 
 })
 
 // edit profile
 router.get('/edit', (req, res) => {
+    //render edit profile page and send session user, address and patient info
     res.render('edit-profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
 })
 
@@ -25,9 +27,10 @@ router.post('/edit', (req, res) => {
             + '\' AND Patient.user_uuid = \'' + req.session.user.uuid + '\' '
         db.query(sql, (err, result) => {
             try {
+                //throw error if query fails
                 if (err) throw new Error(err)
                     // console.log(result[0])
-                console.log(req.session.address)
+                
 
                 //updating user in session
                 req.session.user.name = req.body.firstName
@@ -45,12 +48,12 @@ router.post('/edit', (req, res) => {
                 req.session.patient.symptoms = req.body.symptoms
                 req.session.patient.diary = req.body.diary
 
-                
+                //save session data
                 req.session.save()
 
 
 
-                // console.log("updated: " + result[0])
+                
 
             } catch (err) {
                 console.log(err, '1')
@@ -61,6 +64,7 @@ router.post('/edit', (req, res) => {
     } catch (err) {
         console.log(err, '2')
     }
+    //once query is completed redirect to profile page
     res.status(200).redirect('/profile')
 
 })
