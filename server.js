@@ -65,13 +65,13 @@ function checkAdmin(req, res, next) {
 function checkDoctor(req, res, next) {
     if (!req.session.authenticated) {
         // redirect to login if user is not logged in
-        res.status(403).redirect('/login')
+        return res.status(403).redirect('/login')
     }
     // check if they are a doctor
     else if (req.session.user.permissionLevel.localeCompare('doctor') === 0)
         return next()
-            // 403 forbidden if the user is not a doctor
-    res.status(403).redirect('/')
+    // 403 forbidden if the user is not a doctor
+    return res.status(403).redirect('/')
 }
 
 //path for home
@@ -80,7 +80,7 @@ app.get('/', (req, res) => {
 })
 
 //logout
-app.get('/logout', (req, res) => {
+app.get('/logout', checkAuthenticated, (req, res) => {
     req.session.destroy()
         // req.logout()
     res.redirect('/')
@@ -107,7 +107,7 @@ app.use('/messaging', checkAuthenticated, messagingRouter)
 // check if authenticated
 
 //added newly from front-end- probably need fixes on the backend
-app.get('/approveRoles', (req, res) => {
+app.get('/approveRoles', checkAdmin, (req, res) => {
     var doctorList = []
     var nurseList = []
     var healthOffList = []
@@ -157,7 +157,7 @@ app.get('/approveRoles', (req, res) => {
 })
 
 //Approves a worker and changes their verification status from 0 to 1 in the database
-app.post('/verifyWorker', function(req, res) {
+app.post('/verifyWorker', checkAdmin, function(req, res) {
     var user_uuid = req.body.uuid
     db.connect(function(err) {
         if (err) throw err;
@@ -172,7 +172,7 @@ app.post('/verifyWorker', function(req, res) {
 })
 
 //Denies a worker and removes them from the Worker table in the database, thus removing their application
-app.post('/denyWorker', function(req, res) {
+app.post('/denyWorker', checkAdmin, function(req, res) {
     var user_uuid = req.body.uuid
     db.connect(function(err) {
         if (err) throw err;
@@ -187,15 +187,15 @@ app.post('/denyWorker', function(req, res) {
 })
 
 //app get requests for doctor and admin pages
-app.get('/doctorMonitor', (req, res) => {
+app.get('/doctorMonitor', checkAdmin, (req, res) => {
     res.render('doctor_monitor.ejs')
 })
 
-app.get('/assignedPatients', (req, res) => {
+app.get('/assignedPatients', checkAdmin, (req, res) => {
     res.render('assigned_patients.ejs')
 })
 
-app.get('/adminIndex', (req, res) => {
+app.get('/adminIndex', checkAdmin, (req, res) => {
     res.render('admin_index.ejs')
 })
 
@@ -240,10 +240,8 @@ app.get('/patientsAssign', checkAdmin, (req, res) => {
     }
 })
 
-app.post('/patientsAssign', (req, res) => {
-
-
-
+app.post('/patientsAssign', checkAdmin, (req, res) => {
+   
     const sql = `INSERT INTO Doctor (user_uuid, patient_uuid) 
         VALUES ('${req.body.doctor}', '${req.body.patient_uuid}')`
 
@@ -253,16 +251,13 @@ app.post('/patientsAssign', (req, res) => {
             console.log(result[0])
     })
     res.status(200).redirect('/patientsAssign')
-
-
-
 })
 
-app.get('/selectDoctor', (req, res) => {
+app.get('/selectDoctor', checkAdmin, (req, res) => {
     res.render('select_doctor.ejs')
 })
-app.get('/doctorsPatientList', checkDoctor, (req, res) => {
 
+app.get('/doctorsPatientList', checkDoctor, (req, res) => {
 
     const doctor_uuid = req.session.user.uuid
     var positivepatientList = []
@@ -333,7 +328,7 @@ app.get('/doctorsPatientProfile/:patient_id', checkDoctor, function(req, res) {
 
 
 //Approves a worker and changes their verification status from 0 to 1 in the database
-app.post('/changeCovidStatus', function(req, res) {
+app.post('/changeCovidStatus', checkDoctor, function(req, res) {
     var user_uuid = req.body.uuid
     var covid = req.body.covid
         // check if status is 1, then change it to 0 and vice versa   
@@ -360,57 +355,12 @@ app.post('/changeCovidStatus', function(req, res) {
     }
 })
 
-app.post('/doctorMessaging/:patient_uuid', checkAuthenticated, function(req, res) {
-
-
-    db.connect(function(err) {
-        if (err) throw err;
-        patient_uuid = req.params.patient_uuid
-        doctor_uuid = req.session.user.uuid
-        message = req.body.doctormessage
-        console.log(patient_uuid)
-
-        let date_ob = new Date();
-
-        // current date
-        // adjust 0 before single digit date
-        let date = ("0" + date_ob.getDate()).slice(-2);
-
-        // current month
-        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-
-        // current year
-        let year = date_ob.getFullYear();
-
-        // current hours
-        let hours = date_ob.getHours();
-
-        // current minutes
-        let minutes = date_ob.getMinutes();
-
-        // current seconds
-        let seconds = date_ob.getSeconds();
-        // This query will insert the message that the doctor sent to the Messages table in the database
-        var sql = "INSERT INTO Messages  VALUES ('" + doctor_uuid + "','" + patient_uuid + "','" + message + "','" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')";
-        db.query(sql, function(err, result) {
-            if (err) throw err;
-
-            res.status(200).redirect(req.originalUrl)
-
-        });
-    })
-
-})
-
-
-app.get('/doctorMessaging/:patient_uuid', function(req, res) {
+app.get('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
     const patient_uuid = req.params.patient_uuid
     const doctor_uuid = req.session.user.uuid
 
     var messageList = []
-
-
-
+ 
     // This query will get the list of messages that the doctor and patient engaged in ordered by time
     const sql = `
         SELECT * FROM (SELECT message.sender_uuid,message.receiver_uuid,message.message,message.first_name as senderFirstName, message.last_name AS senderLastName, message.date_time,receiver.first_name AS receiverFirstName, receiver.last_name AS receiverLastName
@@ -483,6 +433,46 @@ app.get('/doctorMessaging/:patient_uuid', function(req, res) {
 
         res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
     })
+
+})
+
+app.post('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
+
+    db.connect(function(err) {
+        if (err) throw err;
+        patient_uuid = req.params.patient_uuid
+        doctor_uuid = req.session.user.uuid
+        message = req.body.doctormessage
+        console.log(patient_uuid)
+        
+        let date_ob = new Date();
+
+        // current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+        // current year
+        let year = date_ob.getFullYear();
+
+        // current hours
+        let hours = date_ob.getHours();
+
+        // current minutes
+        let minutes = date_ob.getMinutes();
+
+        // current seconds
+        let seconds = date_ob.getSeconds();
+        // This query will insert the message that the doctor sent to the Messages table in the database
+        var sql = "INSERT INTO Messages  VALUES ('"+doctor_uuid+"','"+patient_uuid+"','"+message+"','"+year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds+"')";
+        db.query(sql, function(err, result) {
+            if (err) throw err;
+           
+            res.status(200).redirect(req.originalUrl)
+        
+    });})
 
 })
 
@@ -637,7 +627,7 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
 
 })
 
-app.get('/doctorIndex', (req, res) => {
+app.get('/doctorIndex', checkDoctor, (req, res) => {
     res.render('doctor_index.ejs')
 })
 

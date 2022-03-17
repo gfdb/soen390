@@ -75,8 +75,13 @@ function login(req, res) {
                         console.log(rows[0])
                         res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                     }
-
-
+                    
+                // if the user is a doctor, bring them straight to doctor page
+                } else if (user.permissionLevel === 'doctor') {
+                    req.session.save(() => { res.status(200).redirect('/doctorIndex') })
+                // if user is admin, bring them directly to admin page
+                } else if (user.permissionLevel === 'admin') {
+                    req.session.save(() => { res.status(200).redirect('/adminIndex') })
                 }
                 //if not a patient redirect to home page after login
                 else {
