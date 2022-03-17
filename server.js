@@ -71,7 +71,7 @@ function checkDoctor(req, res, next) {
     else if (req.session.user.permissionLevel.localeCompare('doctor') === 0)
         return next()
     // 403 forbidden if the user is not a doctor
-    res.status(403).redirect('/')
+    res.render('index.ejs', { authenticated: req.session.authenticated })
 }
 
 //path for home
