@@ -65,13 +65,13 @@ function checkAdmin(req, res, next) {
 function checkDoctor(req, res, next) {
     if (!req.session.authenticated) {
         // redirect to login if user is not logged in
-        res.status(403).redirect('/login')
+        return res.status(403).redirect('/login')
     }
     // check if they are a doctor
     else if (req.session.user.permissionLevel.localeCompare('doctor') === 0)
         return next()
     // 403 forbidden if the user is not a doctor
-    res.render('index.ejs', { authenticated: req.session.authenticated })
+    return res.status(403).redirect('/')
 }
 
 //path for home
