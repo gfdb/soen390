@@ -20,7 +20,7 @@
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="css/adminBackground.css">
+    <link rel="stylesheet" href="/css/adminBackground.css">
 
 
 </head>
@@ -31,7 +31,9 @@
         <a class="logoside" href=""><img class="logo" src="/img/logo.png" alt="logo"></a>
         <a class="active" href=""><i class="fab fa-canadian-maple-leaf"></i> Home</a>
         <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My patients</a>
-        <a href=""><i class="fas fa-comment-medical"></i> Contact Patients</a>
+        <div>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
      
       </div>
 
@@ -63,7 +65,7 @@
 
                 
                    
-                <a href = "/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Message this Patient</a>
+                <a href = "/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
                 
             
             </div>
