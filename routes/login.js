@@ -1,4 +1,6 @@
 //routes for login page
+
+//create variable which require info from other files
 const express = require('express')
 const router = express.Router()
 const db = require('../database')
@@ -9,7 +11,7 @@ const store = new session.MemoryStore()
 const bcrypt = require('bcrypt')
 const Patient = require('../models/patient')
 
-
+//create session
 router.use(session({
     secret: '123',
     cookie: { maxAge: 30000000000000 },
@@ -61,11 +63,13 @@ router.post('/', (req, res) => {
                             
                             })
                         }catch{
+                            //catch error and display invalid credentials
                             res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                         }
                         
 
                     }catch{
+                        //catch error and display invalid credentials
                         console.log(rows[0])
                         res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                     }
@@ -89,7 +93,7 @@ router.post('/', (req, res) => {
             }
         })
     } catch (err) {
-        //some error
+        //renders an error on login_patient page
         res.status(403).render("login_patient.ejs", { error: err })
 
     }
