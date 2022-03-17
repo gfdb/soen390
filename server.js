@@ -37,6 +37,7 @@ app.use(session({
     // middleware
     // app.use(express.urlencoded({ extended: true }));
 
+//function to check if user is not authenticated
 function checkAuthenticated(req, res, next) {
     if (req.session.authenticated) {
         return next()
@@ -44,6 +45,7 @@ function checkAuthenticated(req, res, next) {
     res.status(200).redirect('/login')
 }
 
+//function to check if user is not authenticated
 function checkNotAuthenticated(req, res, next) {
     if (req.session.authenticated) {
         return res.status(200).redirect('/profile')
@@ -97,6 +99,7 @@ app.use('/profile', checkAuthenticated, profileRouter)
 const loginRouter = require('./routes/login')
 app.use('/login', checkNotAuthenticated, loginRouter)
 
+//messaging
 const messagingRouter = require('./routes/messaging')
 app.use('/messaging', checkAuthenticated, messagingRouter)
 
@@ -113,6 +116,8 @@ app.get('/approveRoles', checkAdmin, (req, res) => {
     db.connect((err) => {
         if (err) console.log(err)
         console.log("Connected!")
+
+        //query that selects info from worker and user based of a join on user id
         var sql = `
             SELECT Worker.role, User.first_name, User.last_name, Worker.user_uuid, User.email 
             FROM Worker, User 
@@ -121,6 +126,7 @@ app.get('/approveRoles', checkAdmin, (req, res) => {
         db.query(sql, function(err, result) {
             if (err) console.log(err)
 
+            //iterate through worker list length and sort workers by their type (nurse, doctor etc.)
             for (let i = 0; i < result.length; i++) {
 
                 role = result[i].role
@@ -142,6 +148,7 @@ app.get('/approveRoles', checkAdmin, (req, res) => {
                         throw "Error: No role found when retrieving worker!"
                 }
             }
+            //render approve roles page passing to it the list of roles
             res.render('approve_roles.ejs', { doctors: doctorList, nurses: nurseList, healthOfficials: healthOffList, immigrationOfficers: immigrationOffList })
         })
     })
@@ -154,6 +161,7 @@ app.post('/verifyWorker', checkAdmin, function(req, res) {
     var user_uuid = req.body.uuid
     db.connect(function(err) {
         if (err) throw err;
+        //update worker verified status in worked database, finds worker by user id
         var sql = "UPDATE Worker SET verified =  1  WHERE ( user_uuid  =  " + user_uuid + " );";
         db.query(sql, function(err, result) {
             if (err) throw err;
@@ -168,6 +176,7 @@ app.post('/denyWorker', checkAdmin, function(req, res) {
     var user_uuid = req.body.uuid
     db.connect(function(err) {
         if (err) throw err;
+        //delete worker from database if role is denied
         var sql = "DELETE FROM Worker WHERE ( user_uuid  =  " + user_uuid + " );";
         db.query(sql, function(err, result) {
             if (err) throw err;
@@ -177,6 +186,7 @@ app.post('/denyWorker', checkAdmin, function(req, res) {
     res.redirect('./approveRoles/')
 })
 
+//app get requests for doctor and admin pages
 app.get('/doctorMonitor', checkAdmin, (req, res) => {
     res.render('doctor_monitor.ejs')
 })
@@ -627,6 +637,10 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
         
     });})
 
+})
+
+app.get('/doctorIndex', (req, res) => {
+    res.render('doctor_index.ejs')
 })
 
 

@@ -24,61 +24,29 @@
 </head>
 
 <body>
-  <!--Sidebar for Navigation-->
-  <div class="sidebar">
-    <a class="logoside" href="/adminIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
-    <a class="active" href="/adminIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
-    <a href="/approveRoles"><i class="fas fa-user-check"></i> Approve Roles</a>
-    <button class="dropdown-btn"><i class="fas fa-folder"></i> Doctor-Patient
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-    <a href="/patientsAssign">Assign Patients to Doctors</a>
-    <a href="/doctorMonitor">Monitor Patient Assignment</a>
+   <!--Sidebar for Navigation-->
+   <div class="sidebar">
+    <a class="logoside" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
+    <a class="active" href="/"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
+    <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My patients</a>
+    <div>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div> 
   </div>
-  <div>
-    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-  </div>
-  </div>
-
-  <!-- javascript to make dropdown functional & easy to add more elements -->
-  <script>
-  var dropdown = document.getElementsByClassName("dropdown-btn");
-  var i;
-
-  for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    }
-    else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-  </script>
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-clipboard"></i> Tasks</h1>
+        <h1 class="title"><i class="fas fa-clipboard"></i> Home</h1>
         <div class="form">
-          <i class="fas fa-check"></i> Assign roles to doctors, health officials and immigration officers.
-          <br>
-          <br>
-          <i class="fas fa-check"></i> Assign patients to doctors.
-          <br>
-          <br>
-          <i class="fas fa-check"></i> Monitor the number of patients assigned to each doctor.
-          <br>
-          <br>
-          <i class="fas fa-check"></i> Ensure all users only view what they are permitted.
 
+            <h1 style="text-align: right;">Welcome!</h1>
+
+            <img alt="Qries" src="/img/doctor.png">
+
+            <p style="font-size: xx-small;">Illustration by <a href="https://icons8.com/illustrations/author/CkHJmwURlxnt">Olha Khomich</a> from <a href="https://icons8.com/illustrations">Ouch!</a></p>
 
         </div>
 
-        <h4 class="message">Get to work!</h4>
     </div>
 
 
