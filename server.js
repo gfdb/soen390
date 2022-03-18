@@ -631,6 +631,9 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
     res.render('doctor_index.ejs')
 })
 
+app.get('/successfulSignUp', (req, res) => {
+    res.render('successful_signup.ejs')
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)

@@ -68,7 +68,7 @@ router.post('/', async(req, res) => {
                         
                     
                     // redirect to profile
-                    res.redirect('../profile')
+                    res.redirect('../successfulSignUp')
                         // else if user does exist, return error message
                 } else {
                     res.render("signup_patient.ejs", { error: 'Email already exists' })
