@@ -268,7 +268,7 @@ app.get('/doctorsPatientList', checkDoctor, (req, res) => {
         Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
         FROM User u1, Patient
         WHERE Patient.user_uuid in (SELECT Patient.user_uuid from Doctor, Patient 
-                                    WHERE Doctor.user_uuid = ${doctor_uuid} 
+                                    WHERE Doctor.user_uuid = '${doctor_uuid}' 
                                     AND Doctor.patient_uuid = Patient.user_uuid) 
         AND Patient.user_uuid = u1.uuid;`
 
