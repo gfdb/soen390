@@ -36,22 +36,19 @@
     text-align: left;
 }
 
-
-/* Active/current link */
-
-.sidebar a.active {
-    background-color: #276f7a;
-    color: white;
-}
-
-
 /* Links on mouse-over*/
 
 .sidebar a:hover:not(.logoside, .active),
 .dropdown-btn:hover {
-    background-color: #7facb3;
+    background-color: #276f7a;
     color: white;
 }
+
+.sidebar a.active:hover {
+    background-color: #276f7a;
+    color: white;
+}
+
 
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
