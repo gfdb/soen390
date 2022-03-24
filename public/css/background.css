@@ -66,9 +66,6 @@ h1.title{
     text-align: center;
 }
 
-.field{
-  
-}
 
 @media screen and (min-width: 1000px){
     .field{
@@ -84,10 +81,23 @@ h1.title{
     padding-top: 5px;
     padding-bottom: 5px;
     left: 0;
-    position: fixed;
     bottom: 0;
     width: 100%;
     background-color: lightgrey;
     color: #373737;
     border: 1px black;
+}
+
+@media screen and (min-width: 971px){
+    .footer{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: lightgrey;
+    color: #373737;
+    border: 1px black;
+    }
 }
