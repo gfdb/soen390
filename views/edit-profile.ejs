@@ -129,13 +129,14 @@
                     <input type="text" class="form-control" id="inputZip" name="zip" value="<%= address.zip %>">
                 </div>
         
-                <div class="input-group">
-                    <span class="input-group-text">Symptoms</span>
-                    <textarea class="form-control" name="symptoms" aria-label="With textarea"><%= patient.symptoms %></textarea>
+                <div class="col-12">
+                    <label for="inputSymptoms" class="form-label">Symptoms</label>
+                    <textarea class="form-control" id="inputSymptoms" rows="3" name="symptoms" aria-label="With textarea"><%= patient.symptoms %></textarea>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text">Diary</span>
-                    <textarea class="form-control" name="diary" aria-label="With textarea" ><%= patient.diary %></textarea>
+
+                <div class="col-12">
+                    <label for="inputSymptoms" class="form-label">Diary</label>
+                    <textarea class="form-control" id="inputSymptoms" rows="3" name="diary" aria-label="With textarea" ><%= patient.diary %></textarea>
                 </div>
                 <div class="submitbtn">
                     <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
