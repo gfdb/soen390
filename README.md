@@ -13,10 +13,15 @@
 |Lea Lakkis|lealakkis|40125381
 |Mohamed El-Chanati|mohamad-elchanati|40087462
 
-# COVID Connect User Manual
-### [The Deployed Website](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/) --> [http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/)
+# Deom
+- For patients, please scan using your camera to identiy the QR 
+![frame](https://user-images.githubusercontent.com/55549554/160147140-31026b52-ce0d-4975-b464-f77be1a5c3f0.png)
 
-### [User Manual](https://docs.google.com/document/d/1ihr1aLmKUalMKJQBN8wvK3-xlgXYLMhxc0Uh3LEiXzU/edit?usp=sharing)
+- ### [The admin website for doctors/health offical/nurse/immagration officer](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/)
+
+
+
+# [User Manual](https://docs.google.com/document/d/1ihr1aLmKUalMKJQBN8wvK3-xlgXYLMhxc0Uh3LEiXzU/edit?usp=sharing)
 
 # Setting up project
 1. Install node v16.13.2
