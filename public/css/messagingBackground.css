@@ -25,6 +25,11 @@
         outline: none;
         text-align: left;
       }
+
+/*.scrollable{
+
+}*/
+
 .container{
   padding-top: 2.5%;
   margin: auto;
@@ -44,51 +49,55 @@ img{
 }
 .msg-header-img{
   border-radius: 50%;
-  width: 60px;
-  margin-left: 5%;
-  margin-top: 12px;
+  width: 6%;
+  margin-left: 2%;
+  margin-top: 0.5%;
   float: left;
 }
 .activated{
-  width: 120px;
-  margin-top: 10px;
+  width: 5%;
+  margin-top: 2%;
   float: left;
 }
 .activated h4{
   font-size: 20px;
-  margin-left: 20px;
+  margin-left: 3%;
   color:#fff;
 }
 .activated h6{
   font-size: 10px;
-  margin-left: 20px;
+  margin-left: 3%;
   line-height: 2px;
   color: #fff;
 }
 .chat-page{
-  padding: 0 0 50px 0;
+  padding: 0 0 0 0;
 }
 .msg-inbox{
   border: 1px solid #ccc;
   background-color: white;
   overflow: hidden;
-  padding-bottom: 30px;
+  padding-bottom: 4%;
+    display: block;
+    height: 325px;
+    overflow-y: scroll;
+    bottom: 0px;
 }
 .chats{
-  padding: 30px 15px 0;
+  padding: 4% 2% 0;
 }
 .msg-page{
-  height: 516 px;
+  height: 40%;
   overflow-y: auto;
 }
 .received-chats-img{
   display: inline-block;
-  width: 30px;
+  width: 4%;
   float: left;
 }
 .received-msg{
   display: inline-block;
-  padding: 0 0 0 10px;
+  padding: 0 0 0 2%;
   vertical-align: top;
   width: 92%;
 }
@@ -101,18 +110,18 @@ img{
   color: black;
   font-size: 14px;
   margin: 0;
-  padding: 5px 10px 5px 12px;
+  padding: 1% 2% 1% 2.5%;
   width: 100%;
 }
 .time{
   color: #777;
   display: block;
   font-size: 12px;
-  margin: 8px 0 0;
+  margin: 2% 2% 5%;
 }
+
 .outgoing-chats{
   overflow: hidden;
-  margin: 26px 20px;
 }
 .outgoing-chats-msg p{
   background: #62becc none repeat scroll 0 0;
@@ -120,21 +129,21 @@ img{
   border-radius: 10px;
   font-size: 14px;
   margin: 0;
-  padding: 5px 10px 5px 12px;
+  padding: 1% 2% 1% 2.5%;
   width: 100%;
 }
 .outgoing-chats-msg{
   float: left;
   width: 46%;
-  margin-left: 50%;
+  margin-left: 48%;
 }
 .outgoing-chats-img{
   display: inline-block;
-  width: 30px;
+  width: 4%;
   float: right;
 }
 .msg-bottom{
-  position: relative;
+  position: realtive;
   padding-top: 2%;
   padding-bottom: 1.5%;
   padding-left: 0.5%;
@@ -146,24 +155,32 @@ img{
 }
 
 .input-group{
-
-  margin-top: 13px;
+  margin-top: 2%;
   outline: none !important;
   border-radius: 10px;
   background-color: #fff;
+
 }
 
 .form-control{
   border: none !important;
   border-radius: 10px !important;
+
+
 }
 
 .input-group-text{
   background: transparent !important;
   border: none !important;
+  float: right;
+  height: 50%;
+  display:inline;
 }
-
 .input-group .fa{
+  color: #276f7a;
+
+}
+.input-group-append{
   float: right;
 }
 
@@ -171,5 +188,6 @@ img{
   border-color: none !important;
   box-shadow: none !important;
   border-radius: 20px;
+
 }
-*/
+
