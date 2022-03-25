@@ -14,8 +14,8 @@
 |Mohamed El-Chanati|mohamad-elchanati|40087462
 
 # COVID Connect User Manual
-## [The Deployed Website](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/profile#loaded)
-## [http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/profile#loaded](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/profile#loaded)
+### [The Deployed Website](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/profile#loaded) --> [http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/profile#loaded](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/profile#loaded)\\
+
 ### [User Manual](https://docs.google.com/document/d/1ihr1aLmKUalMKJQBN8wvK3-xlgXYLMhxc0Uh3LEiXzU/edit?usp=sharing)
 
 # Setting up project
