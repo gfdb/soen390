@@ -23,6 +23,29 @@
     <link rel="stylesheet" href="/css/messagingBackground.css">
 
     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
+
+    <style>
+    @media screen and (max-width: 1200px){
+        .sidebar-option{
+            visibility: hidden;
+        }
+        .container{
+        position: relative;
+        left:-300px;
+        }
+        .content{
+            width:100%;
+        }
+
+      }
+      .msg-bottom{
+      background-color:#5e5e5e;
+      }
+      .input-group .fa{
+        color: #8f403b;
+      }
+
+    </style>
 </head>
 
 <body>
@@ -70,17 +93,18 @@
 
     </nav>
 
-    <div class="sidebar" style="background-color: #e6e6e6">
-        <a ><h4>Meet your doctor!</h4></a>
-        <a ><h6>Send them a message if you have any questions.</h6></a>
+    <div class="sidebar-option">
+        <div class="sidebar" style="background-color: #ededed">
+            <a ><h4>Meet your doctor!</h4></a>
+            <a ><h6>Send them a message if you have any questions.</h6></a>
 
-      </div>
-
+          </div>
+    </div>
 
 <div class="content">
     <div class="info-home">
         <div class="container" style="max-width: 1000px">
-              <div class="msg-header" style="background-color: #5e5e5e">
+              <div class="msg-header" style="background-color: #a6443d">
                 <div class="msg-header-img">
                   <img src="/img/doctor_user.png">
                 </div>
@@ -138,16 +162,14 @@
                 </div>
 
                 <div class="msg-bottom">
-                  <div class="input-group">
-                    <form action="/patientMessaging" method="POST" style="display: inline;">
+                  <div class="input-group" >
+                    <form action="/patientMessaging" method="POST" style="display: inline; width:100%;">
                     
-                      <input type="text" class="form-control" placeholder="Write a message..." name="patientmessage">
-                      
-                    <div class="input-group-append">
-                      <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Send</button>
-                    </div>
-                  </form>
-        
+                      <input class="form-control" type="text" placeholder="Write a message..." name="patientmessage">
+                      <div class="input-group-append">
+                        <span><button class="input-group-text" type="submit" data-bs-toggle="button"><i class="fa fa-paper-plane"></i></button></span>
+                      </div>
+                    </form>
                   </div>
                 </div>
 

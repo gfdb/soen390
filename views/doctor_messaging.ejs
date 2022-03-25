@@ -19,7 +19,7 @@
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-      <link rel="stylesheet" href="/css/messagingBackground.css">
+    <link rel="stylesheet" href="/css/messagingBackground.css">
     <link rel="stylesheet" href="/css/adminBackground.css">
 
 
@@ -40,84 +40,83 @@
 
   <div class="content">
     <div class="container">
-      <div class="msg-header">
-        <div class="msg-header-img">
-          <img src="/img/user2.png">
-        </div>
-        <div class="activated">
-          <h4><%=patientFirstName%> <%=patientLastName %></h4>
-          
-        </div>
-      </div>
-  
-      <div class="chat-page">
-        <div class="msg-inbox">
-          <div class="chats">
-            <div class="msg-page">
-              
-                <%if(messageList.length!=0){%>
-                  <%var i=1;%>
-                  <% messageList.forEach(function(data){%>                     
-                
 
-                <% if (data.sender_uuid == doctor_uuid){ %>
-
-                <div class="outgoing-chats">
-
-                  <div class="outgoing-chats-msg">
-                      <p><%=data.message%></p>
-                      <span class="time"><%=data.date_time%> </span>
-
-                  </div>
-                  <div class="outgoing-chats-img">
-                    <img src="/img/doctor_user.png">
-                  </div>
+              <div class="msg-header">
+                <div class="msg-header-img">
+                  <img src="/img/user2.png">
                 </div>
+                <div class="activated">
+                  <h4><%=patientFirstName%> <%=patientLastName %></h4>
 
-                <% } else {%>
-                <div class="received-chats">
-                  <div class="received-chats-img">
-                    <img src="/img/user2.png">
-                  </div>
-                  <div class="received-msg">
-                    <div class="received-msg-inbox">
-                      <p><%=data.message%></p>
-                      <span class="time"><%=data.date_time%> </span>
+                </div>
+              </div>
+
+              <div class="chat-page">
+                <div class="msg-inbox">
+                  <div class="chats">
+                    <div class="msg-page">
+
+                        <%if(messageList.length!=0){%>
+                          <%var i=1;%>
+                          <% messageList.forEach(function(data){%>
+
+
+                        <% if (data.sender_uuid == doctor_uuid){ %>
+
+                        <div class="outgoing-chats">
+
+                          <div class="outgoing-chats-msg">
+                              <p><%=data.message%></p>
+                              <span class="time"><%=data.date_time%> </span>
+
+                          </div>
+                          <div class="outgoing-chats-img">
+                            <img src="/img/doctor_user.png">
+                          </div>
+                        </div>
+
+                        <% } else {%>
+                        <div class="received-chats">
+                          <div class="received-chats-img">
+                            <img src="/img/user2.png">
+                          </div>
+                          <div class="received-msg">
+                            <div class="received-msg-inbox">
+                              <p><%=data.message%></p>
+                              <span class="time"><%=data.date_time%> </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <% } i++; }) %>
+                        <% } else{ %>
+                                      <tr>
+                                          <td colspan="7">No Previous Conversation Found</td>
+                                      </tr>
+                        <% } %>
+
+
                     </div>
                   </div>
                 </div>
-
-                <% } i++; }) %>
-                <% } else{ %>
-                              <tr>
-                                  <td colspan="7">No Previous Conversation Found</td>
-                              </tr>
-                <% } %>
-
-
             </div>
-          </div>
-        </div>
 
         <div class="msg-bottom">
-          <div class="input-group">
-            <form action="/doctorMessaging/<%=patient_uuid %>" method="POST" style="display: inline;">
-            
+            <div class="input-group">
+            <form action="/doctorMessaging/<%=patient_uuid %>" method="POST" style="display: inline; width:100%;">
               <input type="text" class="form-control" placeholder="Write a message..." name="doctormessage">
-              
-            <div class="input-group-append">
-              <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Send</button>
+                      <div class="input-group-append">
+                        <span><button class="input-group-text" type="submit" data-bs-toggle="button"><i class="fa fa-paper-plane"></i></button></span>
+                      </div>
+            </form>
             </div>
-          </form>
-
-          </div>
         </div>
 
-      </div>
-     
     </div>
-
+     
   </div>
+
+
 
 
 
