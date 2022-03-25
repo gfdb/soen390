@@ -64,9 +64,16 @@ router.post('/', async(req, res) => {
                                 
                             }
                             if (req.body.permissionLevel === 'doctor' || req.body.permissionLevel === 'health official') {
+                                
+                                // this query creates the worker entity in the database if the user
+                                // is a doctor or health official
                                 const sql_create_worker = `
                                     INSERT INTO Worker Values ('${result[0].uuid}', 0, '${req.body.permissionLevel}')
                                 `
+                                //run the query
+                                db.query(sql_create_worker, (err, result) => {
+                                    if (err) console.log(err)
+                                })
                             }
                             
                         })
