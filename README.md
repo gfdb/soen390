@@ -13,11 +13,12 @@
 |Lea Lakkis|lealakkis|40125381
 |Mohamed El-Chanati|mohamad-elchanati|40087462
 
-# Deom
-- For patients, please scan using your camera to identiy the QR 
-![frame](https://user-images.githubusercontent.com/55549554/160147140-31026b52-ce0d-4975-b464-f77be1a5c3f0.png)
+# Demo
+- ### [Admin website](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/)  (running on desktop for Doctors/Health Offical/Nurse/Immagration Officer)
+- ### [Client app](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/) (running on mobile phone for patients)
 
-- ### [The admin website for doctors/health offical/nurse/immagration officer](http://fsoen390-env.eba-qktw2kmr.us-east-1.elasticbeanstalk.com/)
+![frame](https://user-images.githubusercontent.com/55549554/160147140-31026b52-ce0d-4975-b464-f77be1a5c3f0.png) 
+
 
 
 
