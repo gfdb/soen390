@@ -86,12 +86,13 @@
 
             <form action="/login" method="POST">
                 <div style="padding-top: 60px;">
-                    <label for="email" class="form-label field">Email address</label>
                     <%if(error){%>
-                        <p style="color: red;">
+                        <p style="color: red; text-align: center;">
                             <%=error%>
                         </p>
                         <%}%>
+                        <label for="email" class="form-label field">Email address</label>
+
                             <div class="input-group mb-3 field">
 
                                 <input type="email" id='email' class="form-control" aria-label="email" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
