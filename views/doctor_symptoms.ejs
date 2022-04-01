@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--Meta Tags-->
+    <meta charset="UTF-8">
+    <meta name="keywords" content="HTML, CSS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--Link to kit's Code for Icons-->
+    <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
+
+    <!--Title of Page-->
+    <title>CovidConnect | Home</title>
+
+    <!--Favicon/icon in browser tab-->
+    <link rel="icon" href="/img/favicon.png">
+
+    <!--Link to CSS-->
+    <link rel="stylesheet" href="/css/adminBackground.css">
+
+        <style>
+            div.history{
+                border: 1px solid lightgrey;
+                background-color: white;
+                height: 400px;
+                width:700px;
+                overflow-y:auto;
+                text-align: center;
+                text-size: 18px;
+            }
+            .column {
+              float: left;
+              width: 50%;
+              padding: 10px;
+            }
+        </style>
+
+</head>
+
+<body>
+   <!--Sidebar for Navigation-->
+   <div class="sidebar">
+    <a class="logoside" href="/doctorIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
+    <a class="active" href="/doctorIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
+    <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My patients</a>
+    <div>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+  </div>
+
+
+    <div class="content">
+         <h1 class="title">History of Symptoms</h1>
+         <div class="form">
+         <a href="doctorsPatientProfile/:patient_id" style="color: black;"><i class="fas fa-arrow-left"></i> Back to patient profile</a>
+                                <div class="history" style="margin-top: 3%; margin-left: 10%;">
+                                    <div class="row">
+                                      <div class="column">
+                                        <h5>Symptom</h5>
+                                            <p>headache</br>
+                                               cough</br>
+                                               fever</br>
+                                               lower back pain</br>
+                                               arm pain</br>
+                                               wheezing</br>
+                                               trouble breathing</br>
+                                               nausea</br>
+                                               numbness</br>
+                                               vision loss</br>
+                                               headache</br>
+                                               headache</br>
+                                               trouble sleeping</br>
+                                               nausea</br>
+                                               heartburn</br>
+                                               indigestion</br>
+                                            </p>
+                                      </div>
+                                      <div class="column">
+                                        <h5>Date</h5>
+                                            <p>01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                               01/01/2022</br>
+                                            </p>
+                                      </div>
+                                </div>
+           </div>
+    </div>
+
+
+
+
+    <!--Footer Bar-->
+    <!--Footer-->
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
+                <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
+                <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
+                <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

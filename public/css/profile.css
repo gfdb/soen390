@@ -35,10 +35,14 @@ a.drop-item:link, a.drop-item:visited {
 }
 
 /*-----Content-----*/
-h1.title{
+h1.title, h6.title{
     text-align: center;
     font-family: Sans-serif;
     padding-bottom: 20px;
+}
+h6.title{
+    margin-left: 10%;
+    margin-right:10%;
 }
 
 .content{
@@ -61,8 +65,28 @@ h1.title{
 }
 
 .editing{
-  text-align: right;
+  text-align: left;
   padding-bottom: 8%;
+}
+
+.symptom-button{
+    background-color: #cee1ed;
+      border-radius: 15px;
+      border: 2px solid darkslategrey;
+      color: black;
+      padding: 7px 10px;
+      text-align: center;
+      text-decoration: none !important;
+      display: inline-block;
+      font-size: 16px;
+      /*margin: 0% -20%;*/
+      cursor: pointer;
+      float: right;
+      width: 28%;
+}
+a.symptom-button:hover{
+    background-color: grey;
+    color: white;
 }
 .submitbtn{
   text-align: center;
@@ -78,7 +102,20 @@ h1.title{
     margin-bottom: 5%;
 }
 
-
+div.history{
+    border: 1px solid lightgrey;
+    height: 400px;
+    width:400px;
+    overflow-y:auto;
+    text-align: center;
+    text-size: 18px;
+}
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
 /*-----Footer-----*/
 .footer {
     padding-top: 5px;
