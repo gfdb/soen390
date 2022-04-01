@@ -643,10 +643,10 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
 })
 
 //need to add requirement here for if the patient is authenticated:)
-app.get('/symptoms', (req, res) => {
+app.get('/symptoms',  checkAuthenticated,  (req, res) => {
     res.render('patient_symptoms.ejs')
 })
-app.get('/locations', (req, res) => {
+app.get('/locations',  checkAuthenticated,  (req, res) => {
     res.render('locations.ejs')
 })
 app.get('/symptomsMonitor', (req, res) => {
