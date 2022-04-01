@@ -24,6 +24,68 @@
 
 
 </head>
+<!--
+<script>
+  function autoRefresh()
+  {
+    document.getElementById("msg-inbox").innerHTML = `
+                  <div class="chats">
+                    <div class="msg-page">
+
+                        <%if(messageList.length!=0){%>
+                          <%var i=1;%>
+                          <% messageList.forEach(function(data){%>
+
+
+                        <% if (data.sender_uuid == doctor_uuid){ %>
+
+                        <div class="outgoing-chats">
+
+                          <div class="outgoing-chats-msg">
+                              <p><%=data.message%></p>
+                              <span class="time"><%=data.date_time%> </span>
+
+                          </div>
+                          <div class="outgoing-chats-img">
+                            <img src="/img/doctor_user.png">
+                          </div>
+                        </div>
+
+                        <% } else {%>
+                        <div class="received-chats">
+                          <div class="received-chats-img">
+                            <img src="/img/user2.png">
+                          </div>
+                          <div class="received-msg">
+                            <div class="received-msg-inbox">
+                              <p><%=data.message%></p>
+                              <span class="time"><%=data.date_time%> </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <% } i++; }) %>
+                        <% } else{ %>
+                                      <tr>
+                                          <td colspan="7">No Previous Conversation Found</td>
+                                      </tr>
+                        <% } %>
+
+
+                    </div>
+                  </div>
+                `;
+  }
+   setInterval('autoRefresh()', 5000);
+</script>
+-->
+<script type="text/javascript">
+  window.onload = function scroll_bottom()
+  {
+  var elem = document.getElementById('msg-inbox');
+  elem.scrollTop = elem.scrollHeight;
+  }
+</script>
 
 <body>
   <!--Sidebar for Navigation-->
@@ -52,7 +114,7 @@
               </div>
 
               <div class="chat-page">
-                <div class="msg-inbox">
+                <div class="msg-inbox" id="msg-inbox">
                   <div class="chats">
                     <div class="msg-page">
 
