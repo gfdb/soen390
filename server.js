@@ -642,6 +642,16 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
     res.render('doctor_index.ejs')
 })
 
+//need to add requirement here for if the patient is authenticated:)
+app.get('/symptoms', (req, res) => {
+    res.render('patient_symptoms.ejs')
+})
+app.get('/locations', (req, res) => {
+    res.render('locations.ejs')
+})
+app.get('/symptomsMonitor', (req, res) => {
+    res.render('doctor_symptoms.ejs')
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)

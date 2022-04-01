@@ -59,6 +59,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -84,9 +87,13 @@
         <h1 class="title"><i class="fas fa-address-card"></i> Profile</h1>
 
         <div class="form">
-            <h3>
-                <div class="editing"><a href="profile/edit"><i class="fas fa-marker"></i> Edit Profile</a></div>
-            </h3>
+            <!--<a href="/symptoms" class="symptom-button">Update Your Symptoms</a>-->
+
+            <h4>
+                <div class="editing" style="float:right;"><a href="profile/edit"><i class="fas fa-marker"></i> Edit Profile</a></div>
+            </h4>
+
+
 
             <form class="row g-3">
 
@@ -179,16 +186,17 @@
                             <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
                             <% } %>
                         </div>
+                        <!--
                         <div class="col-md-12 covid" style="background-color: beige;">
                             <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
                             <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                            <p><%= patient.symptoms %></p>
+                        <!--    <p><%= patient.symptoms %></p>
                         </div>
                         <div class="col-md-12 covid" style="background-color: beige;">
                             <label for="inputEmail4" class="form-label"><b>Diary</b></label>
                             <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                            <p><%= patient.diary %></p>
-                        </div>
+                        <!--    <p><%= patient.diary %></p>
+                        </div> -->
                     </center>
                 </div>
 

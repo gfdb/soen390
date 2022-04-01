@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/adminBackground.css">
 
-
 </head>
 
 <body>
@@ -66,7 +65,9 @@
                 
                    
                 <a href = "/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
-                
+
+                <a href="/symptomsMonitor" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;"> View Symptom History</button></a>
+
             
             </div>
             <!--            
@@ -128,16 +129,18 @@
                                                  
                             %>
                            
-                            <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
+                            <p style="background-color: #e6aaaa; color: #4f1212; font-weight:700;" class="covid">POSITIVE</p>
                             <% } else if (patientinfo.covid==0) { %>
-                            <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
+                            <p style="background-color: #caedc7; color: #325230;font-weight:700;" class="covid">NEGATIVE</p>
                             <% } %>
                         </div>
+
+                        <!--
                         <div class="col-md-12 covid" style="background-color: beige;">
                             <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
                             
                             <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
-                        </div>
+                        </div>-->
                     </center>
                 </div>
                 <% } else{ %>
