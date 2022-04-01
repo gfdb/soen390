@@ -74,6 +74,19 @@ h1.title{
     }
 }
 
+.centering{
+    text-align: center;
+}
+
+.roundcorner{
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 5%; 
+    margin-top: 8%;
+    margin-bottom: 15%;
+    background-color: #fbf9f9;
+}
+
 
 
 /*-----Footer-----*/

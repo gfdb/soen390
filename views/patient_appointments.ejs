@@ -13,18 +13,26 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Edit Profile</title>
+    <title>CovidConnect | Appointment</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/background.css">
 
 
 </head>
 
 <body>
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -80,77 +88,42 @@
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-address-card"></i> Edit Profile</h1>
+        <h1 class="title"><i class="fas fa-calendar-check"></i> Book an Appointmentf</h1>
 
         <div class="form">
 
-            <form action="/profile/edit" method="POST" class="row g-3">
+            <h6>Doctor's Information</h6>
 
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">First Name</label>
-                    <input type="text" class="form-control" name="firstName" value="<%= user.name %> " aria-label="First name">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" name="lastName" value="<%= user.lastname %>" aria-label="Last name">
-                </div>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John</th>
+                    <td>Doe</td>
+                  </tr>
+                </tbody>
+            </table>
+            
+            <center>
+            <div class="roundcorner">
+            <h4>Appointment</h4>
+            <div class="col-md-6 centering">
+                <label for="AppointmentDatepicker" class="form-label">Date: </label>
+                <input type="datetime-local" id="AppointmentDatepicker" class="form-control">
+            </div>
+            <div class="col-md-6 centering">
+                <label for="description">Description: </label>
+                <input type="text" class="form-control center" id="description">
+            </div>
 
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= user.email %>">
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" name="address" value="<%=address.street_name %>">
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress2" class="form-label">Address 2</label>
-                    <input type="text" class="form-control" id="inputAddress2" name="appartment" value="<%= address.apartment_number %>">
-                </div>
-                <div class="col-md-6">
-                    <label for="inputCity" class="form-label">City</label>
-                    <input type="text" class="form-control" id="inputCity" name="city" value="<%= address.city %>">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label">Province/Territory</label>
-                    <select class="form-select" aria-label="Default select example" name="province">
-            <option selected><%= address.province %></option>
-            <option value="AB">Alberta</option>
-            <option value="BC">British Columbia</option>
-            <option value="MB">Manitoba</option>
-            <option value="NB">New Brunswick</option>
-            <option value="NL">Newfoundland and Labrador</option>
-            <option value="NT">Northwest Territories</option>
-            <option value="NS">Nova Scotia</option>
-            <option value="NU">Nunavut</option>
-            <option value="ON">Ontario</option>
-            <option value="PE">Prince Edward Island</option>
-            <option value="QC">Quebec</option>
-            <option value="3">Saskatchewan</option>
-            <option value="YT">Yukon</option>
-          </select>
-                </div>
-                <div class="col-md-2">
-                    <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="inputZip" name="zip" value="<%= address.zip %>">
-                </div>
-        <!--
-                <div class="col-12">
-                    <label for="inputSymptoms" class="form-label">Symptoms</label>
-                    <textarea class="form-control" id="inputSymptoms" rows="3" name="symptoms" aria-label="With textarea"><%= patient.symptoms %></textarea>
-                </div>
-
-                <div class="col-12">
-                    <label for="inputSymptoms" class="form-label">Diary</label>
-                    <textarea class="form-control" id="inputSymptoms" rows="3" name="diary" aria-label="With textarea" ><%= patient.diary %></textarea>
-                </div> -->
-                <div class="submitbtn">
-                    <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
-                    <button href = '/profile' class="btn btn-outline-danger btn-lg">Cancel</a>
-                </div>
-
-
-            </form>
+                <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
+        </div>
+        </center>
 
 
 

@@ -652,6 +652,9 @@ app.get('/locations', (req, res) => {
 app.get('/symptomsMonitor', (req, res) => {
     res.render('doctor_symptoms.ejs')
 })
+app.get('/patientAppointment', (req, res) => {
+    res.render('patient_appointments.ejs')
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)
