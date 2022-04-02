@@ -95,13 +95,13 @@
          <ul style="list-style-type:none; padding-left: 0px;">
             <h3 style="margin-left:2.5%;">Current Symptom(s)</h3>
 
-            <form>
+            <form action="/symptoms" method="POST">
                 <div class="form-row align-items-center">
 
                   <li>
                     <div class="col-auto">
                       <label for="inlineFormInput">Please enter your symptoms, one at a time:</label>
-                      <input type="text" class="form-control" id="inlineFormInput" placeholder="symptom">
+                      <input type="text" name="newSymptom" class="form-control" id="inlineFormInput" placeholder="symptom">
                     </div>
                   </li>
                   <li>
@@ -115,6 +115,25 @@
          </ul>
             </form>
 
+            <!-- <h3 style="padding-top: 9%;">History of Symptom(s)</h3>
+                        <div class="history">
+                            <div class="row">
+                              <div class="column">
+                                <h5>Symptom</h5>
+                                
+                                      
+                                            
+                                        
+                                    
+                              </div>
+                              <div class="column">
+                                <h5>Date</h5>
+                                    
+                                        
+                                
+                                    
+                              </div>
+                        </div> -->
             <h3 style="padding-top: 9%; margin-left:2.5%;">History of Symptom(s)</h3>
             <div class="history">
                         <table>
@@ -124,44 +143,17 @@
                             </tr>
                             <tr>
                             <td>
-                                       <p>headache</br>
-                                          cough</br>
-                                          fever</br>
-                                          lower back pain</br>
-                                          arm pain</br>
-                                          wheezing</br>
-                                          trouble breathing</br>
-                                          nausea</br>
-                                          numbness</br>
-                                          vision loss</br>
-                                          headache</br>
-                                          headache</br>
-                                          trouble sleeping</br>
-                                          nausea</br>
-                                          heartburn</br>
-                                          indigestion</br>
-                                       </p>
+                                <% for(let i = 0; i < symptoms.length; i++ ){ %>
+                                    <p>
+                                        <%= symptoms[i].symptom%> <br>
+                                    </p> <% } %>
                                 </td>
                                 <td style="padding-left:36%;">
-                                         <p>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                            01/01/2022</br>
-                                         </p>
-                                </td>
+                                                
+                                <% for(let j = 0; j < symptoms.length; j++ ){ %>
+                                    <p>
+                                        <%= symptoms[j].datetime%><br>
+                                    </p> <% } %>
 
                             </tr>
                         </table>
