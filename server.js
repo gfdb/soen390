@@ -652,6 +652,15 @@ app.get('/locations', (req, res) => {
 app.get('/symptomsMonitor', (req, res) => {
     res.render('doctor_symptoms.ejs')
 })
+app.get('/patientAppointment', (req, res) => {
+    res.render('patient_appointments.ejs')
+})
+app.get('/patientAppointmentConfirmation', (req, res) => {
+    res.render('patient_appointments_confirmation.ejs')
+})
+app.get('/doctorAllAppointments', (req, res) => {
+    res.render('doctor_all_appointments.ejs')
+})
 
 app.get('/healthOfficialIndex', (req, res) => {
     res.render('health_official_index.ejs')

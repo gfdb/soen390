@@ -13,13 +13,14 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Profile</title>
+    <title>CovidConnect | Appointment</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/background.css">
+
 
 </head>
 
@@ -87,90 +88,49 @@
 
 
     <div class="content">
+        <h1 class="title"><i class="fas fa-calendar-check"></i> Book an Appointment</h1>
 
-        <h1 class="title"><i class="fas fa-location-arrow"></i> Tracking</h1>
-        <h6 class="title">On this page, you will be able to enter the postal codes you have visited and view the history of those locations. This will enable the app to notify you if you have been in the same location as someone who has tested positive for Covid-19.</h6>
+        <div class="appointment">
 
+            <h6>Doctor's Information</h6>
 
-
-        <div class="form">
-            <h3 style="margin-left:2.5%;">Current Location(s)</h3>
-
-            <form>
-                <ul style="list-style-type:none; padding-left: 0px;">
-
-                    <div class="form-row align-items-center">
-                        <li>
-                                <div class="col-auto">
-                                  <label for="inlineFormInput">Please enter the postal codes you have visited:</label>
-                                  <input type="text" class="form-control" id="inlineFormInput" placeholder="Postal code">
-                                </div>
-                        </li>
-                        <li>
-                            <div class="col-auto">
-                              <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
-                            </div>
-                        </li>
-                    </div>
-                </ul>
-            </form>
-
-            <h3 style="padding-top: 9%; margin-left:2.5%;">History of Location(s)</h3>
-        <div class="history">
-            <table>
-                <tr>
-                    <th><h5>Location</h5></th>
-                    <th style="padding-left: 86%;"><h5>Date</h5></th>
-                </tr>
-                <tr>
-                    <td>
-                                <p>H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                   H2V 4P8</br>
-                                   H5B 1P5</br>
-                                </p>
-                    </td>
-                    <td style="padding-left: 86%;">
-                             <p>01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                                01/01/2022</br>
-                             </p>
-                    </td>
-
-                </tr>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John</th>
+                    <td>Doe</td>
+                  </tr>
+                </tbody>
             </table>
+            
+            <center>
+            <div class="roundcorner">
+            <h4>Appointment</h4>
+            <p>Note that all appointments are scheduled for 1 hour. The time indicated below is the beginning time.</p>
+
+            <div class="col-md-6 centering">
+                <label for="AppointmentDatepicker" class="form-label">Date: </label>
+                <input type="datetime-local" id="AppointmentDatepicker" class="form-control">
+            </div>
+            <div class="col-md-6 centering">
+                <label for="description">Description: </label>
+                <input type="text" class="form-control center" id="description">
+            </div>
+
+                <a href="/patientAppointmentConfirmation"><button type="submit" class="btn btn-outline-danger btn-lg">Submit</button></a>
+        </div>
+        </center>
+
 
 
         </div>
 
-
-
-        </div>
     </div>
 
 
