@@ -652,7 +652,7 @@ app.get('/symptoms',  checkAuthenticated,  (req, res) => {
         
         db.query(sql, function(err, rows) {
             try{
-                console.log(rows[0])
+                //console.log(rows[0])
                 if (err) console.log(err);
                 
                 for (let i = 0; i < rows.length; i++){
@@ -661,7 +661,7 @@ app.get('/symptoms',  checkAuthenticated,  (req, res) => {
                     symptoms.push(rows[i])
                    // dates.push(rows[i].datetime)
                 }
-                console.log(symptoms);
+                //console.log(symptoms);
                 //rendering the patient symptom page 
                 res.render('patient_symptoms.ejs',{symptoms: symptoms})
             }
@@ -705,12 +705,48 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
         db.query(sql, (err, result) => {
             try{
                 if (err) console.log(err);
-                console.log('hi')
+                //console.log('hi')
             }catch(err){
-                console.log(err)
+                //console.log(err)
             }
 
         })
+
+
+        var sql1 = "Select * from Doctor Where patient_uuid = '"+req.session.user.uuid+"'"
+        db.query(sql1, (err1, result1) => {
+            try{
+                console.log(result1)
+                if (err1) console.log(err1);
+                if (result1.length > 0)
+                {
+                    console.log(result1.user_uuid)
+                    var message = "Hi! I have a new Symptom: " + req.body.newSymptom +" on date " + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds 
+                    var sql2 = "Insert into Messages Values ('"+req.session.user.uuid+"','"+result1[0].user_uuid+"' , '"+message+"', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')"
+                    
+                    console.log(sql2)
+                    db.query(sql2, (err2, result2) => {
+                        try {
+                            if (err2) console.log(err2);
+                            console.log('hi')
+                        } catch (err2) {
+                            console.log(err2)
+                        }
+
+                    })
+                }
+                else if (result1.length <=0){
+
+                    console.log("No doctor Available")
+                    
+                }
+            }catch(err1){
+                console.log(err1)
+            }
+
+        })
+
+
         res.redirect('./symptoms')
     }catch(err){
         console.log(err)
