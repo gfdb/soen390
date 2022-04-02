@@ -656,6 +656,9 @@ app.get('/symptomsMonitor', (req, res) => {
 app.get('/healthOfficialIndex', (req, res) => {
     res.render('health_official_index.ejs')
 })
+app.get('/statistics', (req, res) => {
+    res.render('health_official_statistics.ejs')
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)
