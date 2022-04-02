@@ -644,8 +644,78 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
 
 //need to add requirement here for if the patient is authenticated:)
 app.get('/symptoms',  checkAuthenticated,  (req, res) => {
-    res.render('patient_symptoms.ejs')
+    try{
+        console.log(req.session.user.uuid)
+        var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "';"
+        var symptoms = [];
+        
+        db.query(sql, function(err, rows) {
+            try{
+                console.log(rows[0])
+                if (err) console.log(err);
+                
+                for (let i = 0; i < rows.length; i++){
+                    rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
+                    symptoms.push(rows[i])
+                   // dates.push(rows[i].datetime)
+                }
+                console.log(symptoms);
+                res.render('patient_symptoms.ejs',{symptoms: symptoms})
+            }
+            catch(err){
+                console.log(err)
+            }
+        })
+        
+    }
+    catch(err){
+        console.log('error')
+    }
+    
 })
+
+app.post('/symptoms',  checkAuthenticated,  (req, res) => {
+    try{
+        console.log('inside post')
+        let date_ob = new Date();
+
+        // current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+    
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    
+        // current year
+        let year = date_ob.getFullYear();
+    
+        // current hours
+        let hours = date_ob.getHours();
+    
+        // current minutes
+        let minutes = date_ob.getMinutes();
+    
+        // current seconds
+        let seconds = date_ob.getSeconds();
+        
+        var sql = "INSERT INTO History(uuid, symptom, datetime) Values ('"+ req.session.user.uuid 
+        + "', '" + req.body.newSymptom + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
+        db.query(sql, (err, result) => {
+            try{
+                if (err) console.log(err);
+                console.log('hi')
+            }catch(err){
+                console.log(err)
+            }
+
+        })
+        res.redirect('./symptoms')
+    }catch(err){
+        console.log(err)
+    }
+})
+
+
 app.get('/locations',  checkAuthenticated,  (req, res) => {
     res.render('locations.ejs')
 })

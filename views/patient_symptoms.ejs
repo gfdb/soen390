@@ -88,11 +88,11 @@
         <div class="form">
             <h3>Current Symptom(s)</h3>
 
-            <form>
+            <form action="/symptoms" method="POST">
                 <div class="form-row align-items-center">
                     <div class="col-auto">
                       <label for="inlineFormInput">Please enter your symptoms, one at a time:</label>
-                      <input type="text" class="form-control" id="inlineFormInput" placeholder="symptom">
+                      <input type="text" name="newSymptom" class="form-control" id="inlineFormInput" placeholder="symptom">
                     </div>
 
                     <div class="col-auto">
@@ -106,43 +106,24 @@
                             <div class="row">
                               <div class="column">
                                 <h5>Symptom</h5>
-                                    <p>headache</br>
-                                       cough</br>
-                                       fever</br>
-                                       lower back pain</br>
-                                       arm pain</br>
-                                       wheezing</br>
-                                       trouble breathing</br>
-                                       nausea</br>
-                                       numbness</br>
-                                       vision loss</br>
-                                       headache</br>
-                                       headache</br>
-                                       trouble sleeping</br>
-                                       nausea</br>
-                                       heartburn</br>
-                                       indigestion</br>
-                                    </p>
+                                
+                                        <% for(let i = 0; i < symptoms.length; i++ ){ %>
+                                            <p>
+                                                <br><%= symptoms[i].symptom%>
+                                            </p> <% } %>
+                                            
+                                        
+                                    
                               </div>
                               <div class="column">
                                 <h5>Date</h5>
-                                    <p>01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                       01/01/2022</br>
-                                    </p>
+                                    
+                                        
+                                <% for(let j = 0; j < symptoms.length; j++ ){ %>
+                                    <p>
+                                        <br><%= symptoms[j].datetime%>
+                                    </p> <% } %>
+                                    
                               </div>
                         </div>
         </div>
