@@ -642,7 +642,7 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
     res.render('doctor_index.ejs')
 })
 
-//need to add requirement here for if the patient is authenticated:)
+//query symptoms from database
 app.get('/symptoms',  checkAuthenticated,  (req, res) => {
     try{
         console.log(req.session.user.uuid)
@@ -673,7 +673,7 @@ app.get('/symptoms',  checkAuthenticated,  (req, res) => {
     }
     
 })
-
+//post postal symptoms into database from form
 app.post('/symptoms',  checkAuthenticated,  (req, res) => {
     try{
         let date_ob = new Date();
@@ -714,7 +714,7 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
     }
 })
 
-
+//post postal codes into database from form
 app.post('/locations',  checkAuthenticated,  (req, res) => {
     try{
         let date_ob = new Date();
@@ -758,7 +758,7 @@ app.post('/locations',  checkAuthenticated,  (req, res) => {
     }
     
 })
-
+//query locations from database
 app.get('/locations',  checkAuthenticated,  (req, res) => {
     try{
         console.log(req.session.user.uuid)
