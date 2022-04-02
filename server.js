@@ -646,7 +646,7 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
 app.get('/symptoms',  checkAuthenticated,  (req, res) => {
     try{
         console.log(req.session.user.uuid)
-        var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "';"
+        var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
         var symptoms = [];
         
         db.query(sql, function(err, rows) {
@@ -676,7 +676,6 @@ app.get('/symptoms',  checkAuthenticated,  (req, res) => {
 
 app.post('/symptoms',  checkAuthenticated,  (req, res) => {
     try{
-        console.log('inside post')
         let date_ob = new Date();
 
         // current date
@@ -716,9 +715,81 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
 })
 
 
-app.get('/locations',  checkAuthenticated,  (req, res) => {
-    res.render('locations.ejs')
+app.post('/locations',  checkAuthenticated,  (req, res) => {
+    try{
+        let date_ob = new Date();
+
+        // current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+    
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    
+        // current year
+        let year = date_ob.getFullYear();
+    
+        // current hours
+        let hours = date_ob.getHours();
+    
+        // current minutes
+        let minutes = date_ob.getMinutes();
+    
+        // current seconds
+        let seconds = date_ob.getSeconds();
+
+        var sql = "INSERT INTO Tracking(uuid, postalcode, datetime) Values ('"+ req.session.user.uuid 
+        + "', '" + req.body.postalCode + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
+        db.query(sql, (err, result) => {
+            try{
+                if (err) console.log(err);
+                
+            }catch(err){
+                console.log(err)
+            }
+
+        })
+
+
+        res.redirect('./locations')
+    }
+    catch(err){
+
+    }
+    
 })
+
+app.get('/locations',  checkAuthenticated,  (req, res) => {
+    try{
+        console.log(req.session.user.uuid)
+        var sql = "SELECT * FROM Tracking WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
+        var postalCodes = [];
+        
+        db.query(sql, function(err, rows) {
+            try{
+                console.log(rows[0])
+                if (err) console.log(err);
+                
+                for (let i = 0; i < rows.length; i++){
+                    rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
+                    postalCodes.push(rows[i])
+                   // dates.push(rows[i].datetime)
+                }
+                console.log(postalCodes);
+                res.render('locations.ejs',{postalCodes:postalCodes})
+            }
+            catch(err){
+                console.log(err)
+            }
+        })
+        
+    }
+    catch(err){
+        console.log('error')
+    }
+    
+})
+
 app.get('/symptomsMonitor', (req, res) => {
     res.render('doctor_symptoms.ejs')
 })
