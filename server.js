@@ -773,7 +773,7 @@ app.get('/locations',  checkAuthenticated,  (req, res) => {
                 for (let i = 0; i < rows.length; i++){
                     rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
                     postalCodes.push(rows[i])
-                   // dates.push(rows[i].datetime)
+                   
                 }
                 console.log(postalCodes);
                 res.render('locations.ejs',{postalCodes:postalCodes})
