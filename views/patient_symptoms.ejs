@@ -59,6 +59,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -86,31 +89,36 @@
         <h6 class="title">On this page, you will be able to enter the symptoms you are feeling. This will enable help your doctor monitor your Covid-19 status.</h6>
 
         <div class="form">
-            <h3>Current Symptom(s)</h3>
+         <ul style="list-style-type:none; padding-left: 0px;">
+            <h3 style="margin-left:2.5%;">Current Symptom(s)</h3>
 
             <form action="/symptoms" method="POST">
                 <div class="form-row align-items-center">
+
+                  <li>
                     <div class="col-auto">
                       <label for="inlineFormInput">Please enter your symptoms, one at a time:</label>
                       <input type="text" name="newSymptom" class="form-control" id="inlineFormInput" placeholder="symptom">
                     </div>
-
+                  </li>
+                  <li>
                     <div class="col-auto">
                       <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
                     </div>
+                  </li>
               </div>
+
+
+         </ul>
             </form>
 
-            <h3 style="padding-top: 9%;">History of Symptom(s)</h3>
+            <!-- <h3 style="padding-top: 9%;">History of Symptom(s)</h3>
                         <div class="history">
                             <div class="row">
                               <div class="column">
                                 <h5>Symptom</h5>
                                 
-                                        <% for(let i = 0; i < symptoms.length; i++ ){ %>
-                                            <p>
-                                                <br><%= symptoms[i].symptom%>
-                                            </p> <% } %>
+                                      
                                             
                                         
                                     
@@ -119,13 +127,37 @@
                                 <h5>Date</h5>
                                     
                                         
-                                <% for(let j = 0; j < symptoms.length; j++ ){ %>
-                                    <p>
-                                        <br><%= symptoms[j].datetime%>
-                                    </p> <% } %>
+                                
                                     
                               </div>
-                        </div>
+                        </div> -->
+            <h3 style="padding-top: 9%; margin-left:2.5%;">History of Symptom(s)</h3>
+            <div class="history">
+                        <table>
+                            <tr>
+                                <th><h5>Symptom</h5></th>
+                                <th style="padding-left:36%;"><h5>Date</h5></th>
+                            </tr>
+                            <tr>
+                            <td>
+                                <% for(let i = 0; i < symptoms.length; i++ ){ %>
+                                    <p>
+                                        <%= symptoms[i].symptom%> <br>
+                                    </p> <% } %>
+                                </td>
+                                <td style="padding-left:36%;">
+                                                
+                                <% for(let j = 0; j < symptoms.length; j++ ){ %>
+                                    <p>
+                                        <%= symptoms[j].datetime%><br>
+                                    </p> <% } %>
+
+                            </tr>
+                        </table>
+
+
+                    </div>
+
         </div>
     </div>
 

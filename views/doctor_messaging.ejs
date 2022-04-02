@@ -25,6 +25,15 @@
 
 </head>
 
+<!--Auto-scroll to most recent message on page load-->
+<script type="text/javascript">
+  window.onload = function scroll_bottom()
+  {
+  var elem = document.getElementById('msg-inbox');
+  elem.scrollTop = elem.scrollHeight;
+  }
+</script>
+
 <body>
   <!--Sidebar for Navigation-->
   <div class="sidebar">
@@ -52,7 +61,7 @@
               </div>
 
               <div class="chat-page">
-                <div class="msg-inbox">
+                <div class="msg-inbox" id="msg-inbox">
                   <div class="chats">
                     <div class="msg-page">
 

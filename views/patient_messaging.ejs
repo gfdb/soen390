@@ -48,6 +48,15 @@
     </style>
 </head>
 
+<!--Auto-scroll to most recent message on page load-->
+<script type="text/javascript">
+  window.onload = function scroll_bottom()
+  {
+  var elem = document.getElementById('msg-inbox');
+  elem.scrollTop = elem.scrollHeight;
+  }
+</script>
+
 <body>
 
     <!--Heading-->
@@ -76,6 +85,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
                 </li>
             </ul>
 
@@ -115,7 +127,7 @@
               </div>
 
               <div class="chat-page">
-                <div class="msg-inbox">
+                <div class="msg-inbox" id="msg-inbox">
                   <div class="chats">
                     <div class="msg-page">
                       <%if(messageList.length!=0){%>

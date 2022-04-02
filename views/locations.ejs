@@ -59,6 +59,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -85,43 +88,72 @@
         <h1 class="title"><i class="fas fa-location-arrow"></i> Tracking</h1>
         <h6 class="title">On this page, you will be able to enter the postal codes you have visited and view the history of those locations. This will enable the app to notify you if you have been in the same location as someone who has tested positive for Covid-19.</h6>
 
+
+
         <div class="form">
-            <h3>Current Location(s)</h3>
+            <h3 style="margin-left:2.5%;">Current Location(s)</h3>
 
+          
             <form action="/locations" method="POST">
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
-                      <label for="inlineFormInput">Please enter the postal codes you have visited:</label>
-                      <input type="text" name="postalCode" class="form-control" id="inlineFormInput" placeholder="Postal code">
-                    </div>
+                <ul style="list-style-type:none; padding-left: 0px;">
 
-                    <div class="col-auto">
-                      <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
+                    <div class="form-row align-items-center">
+                        <li>
+                                <div class="col-auto">
+                                  <label for="inlineFormInput">Please enter the postal codes you have visited:</label>
+                                  <input type="text" name="postalCode" class="form-control" id="inlineFormInput" placeholder="Postal code">
+                                </div>
+                        </li>
+                        <li>
+                            <div class="col-auto">
+                              <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
+                            </div>
+                        </li>
                     </div>
-              </div>
+                </ul>
             </form>
 
-            <h3 style="padding-top: 9%;">History of Location(s)</h3>
+            <!-- <h3 style="padding-top: 9%;">History of Location(s)</h3>
             <div class="history">
             <div class="row">
               <div class="column">
                 <h5>Location</h5>
-                    <% for(let i = 0; i < postalCodes.length; i++ ){ %>
-                        <p>
-                            <br><%= postalCodes[i].postalcode%>
-                        </p> <% } %>
+                  
               </div>
               <div class="column">
                 <h5>Date</h5>
-                    <% for(let i = 0; i < postalCodes.length; i++ ){ %>
-                        <p>
-                            <br><%= postalCodes[i].datetime%>
-                        </p> <% } %>
+                   
               </div>
-            </div>
+            </div> -->
+            <h3 style="padding-top: 9%; margin-left:2.5%;">History of Location(s)</h3>
+        <div class="history">
+            <table>
+                <tr>
+                    <th><h5>Location</h5></th>
+                    <th style="padding-left: 86%;"><h5>Date</h5></th>
+                </tr>
+                <tr>
+                    <td>
+                        <% for(let i = 0; i < postalCodes.length; i++ ){ %>
+                            <p>
+                                <%= postalCodes[i].postalcode%><br>
+                            </p> <% } %>
+                    </td>
+                    <td style="padding-left: 86%;">
+                        <% for(let i = 0; i < postalCodes.length; i++ ){ %>
+                            <p>
+                                <%= postalCodes[i].datetime%><br>
+                            </p> <% } %>
+                    </td>
+
+                </tr>
+            </table>
 
 
-            </div>
+        </div>
+
+
+
         </div>
     </div>
 
