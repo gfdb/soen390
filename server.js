@@ -658,6 +658,9 @@ app.get('/patientAppointment', (req, res) => {
 app.get('/patientAppointmentConfirmation', (req, res) => {
     res.render('patient_appointments_confirmation.ejs')
 })
+app.get('/doctorAllAppointments', (req, res) => {
+    res.render('doctor_all_appointments.ejs')
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)
