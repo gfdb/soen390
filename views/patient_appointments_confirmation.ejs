@@ -13,7 +13,7 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Appointment</title>
+    <title>CovidConnect | Confirmation</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
@@ -88,44 +88,34 @@
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-calendar-check"></i> Book an Appointment</h1>
+        <h1 class="title"><i class="fas fa-calendar-check"></i> Appointment Confirmation</h1>
 
-        <div class="appointment">
+        <div class="appointment" >
 
-            <h6>Doctor's Information</h6>
+            <h3>Your Appointment was booked successfully!</h3>
 
             <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name </th>
-                  </tr>
-                </thead>
                 <tbody>
+                    <tr>
+                        <th scope="row">Patient's Name</th>
+                        <td>Mark Smith</td>
                   <tr>
-                    <td>John</th>
+                    <th scope="row">Doctor's First Name</th>
+                    <td>John</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Doctor's Last Name</th>
                     <td>Doe</td>
                   </tr>
+                  <tr>
+                    <th scope="row">Time</th>
+                    <td colspan="2">2022-04-02, 5:00 PM</td>
+                  </tr>
                 </tbody>
-            </table>
-            
-            <center>
-            <div class="roundcorner">
-            <h4>Appointment</h4>
-            <div class="col-md-6 centering">
-                <label for="AppointmentDatepicker" class="form-label">Date: </label>
-                <input type="datetime-local" id="AppointmentDatepicker" class="form-control">
-            </div>
-            <div class="col-md-6 centering">
-                <label for="description">Description: </label>
-                <input type="text" class="form-control center" id="description">
-            </div>
-
-                <a href="/patientAppointmentConfirmation"><button type="submit" class="btn btn-outline-danger btn-lg">Submit</button></a>
-        </div>
-        </center>
-
-
+              </table>
+              
+    
+              <div style="padding-bottom: 30%;"></div>
 
         </div>
 

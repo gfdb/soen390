@@ -87,6 +87,28 @@ h1.title{
     background-color: #fbf9f9;
 }
 
+.appointment{
+    background: white;
+    border-radius: 25px 25px 0px 0px;
+    padding-top: 70px;
+    padding-left:7%; 
+    padding-right: 7%;
+    padding-bottom: 20px; 
+}
+
+@media screen and (min-width: 971px){
+    .appointment{
+        background: white;
+        border-radius: 25px 25px 0px 0px;
+        padding-top: 70px;
+        padding-left:20%; 
+        padding-right: 20%;
+        padding-bottom: 20px; 
+    }
+}
+
+
+
 
 
 /*-----Footer-----*/
