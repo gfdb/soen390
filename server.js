@@ -653,6 +653,10 @@ app.get('/symptomsMonitor', (req, res) => {
     res.render('doctor_symptoms.ejs')
 })
 
+app.get('/healthOfficialIndex', (req, res) => {
+    res.render('health_official_index.ejs')
+})
+
 //server start on port 3000
 var app_server = app.listen(3000)
 console.log('listening on 3000...http://localhost:3000')
