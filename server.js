@@ -835,11 +835,140 @@ app.get('/locations',  checkAuthenticated,  (req, res) => {
 app.get('/symptomsMonitor', (req, res) => {
     res.render('doctor_symptoms.ejs')
 })
-app.get('/patientAppointment', (req, res) => {
-    res.render('patient_appointments.ejs')
+app.get('/patientAppointment', checkAuthenticated,(req, res) => {
+    var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '"+req.session.user.uuid+"'"
+        db.query(sql, (err, result) => {
+            try{
+                if (err) console.log(err);
+                if (result.length > 0)
+                {
+                    const DfirstName = result[0].doctorfn
+                    const DlastName = result[0].doctorln
+                    const Duuid = result[0].doctoruuid
+                    res.render('patient_appointments.ejs', {doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid})
+                    //date format YYYY-MM-DD hh:mm:ss
+                }
+                else if (result.lenght <=0)
+                {
+                    const DfirstName = "NA"
+                    const DlastName = "NA"
+                    const Duuid = 0 // default doctor for patients with no doctor
+                    res.render('patient_appointments.ejs', {doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid})
+                    
+                    console.log("this patient have no doctor")
+                }
+            }catch(err){
+                //console.log(err)
+            }
+
+        })
+
 })
+
+app.post('/patientAppointment', checkAuthenticated,(req, res) => {
+
+    // TODO
+    // receive data from frontend
+    // insert data into database
+    const patient_uuid = req.session.user.uuid
+    const doctor_uuid = req.body.doctor_uuid
+    const datetime = req.body.date_time
+    const description = req.body.description
+    const doctor_first_name = req.body.doctor_first_name
+    const doctor_last_name = req.body.doctor_last_name
+    const patient_first_name = req.session.user.name
+    const patient_last_name = req.session.user.lastname
+    console.log("patient uuid: "+patient_uuid)
+    console.log("doctor uuid: "+doctor_uuid)
+    console.log("datetime: "+datetime)
+    console.log("description: "+description)
+    console.log("doctor fn: "+doctor_first_name)
+    console.log("doctor ln: "+doctor_last_name)
+    console.log("patient fn: "+patient_first_name)
+    console.log("patient ln: "+patient_last_name)
+    var sql = `INSERT INRO Appointment Values ('${doctor_uuid}','${patient_uuid}','${datetime}','${description}')`
+    try{
+    db.query(sql, (err, result) => {
+        if (err) console.log(err)
+        try{
+            res.render('patient_appointments_confirmation.ejs', {doctor_first_name: doctor_first_name, doctor_last_name: doctor_last_name,datetime:datetime,patient_first_name:patient_first_name,patient_last_name:patient_last_name})
+           
+        }catch(err){
+            
+        }
+
+    })
+    console.log('inside')
+    //res.render('patient_appointments_confirmation.ejs')
+    // console.log(req.body)
+    }
+    catch{
+
+    }
+})
+
 app.get('/patientAppointmentConfirmation', (req, res) => {
+
+    // const DfirstName = req.params.
+    // const DlastName = req.params.
+    // const Duuid = req.params.
+    //var sql = `INSERT INRO Appointment Values ('doctor_uuic','patient_uuid','datetime','desc')`
+    // try{
+    // db.query(sql, (err, result) => {
+    //     try{
+    //         //res.render('patient_appointments_confirmation.ejs',doctor_first_name: DfirstName, doctor_last_name: DlastName)
+           
+    //     }catch(err){
+            
+    //     }
+
+    // })
+    // }
+    // catch 
+    // {
+
+    // }
+
     res.render('patient_appointments_confirmation.ejs')
+})
+
+app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) => {
+
+    doctor_uuid = req.params.doctor_uuid
+    date_time = req.params.date_time
+    description = req.params.description
+
+    console.log("I am inside server")
+    console.log(description);
+    console.log("The rest is")
+    console.log(date_time)
+    console.log(description)
+
+    const sql = `
+        SELECT * from Appointment 
+        Where doctor_uuid = '${doctor_uuid}' AND datetime = '${date_time}' AND doctor_uuid <> 0
+    `
+
+    console.log("I am after query dec")
+    
+    res.setHeader('Content-Type', 'application/json');
+    db.query(sql, function(err, result) {
+        try{
+            if (err) console.log(err);
+            if (result.length === 0) {
+                res.end(JSON.stringify({message: 'sucess'}));
+            }
+            else
+            {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({message: 'There is already an apointment at that time.'}));
+                
+            }
+        }
+        catch(err){
+            console.log(err)
+        }
+    })
 })
 app.get('/doctorAllAppointments', (req, res) => {
     res.render('doctor_all_appointments.ejs')
