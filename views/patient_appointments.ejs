@@ -104,8 +104,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><%=doctor_first_name%></th>
-                    <td><%=doctor_last_name%></td>
+                    <td><%= doctor_first_name%></th>
+                    <td><%= doctor_last_name%></td>
                   </tr>
                 </tbody>
             </table>
@@ -118,14 +118,14 @@
             <form action="/patientAppointment" method="POST">
                 <div class="col-md-6 centering">
                     <label for="AppointmentDatepicker" class="form-label">Date: </label>
-                    <input type="datetime-local" id="AppointmentDatepicker" class="form-control" name="date_time" >
+                    <input type="datetime-local" id="AppointmentDatepicker" class="form-control" name="datetime" >
                 </div>
                 <div class="col-md-6 centering">
                     <label for="description">Description: </label>
                     <input type="text" class="form-control center" id="description" name="description">
-                    <input type="hidden" class="form-control center" id="doctor_uuid" name="doctor_uuid" value ="<%=doctor_uuid%>" >
-                    <input type="hidden" class="form-control center" id="doctor_first_name" name="doctor_first_name" value ="<%=doctor_first_name%>" >
-                    <input type="hidden" class="form-control center" id="doctor_last_name" name="doctor_last_name" value ="<%=doctor_last_name%>" >
+                    <input type="hidden" class="form-control center" id="doctor_uuid" name="doctor_uuid" value ="<%= doctor_uuid%>" >
+                    <input type="hidden" class="form-control center" id="doctor_first_name" name="doctor_first_name" value ="<%= doctor_first_name%>" >
+                    <input type="hidden" class="form-control center" id="doctor_last_name" name="doctor_last_name" value ="<%= doctor_last_name%>" >
                 </div>
                 <button type = "button" onClick = "check_if_available('<%=doctor_uuid%>')" class="btn btn-outline-danger btn-lg" CausesValidation="False" id = "check-availability">Check Availability</button>
                 <button type = "submit"  class="btn btn-outline-danger btn-lg" style = "display: none;" id="book-appointment">Book Appointment</button>

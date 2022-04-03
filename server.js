@@ -865,21 +865,21 @@ app.get('/patientAppointment', checkAuthenticated,(req, res) => {
 
 })
 
-app.post('/patientAppointment', checkAuthenticated,(req, res) => {
+app.post('/patientAppointment', checkAuthenticated,function(req, res) {
 
     // TODO
     // receive data from frontend
     // insert data into database
     const patient_uuid = req.session.user.uuid
     const doctor_uuid = req.body.doctor_uuid
-    const datetime = req.body.date_time
+    const datetime = req.body.datetime
     const description = req.body.description
     const doctor_first_name = req.body.doctor_first_name
     const doctor_last_name = req.body.doctor_last_name
     const patient_first_name = req.session.user.name
     const patient_last_name = req.session.user.lastname
-    console.log("patient uuid: "+patient_uuid)
-    console.log("doctor uuid: "+doctor_uuid)
+    //console.log("patient uuid: "+patient_uuid)
+   // console.log("doctor uuid: "+doctor_uuid)
     console.log("datetime: "+datetime)
     console.log("description: "+description)
     console.log("doctor fn: "+doctor_first_name)
