@@ -44,12 +44,26 @@
 
 
           </div>
-          <h3>Covid Status</h3>
-          <select id="list1" onchange="myFunction()" class='form-control'>
-            <option></option>
+            <label for="list1" class="form-label">Covid Status:</label>
+          <select class="form-select" id="list1" onchange="myFunction(); redirect(this.value)" class='form-control'>
+            <option value="/doctorsPatientList" selected>ALL</option>
           <option>POSITIVE</option>
           <option>NEGATIVE</option>
           </select>
+
+          <script>
+            /*
+            * This method refreshes the page in case "ALL" is selected
+            * @param {string} src refered to the link that the fuction is redirecting to
+            */
+            function redirect(src)
+            {
+              if(src == "/doctorsPatientList"){
+                window.location=src;
+              }
+            }
+          </script>
+
           <table class="table table-striped" id="table1">
               <thead>
                   <tr>

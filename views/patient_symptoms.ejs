@@ -138,8 +138,8 @@
             <div class="history">
                         <table>
                             <tr>
-                                <th><h5>Symptom</h5></th>
-                                <th style="padding-left:36%;"><h5>Date</h5></th>
+                                <th style="width:45%"><h5>Symptom</h5></th>
+                                <th style="width:55%"><h5>Date</h5></th>
                             </tr>
                             <tr>
                             <td>
@@ -148,12 +148,13 @@
                                         <%= symptoms[i].symptom%> <br>
                                     </p> <% } %>
                                 </td>
-                                <td style="padding-left:36%;">
+                                <td>
                                                 
                                 <% for(let j = 0; j < symptoms.length; j++ ){ %>
                                     <p>
                                         <%= symptoms[j].datetime%><br>
                                     </p> <% } %>
+                                </td>
 
                             </tr>
                         </table>

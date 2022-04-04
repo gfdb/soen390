@@ -1,19 +1,58 @@
+.header {
+  background-color: #f2f2f2 !important;
+}
+.logo{
+width: 35%;
+height:35%;
+}
+
+/* Nav Bar */
+/*-----Navigation Bar-----*/
+
+.navbar-custom {
+  background-color: black !important;
+}
+
+
+/*-----Navigation Bar Links-----*/
+
+a.navbar-brand:hover, a.navbar-brand:active {
+  color: white;
+}
+
+a:link, a:visited {
+  color: black;
+}
+
+
+/*-----Drop Down Menu Links-----*/
+a.drop-item:link, a.drop-item:visited {
+  color: black;
+}
+
+.rightnav{
+float: right !important;
+}
+
 .sidebar {
     border-right-color: grey;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
     margin: 0;
     padding: 0;
     width: 300px;
-    position: absolute;
     height: 100%;
+    position: absolute;
+    min-height: 100%;
     overflow: auto;
   }
 
   div.content {
       margin-left: 300px;
-      padding: 1px 16px;
+      padding-top: 10px;
       background-color: white !important;
     }
+
+
 
     .sidebar a{
         display: block;
@@ -29,6 +68,12 @@
 /*.scrollable{
 
 }*/
+
+/* html, body{
+  overflow: scroll;
+  position: relative;
+  overflow-x:hidden ;
+} */
 
 .container{
   padding-top: 2.5%;
@@ -77,9 +122,9 @@ img{
   border: 1px solid #ccc;
   background-color: white;
   overflow: hidden;
-  padding-bottom: 4%;
+  padding-bottom: 0%;
     display: block;
-    height: 325px;
+    height: 500px;
     overflow-y: scroll;
     bottom: 0px;
 }
@@ -93,7 +138,7 @@ img{
 .received-chats-img{
   display: inline-block;
   width: 4%;
-  float: left;
+  /*float: left;*/
 }
 .received-msg{
   display: inline-block;
@@ -140,7 +185,7 @@ img{
 .outgoing-chats-img{
   display: inline-block;
   width: 4%;
-  float: right;
+  /*float: right;*/
 }
 .msg-bottom{
   position: realtive;
@@ -184,7 +229,7 @@ img{
   float: right;
 }
 
-.form-control: focus{
+.form-control:focus {
   border-color: none !important;
   box-shadow: none !important;
   border-radius: 20px;
