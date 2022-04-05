@@ -13,7 +13,7 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Statistics</title>
+    <title>CovidConnect | Patients List</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
@@ -22,14 +22,6 @@
     <link rel="stylesheet" href="/css/adminBackground.css">
 
 </head>
-
-<!--Adding Chart.js-->
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-</script>
-
-
-
 
 <body>
    <!--Sidebar for Navigation-->
@@ -43,15 +35,69 @@
       </div>
   </div>
 
-  
+
     <div class="content">
-        <h1 class="title"><i class="fas fa-chart-bar"></i> Statistics</h1>
+        <h1 class="title"><i class="fas fa-hospital-user"></i> Patients</h1>
         <div class="form">
 
-            Some statistics?
-            <canvas id="covidRatioChart" style="width:100%;max-width:700px"></canvas>
-            <canvas id="symptomRatioChart" style="width:100%;max-width:700px"></canvas>
-            
+
+            <div class="col-md-12 frame">
+                <h2 style="padding-left:0px;">Patients</h2>
+                    <div class="col-md-6">
+          
+          
+                    </div>
+                      <label for="list1" class="form-label">Covid Status:</label>
+                    <select class="form-select" id="list1" onchange="myFunction(); redirect(this.value)" class='form-control'>
+                      <option value="/doctorsPatientList" selected>ALL</option>
+                    <option>POSITIVE</option>
+                    <option>NEGATIVE</option>
+                    </select>
+          
+                    <script>
+                      /*
+                      * This method refreshes the page in case "ALL" is selected
+                      * @param {string} src refered to the link that the fuction is redirecting to
+                      */
+                      function redirect(src)
+                      {
+                        if(src == "/doctorsPatientList"){
+                          window.location=src;
+                        }
+                      }
+                    </script>
+          
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Covid Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                           
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>John</td>
+                              <td>Doe</td>
+                              <td>POSITIVE</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jake</td>
+                                <td>Smith</td>
+                                <td>NEGATIVE</td>
+                              </tr>
+                              
+                          </tbody>
+                      </table>
+                      
+                </div>
+
+
         </div>
 
     </div>
@@ -79,54 +125,5 @@
 
 
 </body>
-
-<!--Generate charts-->
-<script type="text/javascript">
-
-    var ctx = document.getElementById('covidRatioChart');
-    var xValues = ["Covid Positive", "Not infected"];
-    var yValues = ["<%=covid_ratio[0] %>", "<%=covid_ratio[1] %>"];
-    var barColors = ["red", "blue"];
-
-    var chart1 = new Chart("covidRatioChart", {
-    type: "pie",
-    data: {
-        labels: xValues,
-        datasets: [{
-        backgroundColor: barColors,
-        data: yValues
-        }]
-    },
-    options: {
-        title: {
-        display: true,
-        text: "Ratio of Patients with Covid (Percentage (%))"
-        }
-  }
-    });
-
-
-
-    xValues = ["Cough", "Fever", "Tiredness", "Loss of Taste or Smell", "Sore Throat", "Headache", "Diarrhea", "Aches and Pains", "Chest Pain", "Other"];
-    yValues = ["<%=symptom_ratio[0] %>", "<%=symptom_ratio[1] %>", "<%=symptom_ratio[2] %>", "<%=symptom_ratio[3] %>", "<%=symptom_ratio[4] %>", "<%=symptom_ratio[5] %>", "<%=symptom_ratio[6] %>", "<%=symptom_ratio[7] %>", "<%=symptom_ratio[8] %>", "<%=symptom_ratio[9] %>"];
-    barColors = ["blue", "red", "green", "yellow", "aquamarine", "chartreuse", "darkviolet", "lightsalmon", "darkolivegreen", "beige"];
-
-    var chart2 = new Chart("symptomRatioChart", {
-    type: "pie",
-    data: {
-        labels: xValues,
-        datasets: [{
-        backgroundColor: barColors,
-        data: yValues
-        }]
-    },
-    options: {
-        title: {
-        display: true,
-        text: "Ratio of Symptoms Experienced by Patients (Percentage (%))"
-        }
-  }
-    });
-</script>
 
 </html>

@@ -20,7 +20,8 @@
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/background.css">
-
+    <script type = "text/javascript" src="/helpers/helpers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 </head>
 
@@ -64,7 +65,10 @@
                     <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Appointments</a>
+                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Take Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
                 </li>
             </ul>
 
@@ -103,8 +107,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>John</th>
-                    <td>Doe</td>
+                    <td><%= doctor_first_name%></th>
+                    <td><%= doctor_last_name%></td>
                   </tr>
                 </tbody>
             </table>
@@ -113,17 +117,24 @@
             <div class="roundcorner">
             <h4>Appointment</h4>
             <p>Note that all appointments are scheduled for 1 hour. The time indicated below is the beginning time.</p>
+            <p id ="err-message" style ="color: red; display: none;" ></p>
+            <form action="/patientAppointment" method="POST">
+                <div class="col-md-6 centering">
+                    <label for="AppointmentDatepicker" class="form-label">Date: </label>
+                    <input type="datetime-local" id="AppointmentDatepicker" class="form-control" name="datetime" >
+                </div>
+                <div class="col-md-6 centering">
+                    <label for="description">Description: </label>
+                    <input type="text" class="form-control center" id="description" name="description">
+                    <input type="hidden" class="form-control center" id="doctor_uuid" name="doctor_uuid" value ="<%= doctor_uuid%>" >
+                    <input type="hidden" class="form-control center" id="doctor_first_name" name="doctor_first_name" value ="<%= doctor_first_name%>" >
+                    <input type="hidden" class="form-control center" id="doctor_last_name" name="doctor_last_name" value ="<%= doctor_last_name%>" >
+                </div>
+                <button type = "button" onClick = "check_if_available('<%=doctor_uuid%>')" class="btn btn-outline-danger btn-lg" CausesValidation="False" id = "check-availability">Check Availability</button>
+                <button type = "submit"  class="btn btn-outline-danger btn-lg" style = "display: none;" id="book-appointment">Book Appointment</button>
+                <a href = "/patientAppointment" class = "btn btn-outline-danger btn-lg" id = "change" style = "display: none; color: red;">Change</a>
 
-            <div class="col-md-6 centering">
-                <label for="AppointmentDatepicker" class="form-label">Date: </label>
-                <input type="datetime-local" id="AppointmentDatepicker" class="form-control">
-            </div>
-            <div class="col-md-6 centering">
-                <label for="description">Description: </label>
-                <input type="text" class="form-control center" id="description">
-            </div>
-
-                <a href="/patientAppointmentConfirmation"><button type="submit" class="btn btn-outline-danger btn-lg">Submit</button></a>
+            </form>
         </div>
         </center>
 
@@ -148,10 +159,9 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    
 
 </body>
 

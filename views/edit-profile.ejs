@@ -56,7 +56,10 @@
                     <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Appointments</a>
+                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Take Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
                 </li>
             </ul>
 
@@ -93,11 +96,6 @@
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Last Name</label>
                     <input type="text" class="form-control" name="lastName" value="<%= user.lastname %>" aria-label="Last name">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= user.email %>">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Address</label>
