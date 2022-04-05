@@ -19,7 +19,6 @@
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/background.css">
     <link rel="stylesheet" href="/css/messagingBackground.css">
 
     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
@@ -31,10 +30,15 @@
         }
         .container{
         position: relative;
-        left:-300px;
         }
         .content{
             width:100%;
+            position: relative;
+        }
+
+        div.content {
+          margin-left: 0;
+          background-color: white !important;
         }
 
       }
@@ -123,9 +127,8 @@
     </div>
 
 <div class="content">
-    <div class="info-home">
-        <div class="container" style="max-width: 1000px">
-              <div class="msg-header" style="background-color: #a6443d">
+        <div class="container">
+              <div class="msg-header" style="background-color: #a6443d;">
                 <div class="msg-header-img">
                   <img src="/img/doctor_user.png">
                 </div>
@@ -198,22 +201,8 @@
 
             </div>
 
-    </div>
 
 </div>
-
-    <!--Footer Bar-->
-    <!--Footer-->
-    <div class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
-                <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
-                <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
-                <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
-            </div>
-        </div>
-    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
