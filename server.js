@@ -851,6 +851,9 @@ app.get('/healthOfficialIndex', (req, res) => {
 app.get('/statistics', (req, res) => {
     res.render('health_official_statistics.ejs')
 })
+app.get('/healthOfficialPatientList', (req, res) => {
+    res.render('health_official_patient_list.ejs')
+})
 
 //server start on port 3000
 var app_server = app.listen(3000)
