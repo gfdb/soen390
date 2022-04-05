@@ -1090,7 +1090,7 @@ app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) =
 
     const sql = `
         SELECT * from Appointment 
-        Where doctor_uuid = '${doctor_uuid}' AND datetime = '${date_time}' AND doctor_uuid <> 0
+        Where doctor_uuid = '${doctor_uuid}' AND datetime = '${date_time}' 
     `
 
     console.log("I am after query dec")
