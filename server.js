@@ -1177,8 +1177,8 @@ app.get('/statistics', (req, res) => {
             }
         }
         total = covid + no_covid;
-        covid = (covid/total).toFixed(3)*100
-        no_covid = (no_covid/total).toFixed(3)*100
+        covid = ((covid/total)*100).toFixed(2)
+        no_covid = ((no_covid/total)*100).toFixed(2)
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -1194,7 +1194,7 @@ app.get('/statistics', (req, res) => {
         if (err) console.log(err)
         
         symptomRatio(result);
-        renderPage();
+        //renderPage();
     })
 
     var cough = 0;
@@ -1209,52 +1209,124 @@ app.get('/statistics', (req, res) => {
     var other = 0;
     function symptomRatio(value) {
         symptom_list = value;
-        
+        var total = 0;
         for(let i = 0; i < symptom_list.length; i++){
             var symptom = symptom_list[i].symptom;
             //console.log(symptom)
+            
             if(symptom === "cough"){
                 cough+=1;
-                
+                total+=1;
+
             }else if(symptom === "fever"){
                 fever+=1;
+                total+=1;
 
             }else if(symptom === "tiredness"){
                 tiredness+=1;
+                total+=1;
                 
             }else if(symptom === "lost of taste or smell"){
                 taste_or_smell+=1;
+                total+=1;
 
             }else if(symptom === "sore throat"){
                 sore_throat+=1;
+                total+=1;
 
             }else if(symptom === "headache"){
                 headache+=1;
+                total+=1;
 
             }else if(symptom === "diarrhea"){
                 diarrhea+=1;
+                total+=1;
 
             }else if(symptom === "aches and pains"){
                 aches_and_pains+=1;
+                total+=1;
 
             }else if(symptom === "chest pain"){
                 chest_pain+=1;
+                total+=1;
 
             }else if(symptom !== ""){
                 other+=1;
+                total+=1;
 
             }
         }
-        total = cough+fever+other;
-        cough = (cough/total).toFixed(3)*100;
-        fever = (fever/total).toFixed(3)*100;
-        other = (other/total).toFixed(3)*100;
+        
+        cough = ((cough/total)*100).toFixed(2)
+        fever = ((fever/total)*100).toFixed(2)
+        tiredness = ((tiredness/total)*100).toFixed(2)
+        taste_or_smell = ((taste_or_smell/total)*100).toFixed(2)
+        sore_throat = ((sore_throat/total)*100).toFixed(2)
+        headache = ((headache/total)*100).toFixed(2)
+        diarrhea = ((diarrhea/total)*100).toFixed(2)
+        aches_and_pains = ((aches_and_pains/total)*100).toFixed(2)
+        chest_pain = ((chest_pain/total)*100).toFixed(2)
+        other = ((other/total)*100).toFixed(2)
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    //##############################################################################//
+    //////////////////////////////////////////////////////////////////////////////////
+
+    //query that gets all the patients' covid status 
+    var all_patients = `
+    SELECT Patient.user_uuid
+    FROM Patient`;
+
+    var all_workers = `
+    SELECT Worker.role
+    FROM Worker
+    WHERE verified = 1`;
+
+    var patient_list = [];
+    var worker_list = [];
+    db.query(all_patients, function(err, result1) {
+        if (err) console.log(err)
+        db.query(all_workers, function(err, result2) {
+            if (err) console.log(err)
+            
+            users(result1, result2);
+            renderPage();
+        })
+    })
+
+    var patient = 0;
+    var doctor = 0;
+    var nurse = 0;
+    var health_official = 0;
+    var immigration_officer = 0;
+    function users(value1, value2) {
+        patient_list = value1;
+        worker_list = value2;
+        patient = patient_list.length;
+        for(let i = 0; i < worker_list.length; i++){
+            role = worker_list[i].role;
+            
+            if(role === "doctor"){
+                doctor+=1;
+
+            }else if(role === "nurse"){
+                nurse+=1;
+
+            }else if(role === "health official"){
+                health_official+=1;
+
+            }else if(role === "immigration officer"){
+                immigration_officer+=1;
+
+            }
+        }
+    }
     //render the health official's statistics page
     function renderPage(){
         res.render('health_official_statistics.ejs', { covid_ratio: [covid, no_covid], 
-                                                     symptom_ratio: [cough, fever, tiredness, taste_or_smell, sore_throat, headache, diarrhea, aches_and_pains, chest_pain, other] })
+                                                     symptom_ratio: [cough, fever, tiredness, taste_or_smell, sore_throat, headache, diarrhea, aches_and_pains, chest_pain, other],
+                                                     sys_users: [patient, doctor, nurse, health_official, immigration_officer] })
     }
     
     
