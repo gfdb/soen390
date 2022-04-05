@@ -57,21 +57,38 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Smith</td>
-                            <td>2022-04-06, 10:00 AM</td>
-                            <td>Fever won't go down</td>
-                        </tr>
+                        <%
+                        if(appointment.length!=0){
+                          var i=1;
+                          
+                        appointment.forEach(function(data){                     
+                        %>
+                        <%
+                        var dateapp = new Date(data.datetime)
+                        var datenow = new Date()
+                        
+                         %>
+                    <% if (dateapp>=datenow) {%>
+                        
+                            <tr>
+                            <th scope="row"><%= i; %></th>
+                            <td><%= data.patient_first_name%></td>
+                            <td><%= data.patient_last_name%></td>
+                            <td><%= data.datetime%></td>
+                            <td><%= data.description%></td>
+                            </tr>
+                        <%} %>
+                        
+                       
+                        <% i++;}) %>
 
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Edward</td>
-                            <td>Paige</td>
-                            <td>2022-04-06, 9:00 AM</td>
-                            <td>Extreme cough</td>
-                        </tr>
+                    <% } else { %>
+                              
+                                  
+                                  <h3 style="text-align: center;">No Appointment Found</h3>
+                              
+                        <% } %>
+                        
                           
                       </tbody>
                   </table>
@@ -97,21 +114,40 @@
                       </thead>
                       <tbody>
                  
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Justin</td>
-                            <td>Doe</td>
-                            <td>2022-04-10, 7:00 AM</td>
-                            <td>Chest pain</td>
-                        </tr>
+                        <%
+                        if(appointment.length!=0){
+                        var i=1;
+                         
+                        appointment.forEach(function(data){  
+                            
+                            
+                        var dateapp = new Date(data.datetime)
+                        var datenow = new Date()
+                        
+                         
+                        %>
+                    <% if (dateapp<datenow){%>
+                            <tr>
+                            <th scope="row"><%= i; %></th>
+                            <td><%= data.patient_first_name%></td>
+                            <td><%= data.patient_last_name%></td>
+                            <td><%= data.datetime%></td>
+                            <td><%= data.description%></td>
+                            </tr>
+                        
+                       
+                        <% i++;}}) %>
 
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Christina</td>
-                            <td>Colin</td>
-                            <td>2022-04-11, 8:00 AM</td>
-                            <td>difficulty breathing</td>
-                        </tr>
+                    <% }else{ %>
+                              
+                                  
+                                  <h3 style="text-align: center;">No Appointment Found</h3>
+                              
+                            <% } %>
+                        
+                          
+                      </tbody>
+                      
                       </tbody>
                   </table>            
             </div>
