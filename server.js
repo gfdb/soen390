@@ -845,6 +845,7 @@ app.get('/doctorAllAppointments', (req, res) => {
     res.render('doctor_all_appointments.ejs')
 })
 
+//app routes for health official page
 app.get('/healthOfficialIndex', (req, res) => {
     res.render('health_official_index.ejs')
 })
