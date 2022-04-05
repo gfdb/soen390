@@ -92,12 +92,43 @@
         <h6 class="title">On this page, you will be able to enter the symptoms you are feeling. This will enable help your doctor monitor your Covid-19 status.</h6>
 
         <div class="form">
-         <ul style="list-style-type:none; padding-left: 0px;">
+        <ul style="list-style-type:none; padding-left: 0px;">
             <h3 style="margin-left:2.5%;">Current Symptom(s)</h3>
 
             <form action="/symptoms" method="POST">
                 <div class="form-row align-items-center">
+                    <div class="col-md-4">
+                        
+                        <label for="inputState" class="form-label">Please enter a symptom one at a time</label>
+                        <input type="text" list="symptoms"  name = newSymptom>
+                        <datalist id="symptoms">
+                            <option>fever</option>
 
+                            <option>cough</option> 
+
+                            <option>tiredness</option>
+
+                            <option>loss of taste or smell</option> 
+
+                            <option>sore throat</option>
+
+                            <option>headache</option>
+
+                            <option>diarrhea</option>
+
+                            <option>aches and pains</option>
+
+                            <option>chest pain</option>
+                        </datalist>
+                        
+                        
+                        
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
+                    </div>
+                    
+                    <!--
                   <li>
                     <div class="col-auto">
                       <label for="inlineFormInput">Please enter your symptoms, one at a time:</label>
@@ -109,11 +140,12 @@
                       <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
                     </div>
                   </li>
-              </div>
+                  -->
+                </div>
 
-
-         </ul>
             </form>
+         </ul>
+            
 
             <!-- <h3 style="padding-top: 9%;">History of Symptom(s)</h3>
                         <div class="history">
