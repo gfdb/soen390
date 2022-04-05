@@ -107,9 +107,9 @@
 
 
 
-    xValues = ["Cough", "Fever", "Other"];
-    yValues = ["<%=symptom_ratio[0] %>", "<%=symptom_ratio[1] %>", "<%=symptom_ratio[2] %>"];
-    barColors = ["blue", "red", "beige"];
+    xValues = ["Cough", "Fever", "Tiredness", "Loss of Taste or Smell", "Sore Throat", "Headache", "Diarrhea", "Aches and Pains", "Chest Pain", "Other"];
+    yValues = ["<%=symptom_ratio[0] %>", "<%=symptom_ratio[1] %>", "<%=symptom_ratio[2] %>", "<%=symptom_ratio[3] %>", "<%=symptom_ratio[4] %>", "<%=symptom_ratio[5] %>", "<%=symptom_ratio[6] %>", "<%=symptom_ratio[7] %>", "<%=symptom_ratio[8] %>", "<%=symptom_ratio[9] %>"];
+    barColors = ["blue", "red", "green", "yellow", "aquamarine", "chartreuse", "darkviolet", "lightsalmon", "darkolivegreen", "beige"];
 
     var chart2 = new Chart("symptomRatioChart", {
     type: "pie",
