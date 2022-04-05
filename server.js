@@ -850,7 +850,85 @@ app.get('/healthOfficialIndex', (req, res) => {
     res.render('health_official_index.ejs')
 })
 app.get('/statistics', (req, res) => {
-    res.render('health_official_statistics.ejs')
+    //query that gets all the patients' covid status 
+    var total_covid = `
+    SELECT Patient.covid
+    FROM Patient`;
+
+    var covid_list = [];
+    db.query(total_covid, function(err, result) {
+        if (err) console.log(err)
+        
+        covidRatio(result);
+        //renderPage();
+    })
+
+    var covid = 0;
+    var no_covid = 0;
+    function covidRatio(value) {
+        covid_list = value;
+        
+        for(let i = 0; i < covid_list.length; i++){
+            if(covid_list[i].covid == 1){
+                covid+=1;
+                
+            }else if(covid_list[i].covid == 0){
+                no_covid+=1;
+            }
+        }
+        total = covid + no_covid;
+        covid = (covid/total).toFixed(3)*100
+        no_covid = (no_covid/total).toFixed(3)*100
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //##############################################################################//
+    //////////////////////////////////////////////////////////////////////////////////
+
+    var symptomQ = `
+    SELECT History.symptom
+    FROM History`;
+
+    var symptom_list = [];
+    db.query(symptomQ, function(err, result) {
+        if (err) console.log(err)
+        
+        symptomRatio(result);
+        renderPage();
+    })
+
+    var cough = 0;
+    var fever = 0;
+    var other = 0;
+    function symptomRatio(value) {
+        symptom_list = value;
+        
+        for(let i = 0; i < symptom_list.length; i++){
+            var symptom = symptom_list[i].symptom;
+            if(symptom === "cough"){
+                cough+=1;
+                
+            }else if(symptom === "fever"){
+                fever+=1;
+
+            }else{
+                other+=1;
+
+            }
+        }
+        total = cough+fever+other;
+        cough = (cough/total).toFixed(3)*100;
+        fever = (fever/total).toFixed(3)*100;
+        other = (other/total).toFixed(3)*100;
+    }
+
+    //render the health official's statistics page
+    function renderPage(){
+        res.render('health_official_statistics.ejs', { covid_ratio: [covid, no_covid], 
+                                                     symptom_ratio: [cough, fever, other] })
+    }
+    
+    
 })
 
 //server start on port 3000
