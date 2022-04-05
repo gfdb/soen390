@@ -23,6 +23,14 @@
 
 </head>
 
+<!--Adding Chart.js-->
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+
+
+
+
 <body>
    <!--Sidebar for Navigation-->
    <div class="sidebar">
@@ -35,13 +43,15 @@
       </div>
   </div>
 
-
+  
     <div class="content">
         <h1 class="title"><i class="fas fa-chart-bar"></i> Statistics</h1>
         <div class="form">
 
             Some statistics?
-
+            <canvas id="covidRatioChart" style="width:100%;max-width:700px"></canvas>
+            <canvas id="symptomRatioChart" style="width:100%;max-width:700px"></canvas>
+            
         </div>
 
     </div>
@@ -69,5 +79,54 @@
 
 
 </body>
+
+<!--Generate charts-->
+<script type="text/javascript">
+
+    var ctx = document.getElementById('covidRatioChart');
+    var xValues = ["Covid Positive", "Not infected"];
+    var yValues = ["<%=covid_ratio[0] %>", "<%=covid_ratio[1] %>"];
+    var barColors = ["red", "blue"];
+
+    var chart1 = new Chart("covidRatioChart", {
+    type: "pie",
+    data: {
+        labels: xValues,
+        datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+        }]
+    },
+    options: {
+        title: {
+        display: true,
+        text: "Ratio of Patients with Covid (Percentage (%))"
+        }
+  }
+    });
+
+
+
+    xValues = ["Cough", "Fever", "Other"];
+    yValues = ["<%=symptom_ratio[0] %>", "<%=symptom_ratio[1] %>", "<%=symptom_ratio[2] %>"];
+    barColors = ["blue", "red", "beige"];
+
+    var chart2 = new Chart("symptomRatioChart", {
+    type: "pie",
+    data: {
+        labels: xValues,
+        datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+        }]
+    },
+    options: {
+        title: {
+        display: true,
+        text: "Ratio of Symptoms Experienced by Patients (Percentage (%))"
+        }
+  }
+    });
+</script>
 
 </html>
