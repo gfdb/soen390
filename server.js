@@ -1114,8 +1114,35 @@ app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) =
         }
     })
 })
-app.get('/doctorAllAppointments', (req, res) => {
-    res.render('doctor_all_appointments.ejs')
+app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
+    var appointment = []
+    const doctor_uuid = req.session.user.uuid
+    const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
+    FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
+          FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid  ) AS patient ,
+    
+    
+    (SELECT User.first_name AS doctor_first_name, User.last_name As doctor_last_name, User.uuid, Doctor.patient_uuid As patient_uuid FROM User,Doctor Where User.uuid = Doctor.user_uuid AND User.uuid = '${req.session.user.uuid}' ) AS TEMP 
+    WHERE patient.uuid = TEMP.patient_uuid Order BY ABS( DATEDIFF(  patient.datetime, NOW()))`
+
+    db.query(sql, function(err, result) {
+        try{
+            if (err) console.log(err);
+            
+            for (i=0;i<result.length;i++)
+            {
+                appointment.push(result[i])
+                
+
+            }
+            console.log(appointment)
+            res.render('doctor_all_appointments.ejs',{appointment:appointment})
+        }
+        catch(err){
+            console.log(err)
+        }
+    })
+    
 })
 
 app.get('/healthOfficialIndex', (req, res) => {
