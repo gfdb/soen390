@@ -54,10 +54,10 @@ function check_if_available(doctor_uuid) {
                 check_button.style.setProperty("display", "none")
 
                 let date_time_input = document.getElementById("AppointmentDatepicker")
-                date_time_input.disabled = true
+                date_time_input.setAttribute('readonly', 'readonly')
 
                 let desc_input = document.getElementById("description")
-                desc_input.disabled = true
+                desc_input.setAttribute('readonly', 'readonly')
 
                 document.getElementById("change").style.removeProperty('display')
 
