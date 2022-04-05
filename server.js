@@ -899,19 +899,48 @@ app.get('/statistics', (req, res) => {
 
     var cough = 0;
     var fever = 0;
+    var tiredness = 0;
+    var taste_or_smell = 0;
+    var sore_throat = 0;
+    var headache = 0;
+    var diarrhea = 0;
+    var aches_and_pains = 0;
+    var chest_pain = 0;
     var other = 0;
     function symptomRatio(value) {
         symptom_list = value;
         
         for(let i = 0; i < symptom_list.length; i++){
             var symptom = symptom_list[i].symptom;
+            //console.log(symptom)
             if(symptom === "cough"){
                 cough+=1;
                 
             }else if(symptom === "fever"){
                 fever+=1;
 
-            }else{
+            }else if(symptom === "tiredness"){
+                tiredness+=1;
+                
+            }else if(symptom === "lost of taste or smell"){
+                taste_or_smell+=1;
+
+            }else if(symptom === "sore throat"){
+                sore_throat+=1;
+
+            }else if(symptom === "headache"){
+                headache+=1;
+
+            }else if(symptom === "diarrhea"){
+                diarrhea+=1;
+
+            }else if(symptom === "aches and pains"){
+                aches_and_pains+=1;
+
+            }else if(symptom === "chest pain"){
+                chest_pain+=1;
+
+            }else if(symptom !== ""){
                 other+=1;
 
             }
@@ -925,7 +954,7 @@ app.get('/statistics', (req, res) => {
     //render the health official's statistics page
     function renderPage(){
         res.render('health_official_statistics.ejs', { covid_ratio: [covid, no_covid], 
-                                                     symptom_ratio: [cough, fever, other] })
+                                                     symptom_ratio: [cough, fever, tiredness, taste_or_smell, sore_throat, headache, diarrhea, aches_and_pains, chest_pain, other] })
     }
     
     
