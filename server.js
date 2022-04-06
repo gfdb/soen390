@@ -845,9 +845,41 @@ app.get('/locations',  checkAuthenticated,  (req, res) => {
     
 })
 
-app.get('/symptomsMonitor', (req, res) => {
-    res.render('doctor_symptoms.ejs')
+
+//page where doctors can see patients symptoms history
+app.get('/symptomsMonitor/:patient_id',checkDoctor, (req, res) => {
+    const patient_uuid = req.params.patient_id
+    console.log(req.params.patient_id)
+    
+    //fetching the info from history ordered by descending time where its the current user uuid 
+    var sql = "SELECT * FROM History WHERE uuid = '" + req.params.patient_id + "' order by datetime desc;"
+    var symptoms = [];
+    
+    db.query(sql, function(err, rows) {
+        try{
+            //console.log(rows[0])
+            if (err) console.log(err);
+            
+            for (let i = 0; i < rows.length; i++){
+                //converting the date time into a different format 
+                rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
+                symptoms.push(rows[i])
+               // dates.push(rows[i].datetime)
+            }
+            console.log(symptoms)
+            console.log('here1')
+            //rendering the doctors patient symptom page 
+            res.render('doctor_symptoms.ejs',{symptoms: symptoms, patient_id:patient_uuid})
+        }
+        catch(err){
+            console.log(err)
+        }
+    })
+    
+    
 })
+
+
 app.get('/patientAppointment', checkAuthenticated,(req, res) => {
     console.log("inside patient appointment")
     var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '"+req.session.user.uuid+"'"
