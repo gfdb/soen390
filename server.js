@@ -74,6 +74,19 @@ function checkDoctor(req, res, next) {
     return res.status(403).redirect('/')
 }
 
+// check if current user is a doctor
+function checkHealthOfficial(req, res, next) {
+    if (!req.session.authenticated) {
+        // redirect to login if user is not logged in
+        return res.status(403).redirect('/login')
+    }
+    // check if they are a doctor
+    else if (req.session.user.permissionLevel.localeCompare('health official') === 0)
+        return next()
+    // 403 forbidden if the user is not a doctor
+    return res.status(403).redirect('/')
+}
+
 //path for home
 app.get('/', (req, res) => {
     res.render('index.ejs', { authenticated: req.session.authenticated })
@@ -1146,10 +1159,10 @@ app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
 })
 
 //app routes for health official page
-app.get('/healthOfficialIndex', (req, res) => {
+app.get('/healthOfficialIndex',checkHealthOfficial, (req, res) => {
     res.render('health_official_index.ejs')
 })
-app.get('/statistics', (req, res) => {
+app.get('/statistics', checkHealthOfficial, (req, res) => {
     //query that gets all the patients' covid status 
     var total_covid = `
     SELECT Patient.covid
@@ -1331,7 +1344,7 @@ app.get('/statistics', (req, res) => {
     
     
 })
-app.get('/healthOfficialPatientList', (req, res) => {
+app.get('/healthOfficialPatientList', checkAuthenticated, checkHealthOfficial, (req, res) => {
     res.render('health_official_patient_list.ejs')
 })
 
