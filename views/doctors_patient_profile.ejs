@@ -25,6 +25,7 @@
 </head>
 
 <body>
+
     <!--Sidebar for Navigation-->
     <div class="sidebar">
         <a class="logoside" href="/doctorIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -51,7 +52,7 @@
 
                     <a href="/symptomsMonitor/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;"> View Symptom History</button></a>
 
-                    <a href="/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a> //
+                    <a href="/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
 
 
 
@@ -165,19 +166,24 @@
 
                         <%
                             if(patientinfo.covid==1){
-                            
+                        
                                                  
                             %>
-                            <<<<<<< HEAD <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
-                                <% } else if (patientinfo.covid==0) { %>
-                                    <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
-                                    <% } %>
-                    </div>
-                    <div class="col-md-12 covid" style="background-color: beige;">
-                        <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
 
-                        <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
+
+
+                            <p style="background-color: #e6aaaa; color: #4f1212; font-weight:700;" class="covid">POSITIVE</p>
+                            <%  }else if (patientinfo.covid==0) { %>
+                                <p style="background-color: #caedc7; color: #325230;font-weight:700;" class="covid">NEGATIVE</p>
+                                <% } %>
                     </div>
+
+                    <!--
+                        <div class="col-md-12 covid" style="background-color: beige;">
+                            <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
+                            
+                            <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
+                        </div>-->
                 </center>
             </div>
             <% } else{ %>
@@ -187,55 +193,39 @@
                 <% } %>
 
         </form>
-        =======
 
-        <p style="background-color: #e6aaaa; color: #4f1212; font-weight:700;" class="covid">POSITIVE</p>
-        <% } else if (patientinfo.covid==0) { %>
-            <p style="background-color: #caedc7; color: #325230;font-weight:700;" class="covid">NEGATIVE</p>
-            <% } %>
+
+
+
     </div>
 
-    <!--
-                        <div class="col-md-12 covid" style="background-color: beige;">
-                            <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
-                            
-                            <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
-                        </div>-->
-    </center>
     </div>
-    <% } else{ %>
-        <tr>
-            <td colspan="7">Patient Not Found</td>
-        </tr>
-        <% } %>
 
-            </form>
-            >>>>>>> 2102f698d7cfca41de928fbd52fd267264e40d03
-
-
-
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
+    <!--Footer Bar-->
+    <!--Footer-->
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
+                <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
+                <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
+                <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
             </div>
-
-            </div>
-
-
-            <!--Footer Bar-->
-            <!--Footer-->
-            <div class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
-                        <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
-                        <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
-                        <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
 
 
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
 </body>

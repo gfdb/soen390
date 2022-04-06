@@ -1044,7 +1044,7 @@ app.post('/patientAppointment', checkAuthenticated, function(req, res) {
                     console.log(description)
 
                 }
-                res.redirect('/patientAppointmentConfirmation/' + datetime)
+                // res.redirect('/patientAppointmentConfirmation/' + datetime)
 
             } catch (err) {
                 console.log(err)
