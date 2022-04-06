@@ -13,7 +13,7 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Login</title>
+    <title>CovidConnect | Confirmation</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
@@ -21,9 +21,18 @@
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/background.css">
 
+
 </head>
 
 <body>
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -63,21 +72,14 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <li>
-                    <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
-                </li>
+
 
 
                 <!-- Dropdown -->
 
 
-                <li class="nav-item dropdown">
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="/login">Login</a>
-                    </div>
-
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
-
+                <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
                 </li>
 
 
@@ -89,39 +91,48 @@
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-sign-in-alt"></i> Login</h1>
+        <h1 class="title"><i class="fas fa-book-medical"></i> Appointment Confirmation</h1>
 
-        <div class="form">
+        <div class="appointment" >
 
-            <form action="/login" method="POST">
-                <div style="padding-top: 60px;">
-                    <%if(error){%>
-                        <p style="color: red; text-align: center;">
-                            <%=error%>
-                        </p>
-                        <%}%>
-                        <label for="email" class="form-label field">Email address</label>
+            <h3 style="text-align: center;">Your Appointment was booked successfully!</h3>
 
-                            <div class="input-group mb-3 field">
+           
 
-                                <input type="email" id='email' class="form-control" aria-label="email" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
-                            </div>
-                </div>
-                <div class="mb-3 field" style="padding-top: 40px;">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <p style="text-align: center;">Don't have an account? <a href="/signup" style="color: #0066CC;">Sign up today!</a></p>
+            <table class="table table-striped">
+               
 
-                <div class="col-12 submitbtn" style="padding-top: 80px; padding-bottom: 80px;">
-                    <button type="submit" class="btn btn-outline-danger btn-lg">Sign In</button>
-                </div>
-            </form>
-
+                <tbody>
+                    
+                    <tr>
+                        <th scope="row">Patient's Name</th>
+                        <td><%=patient_first_name%> <%=patient_last_name%></td>
+                  <tr>
+                    <th scope="row">Doctor's First Name</th>
+                    <td><%= doctor_first_name%></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Doctor's Last Name</th>
+                    <td><%= doctor_last_name%></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Time</th>
+                    <td colspan="2"><%= datetime%></td>
+                  </tr>
+                  <br><br>
+                </tbody>
+              
+              </table>
+             
+                              
+                                  
+                         
+           
+              <div style="padding-bottom: 30%;"></div>
 
         </div>
-    </div>
 
+    </div>
 
 
     <!--Footer Bar-->

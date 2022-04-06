@@ -28,30 +28,41 @@
     <div class="sidebar">
         <a class="logoside" href="/doctorIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
         <a class="active" href="/doctorIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
-        <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My patients</a>
-        <!-- <a href=""><i class="fas fa-comment-medical"></i> Contact Patients</a> -->
-
+        <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My Patients</a>
+        <a href="/doctorAllAppointments"><i class="far fa-calendar-check"></i> My Appointments</a>
         <div>
             <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
-
     </div>
-
 
     <div class="content">
         <h1 class="title"><i class="fas fa-hospital-user"></i> My patients</h1>
         <div class="form">
             <div class="col-md-12 frame">
+                <h2 style="padding-left:0px;">Patients</h2>
                 <div class="col-md-6">
-                    <h2>Patients Assigned to me</h2>
+
 
                 </div>
-                <h2>Covid Status</h2>
-                <select id="list1" onchange="myFunction()" class='form-control'>
-            <option></option>
+                <label for="list1" class="form-label">Covid Status:</label>
+                <select class="form-select" id="list1" onchange="myFunction(); redirect(this.value)" class='form-control'>
+            <option value="/doctorsPatientList" selected>ALL</option>
           <option>POSITIVE</option>
           <option>NEGATIVE</option>
           </select>
+
+                <script>
+                    /*
+                     * This method refreshes the page in case "ALL" is selected
+                     * @param {string} src refered to the link that the fuction is redirecting to
+                     */
+                    function redirect(src) {
+                        if (src == "/doctorsPatientList") {
+                            window.location = src;
+                        }
+                    }
+                </script>
+
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
@@ -60,7 +71,6 @@
                             <th scope="col">Last Name</th>
                             <th scope="col">Covid Status</th>
                             <th scope="col">Severity</th>
-
                             <th scope="col" style="text-align: right;">View Patient's Profile</th>
                         </tr>
                     </thead>

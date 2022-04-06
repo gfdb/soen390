@@ -19,7 +19,6 @@
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/background.css">
     <link rel="stylesheet" href="/css/messagingBackground.css">
 
     <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
@@ -31,10 +30,15 @@
         }
         .container{
         position: relative;
-        left:-300px;
         }
         .content{
             width:100%;
+            position: relative;
+        }
+
+        div.content {
+          margin-left: 0;
+          background-color: white !important;
         }
 
       }
@@ -48,6 +52,15 @@
     </style>
 </head>
 
+<!--Auto-scroll to most recent message on page load-->
+<script type="text/javascript">
+  window.onload = function scroll_bottom()
+  {
+  var elem = document.getElementById('msg-inbox');
+  elem.scrollTop = elem.scrollHeight;
+  }
+</script>
+
 <body>
 
     <!--Heading-->
@@ -57,41 +70,53 @@
 
     <!--Navigation Bar-->
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
-        <!-- Brand -->
-        <a class="navbar-brand" href="/"><i class="fab fa-canadian-maple-leaf"></i>CovidConnect</a>
+      <!-- Brand -->
+      <a class="navbar-brand" href="/"><i class="fab fa-canadian-maple-leaf"></i>CovidConnect</a>
 
-        <!-- Toggler/collapsibe Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <!-- Toggler/collapsibe Button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-        <!-- Navbar links -->
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile"><i class="fas fa-address-card"></i> Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/patientMessaging"><i class="fas fa-stethoscope"></i> Contact Your Doctor</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
-                </li>
-            </ul>
+      <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" href="/profile"><i class="fas fa-address-card"></i> Profile</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/patientMessaging"><i class="fas fa-stethoscope"></i> Contact Your Doctor</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Take Appointments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
+            </li>
+          </ul>
 
-            <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ml-auto">
 
 
 
-                <!-- Dropdown -->
-                    <li>
-                        <a class="nav-link" href="/logout"><i></i>Logout</a>
-                    </li>
+              <!-- Dropdown -->
 
-            </ul>
-        </div>
 
-    </nav>
+              <li class="nav-item">
+                      <a class="nav-link" href="/logout">Logout</a>
+              </li>
+
+
+          </ul>
+      </div>
+
+  </nav>
 
     <div class="sidebar-option">
         <div class="sidebar" style="background-color: #ededed">
@@ -102,9 +127,8 @@
     </div>
 
 <div class="content">
-    <div class="info-home">
-        <div class="container" style="max-width: 1000px">
-              <div class="msg-header" style="background-color: #a6443d">
+        <div class="container">
+              <div class="msg-header" style="background-color: #a6443d;">
                 <div class="msg-header-img">
                   <img src="/img/doctor_user.png">
                 </div>
@@ -115,7 +139,7 @@
               </div>
 
               <div class="chat-page">
-                <div class="msg-inbox">
+                <div class="msg-inbox" id="msg-inbox">
                   <div class="chats">
                     <div class="msg-page">
                       <%if(messageList.length!=0){%>
@@ -177,22 +201,8 @@
 
             </div>
 
-    </div>
 
 </div>
-
-    <!--Footer Bar-->
-    <!--Footer-->
-    <div class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
-                <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
-                <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
-                <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
-            </div>
-        </div>
-    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

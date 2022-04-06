@@ -11,7 +11,6 @@
 
     <!--Link to kit's Code for Icons-->
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
-
     <!--Title of Page-->
     <title>CovidConnect | Profile</title>
 
@@ -41,12 +40,12 @@
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
         <!-- Brand -->
         <a class="navbar-brand" href="/"><i class="fab fa-canadian-maple-leaf"></i>CovidConnect</a>
-
+  
         <!-- Toggler/collapsibe Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+  
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
@@ -59,145 +58,103 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Take Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
+                </li>
             </ul>
-
+  
             <ul class="navbar-nav ml-auto">
-
-
-
+  
+  
+  
                 <!-- Dropdown -->
-
-
+  
+  
                 <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                 </li>
-
-
+  
+  
             </ul>
         </div>
-
+  
     </nav>
 
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-address-card"></i> Profile</h1>
+        <h1 class="title"><i class="fa fa-user-circle fa-2x"></i><br>
+        <%= user.name %> <%= user.lastname %>
+        </h1>
 
         <div class="form">
-            <h3>
-                <div class="editing"><a href="profile/edit"><i class="fas fa-marker"></i> Edit Profile</a></div>
-            </h3>
+            <!--<a href="/symptoms" class="symptom-button">Update Your Symptoms</a>-->
 
-            <form class="row g-3">
+            <form>
 
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label"><b>First Name</b></label>
-                    <!-- <input type="text" class="form-control" placeholder="First name" aria-label="First name"> -->
-                    <p>
-                        <%= user.name %>
-                    </p>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
-                    <!-- <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"> -->
-                    <p>
-                        <%= user.lastname %>
-                    </p>
-                </div>
+                <ul class="list-group list-group-flush">
 
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label"><b>Email</b></label>
-                    <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                    <p>
-                        <%= user.email %>
-                    </p>
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label"><b>Address</b></label>
-                    <!-- <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"> -->
-                    <p>
-                        <%= address.street_name %>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputEmail4" class="form-label"><b>Name</b></label>
+                        <p > <%= user.name %> <%= user.lastname %></p>
+                  </li>
 
-                    </p>
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
-                    <!-- <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"> -->
-                    <p>appt.
-                        <%= address.apartment_number %>
-                    </p>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputCity" class="form-label"><b>City</b></label>
-                    <!-- <input type="text" class="form-control" id="inputCity"> -->
-                    <p>
-                        <%= address.city %>
-                    </p>
-                </div>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                         <label for="inputEmail4" class="form-label"><b>Email</b></label>
+                         <p > <%= user.email %> </p>
 
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
-                    <!-- <select class="form-select" aria-label="Default select example">
-            <option selected>Select</option>
-            <option value="AB">Alberta</option>
-            <option value="BC">British Columbia</option>
-            <option value="MB">Manitoba</option>
-            <option value="NB">New Brunswick</option>
-            <option value="NL">Newfoundland and Labrador</option>
-            <option value="NT">Northwest Territories</option>
-            <option value="NS">Nova Scotia</option>
-            <option value="NU">Nunavut</option>
-            <option value="ON">Ontario</option>
-            <option value="PE">Prince Edward Island</option>
-            <option value="QC">Quebec</option>
-            <option value="3">Saskatchewan</option>
-            <option value="YT">Yukon</option>
-          </select> -->
-                    <p>
-                        <%= address.province %>
-                    </p>
-                </div>
-                <div class="col-md-2">
-                    <label for="inputZip" class="form-label"><b>Zip</b></label>
-                    <!-- <input type="text" class="form-control" id="inputZip" placeholder="X1X 1X1"> -->
-                    <p>
-                        <%= address.zip %>
-                    </p>
-                </div>
-                <div class="covid">
-                    <center>
-                        <div class="col-md-12">
-                            <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
-                            <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                            <%
-                            if(patient.covid==1){
-                                                
-                            %>
-                           
-                            <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
+                  </li>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                         <label for="inputAddress" class="form-label"><b>Address</b></label>
+                         <p><%= address.street_name %> </p>
+                  </li>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
+                        <p>appt. <%= address.apartment_number %> </p>
+
+                  </li>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputCity" class="form-label"><b>City</b></label>
+                        <p> <%= address.city %></p>
+
+                  </li>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                         <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
+                         <p><%= address.province %></p>
+
+                  </li>
+                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                         <label for="inputZip" class="form-label"><b>Zip</b></label>
+                         <p><%= address.zip %></p>
+                  </li>
+
+                  <li class="list-group-item" style="border-bottom: none;">
+                         <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
+
+                       <!--  <ul class="list-group">-->
+                            <% if(patient.covid==1){ %>
+                            <li class="list-group-item list-group-item-danger" style="text-align: center;">POSITIVE</li>
+
                             <% } else if (patient.covid==0) { %>
-                            <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
+                            <li class="list-group-item list-group-item-success" style="text-align: center;">NEGATIVE</li>
                             <% } %>
-                        </div>
-                        <div class="col-md-12 covid" style="background-color: beige;">
-                            <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
-                            <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                            <p><%= patient.symptoms %></p>
-                        </div>
-                        <div class="col-md-12 covid" style="background-color: beige;">
-                            <label for="inputEmail4" class="form-label"><b>Diary</b></label>
-                            <!-- <input type="email" class="form-control" id="inputEmail4" placeholder="@example.com"> -->
-                            <p><%= patient.diary %></p>
-                        </div>
-                    </center>
-                </div>
 
-                <!--
-        <div class="col-12 submitbtn">
-          <button type="submit" class="btn btn-outline-danger btn-lg">Sign Up</button>
+                      <!--   </ul>-->
 
-        </div>
-        -->
+                  </li>
+
+                </ul>
+
+
+               <a href="profile/edit" class="editing"><i class="fas fa-marker"></i> Edit Profile</a>
+
+
             </form>
 
 
@@ -219,7 +176,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

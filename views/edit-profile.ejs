@@ -52,6 +52,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Take Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -61,9 +70,9 @@
                 <!-- Dropdown -->
 
 
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                </li>
 
 
             </ul>
@@ -128,7 +137,7 @@
                     <label for="inputZip" class="form-label">Zip</label>
                     <input type="text" class="form-control" id="inputZip" name="zip" value="<%= address.zip %>">
                 </div>
-        
+        <!--
                 <div class="col-12">
                     <label for="inputSymptoms" class="form-label">Symptoms</label>
                     <textarea class="form-control" id="inputSymptoms" rows="3" name="symptoms" aria-label="With textarea"><%= patient.symptoms %></textarea>
@@ -137,10 +146,10 @@
                 <div class="col-12">
                     <label for="inputSymptoms" class="form-label">Diary</label>
                     <textarea class="form-control" id="inputSymptoms" rows="3" name="diary" aria-label="With textarea" ><%= patient.diary %></textarea>
-                </div>
+                </div> -->
                 <div class="submitbtn">
                     <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
-                    <a href = '/profile' style = 'color: red;' class="btn btn-outline-danger btn-lg">Cancel</a>
+                    <button href = '/profile' class="btn btn-outline-danger btn-lg">Cancel</a>
                 </div>
 
 

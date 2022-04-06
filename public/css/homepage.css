@@ -13,9 +13,10 @@ body {
 
   @media screen and (max-width: 1200px){
     body{
-      background-image: url("../img/background-home.jpg");
+      background-image: url("../img/mobile-background.jpeg");
       background-repeat: no-repeat;
       background-attachment: fixed;
+      background-position: center;
       background-size: cover;
     }
   }

@@ -13,17 +13,27 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Login</title>
+    <title>CovidConnect | Appointment</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/background.css">
+    <script type = "text/javascript" src="/helpers/helpers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 </head>
 
 <body>
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -63,21 +73,14 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <li>
-                    <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
-                </li>
+
 
 
                 <!-- Dropdown -->
 
 
-                <li class="nav-item dropdown">
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="/login">Login</a>
-                    </div>
-
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
-
+                <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
                 </li>
 
 
@@ -89,39 +92,57 @@
 
 
     <div class="content">
-        <h1 class="title"><i class="fas fa-sign-in-alt"></i> Login</h1>
+        <h1 class="title"><i class="fas fa-calendar-check"></i> Book an Appointment</h1>
 
-        <div class="form">
+        <div class="appointment">
 
-            <form action="/login" method="POST">
-                <div style="padding-top: 60px;">
-                    <%if(error){%>
-                        <p style="color: red; text-align: center;">
-                            <%=error%>
-                        </p>
-                        <%}%>
-                        <label for="email" class="form-label field">Email address</label>
+            <h6>Doctor's Information</h6>
 
-                            <div class="input-group mb-3 field">
-
-                                <input type="email" id='email' class="form-control" aria-label="email" aria-describedby="basic-addon1" placeholder="name@example.com" name="email" required>
-                            </div>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= doctor_first_name%></th>
+                    <td><%= doctor_last_name%></td>
+                  </tr>
+                </tbody>
+            </table>
+            
+            <center>
+            <div class="roundcorner">
+            <h4>Appointment</h4>
+            <p>Note that all appointments are scheduled for 1 hour. The time indicated below is the beginning time.</p>
+            <p id ="err-message" style ="color: red; display: none;" ></p>
+            <form action="/patientAppointment" method="POST">
+                <div class="col-md-6 centering">
+                    <label for="AppointmentDatepicker" class="form-label">Date: </label>
+                    <input type="datetime-local" id="AppointmentDatepicker" class="form-control" name="datetime" >
                 </div>
-                <div class="mb-3 field" style="padding-top: 40px;">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                <div class="col-md-6 centering">
+                    <label for="description">Description: </label>
+                    <input type="text" class="form-control center" id="description" name="description">
+                    <input type="hidden" class="form-control center" id="doctor_uuid" name="doctor_uuid" value ="<%= doctor_uuid%>" >
+                    <input type="hidden" class="form-control center" id="doctor_first_name" name="doctor_first_name" value ="<%= doctor_first_name%>" >
+                    <input type="hidden" class="form-control center" id="doctor_last_name" name="doctor_last_name" value ="<%= doctor_last_name%>" >
                 </div>
-                <p style="text-align: center;">Don't have an account? <a href="/signup" style="color: #0066CC;">Sign up today!</a></p>
+                <button type = "button" onClick = "check_if_available('<%=doctor_uuid%>')" class="btn btn-outline-danger btn-lg" CausesValidation="False" id = "check-availability">Check Availability</button>
+                <button type = "submit"  class="btn btn-outline-danger btn-lg" style = "display: none;" id="book-appointment">Book Appointment</button>
+                <a href = "/patientAppointment" class = "btn btn-outline-danger btn-lg" id = "change" style = "display: none; color: red;">Change</a>
 
-                <div class="col-12 submitbtn" style="padding-top: 80px; padding-bottom: 80px;">
-                    <button type="submit" class="btn btn-outline-danger btn-lg">Sign In</button>
-                </div>
             </form>
+        </div>
+        </center>
+
 
 
         </div>
-    </div>
 
+    </div>
 
 
     <!--Footer Bar-->
@@ -138,10 +159,9 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    
 
 </body>
 
