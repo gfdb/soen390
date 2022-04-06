@@ -7,6 +7,8 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require("express")
 const app = express()
 
+const nodemailer = require("nodemailer")
+
 app.use(express.urlencoded({ extended: false }))
 
 //initializing db 
@@ -920,6 +922,34 @@ app.post('/patientAppointment', checkAuthenticated,function(req, res) {
                 console.log(description)
                 
             }
+
+            // send email to patient
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'francodumoulin123@gmail.com',
+                  pass: 'tsrydtqiwovvjxkz' // good thing I trust my team ._.
+                }
+            });
+            
+            var mailOptions = {
+            from: 'francodumoulin123@gmail.com',
+            to: req.session.user.email,
+            subject: 'CovidConnect: Upcoming Appointment',
+            text: `Hello, \n\nThis email is to confirm your appointment with a CovidConnect doctor at ${datetime}.\n\nHave a great day,\n\n-CovidConnect\n\nYou are receiving this email because you booked an appointment on CovidConnect. This is apart of a school project for SOEN 390 at Concordia University in Montreal, Quebec. If you don't know what I am talking about please disregard this email.`
+            };
+            
+            transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log("Could not send email to " + req.session.user.email)
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+            }); 
+
+
+
             res.redirect('/patientAppointmentConfirmation/'+datetime)
            
         }catch(err){
