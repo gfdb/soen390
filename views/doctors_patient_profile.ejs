@@ -33,9 +33,9 @@
         <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My patients</a>
         <div>
             <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-     
-      </div>
+        </div>
+
+    </div>
 
 
 
@@ -46,107 +46,134 @@
             <%
             if(patientinfo) {
             %>
-            <div class=" gap-2 mx-auto" style="text-align: center;">
-            
+                <div class=" gap-2 mx-auto" style="text-align: center;">
 
-                <form action="/changeCovidStatus" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
-                    <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
-                   
-                    <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Change Patient's Covid status</button>
-                </form>
-                
-                <form action="/notifyExposure" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
-                    
-                   
-                    <button type="submit" class="btn-style btn btn-danger" data-bs-toggle="button" style="height: auto; width: 600px;">Inform Patient of Possible Covid Exposure</button>
-                </form>
 
-                
-                   
-                <a href = "/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
-                
-            
-            </div>
-            <!--            
+                    <form action="/changeCovidStatus" method="POST" style="display: inline;">
+                        <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
+                        <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
+
+                        <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Change Patient's Covid status</button>
+                    </form>
+
+                    <form action="/notifyExposure" method="POST" style="display: inline;">
+                        <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
+
+
+                        <button type="submit" class="btn-style btn btn-danger" data-bs-toggle="button" style="height: auto; width: 600px;">Inform Patient of Possible Covid Exposure</button>
+                    </form>
+                    <form action="/doctorsPatientProfile/<%= patientinfo.uuid %>" method="POST">
+                        <label for="severity" class="form-label">Patient Severity</label>
+                        <select class="form-select" aria-label="Default select example" name="severity" onchange="this.form.submit()"> 
+            <option selected><%= patientinfo.criticality %> </option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+                    </form>
+
+
+
+                    <a href="/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
+
+
+                </div>
+                <!--            
             <h5>
                 <div class="editing"><a href="profile/edit"><i class="fas fa-marker"></i> Edit profile</a></div>
             </h5>-->
 
-            <form class="row g-3">
-               
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label"><b>First Name</b></label>
-                    
-                    <p><%=patientinfo.first_name %></p>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
-                    
-                    <p><%=patientinfo.last_name %></p>
-                </div>
+                <form class="row g-3">
 
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label"><b>Email</b></label>
-                   
-                    <p><%=patientinfo.email %></p>
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label"><b>Address</b></label>
-                   
-                    <p><%=patientinfo.street_name %></p>
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
-                    
-                    <p>appt. <%=patientinfo.apartment_number %></p>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputCity" class="form-label"><b>City</b></label>
-                  
-                    <p><%=patientinfo.city %></p>
-                </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label"><b>First Name</b></label>
 
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
-                    <p><%=patientinfo.province %></p>
-                </div>
-                <div class="col-md-2">
-                    <label for="inputZip" class="form-label"><b>Zip</b></label>
-                   
-                    <p><%=patientinfo.zipcode %></p>
-                </div>
-                <div class="covid">
-                    <center>
-                        <div class="col-md-12">
-                            <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
-                            
-                             <%
+                        <p>
+                            <%=patientinfo.first_name %>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
+
+                        <p>
+                            <%=patientinfo.last_name %>
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label"><b>Email</b></label>
+
+                        <p>
+                            <%=patientinfo.email %>
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress" class="form-label"><b>Address</b></label>
+
+                        <p>
+                            <%=patientinfo.street_name %>
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
+
+                        <p>appt.
+                            <%=patientinfo.apartment_number %>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCity" class="form-label"><b>City</b></label>
+
+                        <p>
+                            <%=patientinfo.city %>
+                        </p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
+                        <p>
+                            <%=patientinfo.province %>
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputZip" class="form-label"><b>Zip</b></label>
+
+                        <p>
+                            <%=patientinfo.zipcode %>
+                        </p>
+                    </div>
+                    <div class="covid">
+                        <center>
+                            <div class="col-md-12">
+                                <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
+
+                                <%
                             if(patientinfo.covid==1){
                             
                                                  
                             %>
-                           
-                            <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
-                            <% } else if (patientinfo.covid==0) { %>
-                            <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
-                            <% } %>
-                        </div>
-                        <div class="col-md-12 covid" style="background-color: beige;">
-                            <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
-                            
-                            <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
-                        </div>
-                    </center>
-                </div>
-                <% } else{ %>
-                              <tr>
-                                  <td colspan="7">Patient Not Found</td>
-                              </tr>
-                <% } %>
-               
-            </form>
+
+                                    <p style="background-color: red; color: white;" class="covid">POSITIVE</p>
+                                    <% } else if (patientinfo.covid==0) { %>
+                                        <p style="background-color: rgb(0, 255, 42); color: white;" class="covid">NEGATIVE</p>
+                                        <% } %>
+                            </div>
+                            <div class="col-md-12 covid" style="background-color: beige;">
+                                <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
+
+                                <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
+                            </div>
+                        </center>
+                    </div>
+                    <% } else{ %>
+                        <tr>
+                            <td colspan="7">Patient Not Found</td>
+                        </tr>
+                        <% } %>
+
+                </form>
 
 
 
