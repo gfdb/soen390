@@ -48,12 +48,43 @@
             %>
                 <div class=" gap-2 mx-auto" style="text-align: center;">
 
+                    <form action="/changeCovidStatus" method="POST" style="display: inline;">
+                        <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
+                        <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
+
+                        <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Change Patient's Covid status</button>
+                    </form>
+
                     <a href="/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
 
                     <a href="/symptomsMonitor/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;"> View Symptom History</button></a>
 
-                    <a href="/doctorMessaging/<%=patientinfo.uuid %>" type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="color: white; height: auto; width:600px;">Message this Patient</a>
 
+
+
+
+
+
+
+
+
+
+                    <center>
+
+                        <form action="/doctorsPatientProfile/<%= patientinfo.uuid %>" method="POST">
+                            <div class="col-md-4 ">
+                                <label for="severity " class="form-label ">Patient Severity</label>
+                                <select class="form-select " aria-label="Default select example " name="severity" onchange="this.form.submit() "> 
+            <option selected><%= patientinfo.criticality %> </option>
+            <option value="1 ">1</option>
+            <option value="2 ">2</option>
+            <option value="3 ">3</option>
+            <option value="4 ">4</option>
+            <option value="5 ">5</option>
+          </select>
+                            </div>
+                        </form>
+                    </center>
 
 
 
@@ -61,110 +92,74 @@
                 </div>
                 <!--            
             <h5>
-                <div class="editing"><a href="profile/edit"><i class="fas fa-marker"></i> Edit profile</a></div>
+                <div class="editing "><a href="profile/edit "><i class="fas fa-marker "></i> Edit profile</a></div>
             </h5>-->
 
-                <form action="/changeCovidStatus" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
-                    <input type="hidden" name="covid" value="<%=patientinfo.covid %>">
+                <form class="row g-3 ">
 
-                    <button type="submit" class="btn-style btn btn-info" data-bs-toggle="button" style="height: auto; width:600px;">Change Patient's Covid status</button>
-                </form>
+                    <div class="col-md-6 ">
+                        <label for="inputEmail4 " class="form-label "><b>First Name</b></label>
 
-                <form action="/notifyExposure" method="POST" style="display: inline;">
-                    <input type="hidden" name="uuid" value="<%=patientinfo.uuid %>">
+                        <p>
+                            <%=patientinfo.first_name %>
+                        </p>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label for="inputEmail4 " class="form-label "><b>Last Name</b></label>
 
+                        <p>
+                            <%=patientinfo.last_name %>
+                        </p>
+                    </div>
 
-                    <button type="submit" class="btn-style btn btn-danger" data-bs-toggle="button" style="height: auto; width: 600px;">Inform Patient of Possible Covid Exposure</button>
-                </form>
-                <form action="/doctorsPatientProfile/<%= patientinfo.uuid %>" method="POST">
-                    <label for="severity" class="form-label">Patient Severity</label>
-                    <select class="form-select" aria-label="Default select example" name="severity" onchange="this.form.submit()"> 
-            <option selected><%= patientinfo.criticality %> </option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-                </form>
+                    <div class="col-md-6 ">
+                        <label for="inputEmail4 " class="form-label "><b>Email</b></label>
 
+                        <p>
+                            <%=patientinfo.email %>
+                        </p>
+                    </div>
+                    <div class="col-12 ">
+                        <label for="inputAddress " class="form-label "><b>Address</b></label>
 
+                        <p>
+                            <%=patientinfo.street_name %>
+                        </p>
+                    </div>
+                    <div class="col-12 ">
+                        <label for="inputAddress2 " class="form-label "><b>Address 2</b></label>
 
+                        <p>appt.
+                            <%=patientinfo.apartment_number %>
+                        </p>
+                    </div>
+                    <div class="col-md-6 ">
+                        <label for="inputCity " class="form-label "><b>City</b></label>
 
+                        <p>
+                            <%=patientinfo.city %>
+                        </p>
+                    </div>
 
+                    <div class="col-md-4 ">
+                        <label for="inputState " class="form-label "> <b>Province/Territory</b></label>
+                        <p>
+                            <%=patientinfo.province %>
+                        </p>
+                    </div>
+                    <div class="col-md-2 ">
+                        <label for="inputZip " class="form-label "><b>Zip</b></label>
 
-        </div>
-        <!--            
-            <h5>
-                <div class="editing"><a href="profile/edit"><i class="fas fa-marker"></i> Edit profile</a></div>
-            </h5>-->
+                        <p>
+                            <%=patientinfo.zipcode %>
+                        </p>
+                    </div>
+                    <div class="covid ">
+                        <center>
+                            <div class="col-md-12 ">
+                                <label for="inputEmail4 " class="form-label "><b>Covid Status</b></label>
 
-        <form class="row g-3">
-
-            <div class="col-md-6">
-                <label for="inputEmail4" class="form-label"><b>First Name</b></label>
-
-                <p>
-                    <%=patientinfo.first_name %>
-                </p>
-            </div>
-            <div class="col-md-6">
-                <label for="inputEmail4" class="form-label"><b>Last Name</b></label>
-
-                <p>
-                    <%=patientinfo.last_name %>
-                </p>
-            </div>
-
-            <div class="col-md-6">
-                <label for="inputEmail4" class="form-label"><b>Email</b></label>
-
-                <p>
-                    <%=patientinfo.email %>
-                </p>
-            </div>
-            <div class="col-12">
-                <label for="inputAddress" class="form-label"><b>Address</b></label>
-
-                <p>
-                    <%=patientinfo.street_name %>
-                </p>
-            </div>
-            <div class="col-12">
-                <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
-
-                <p>appt.
-                    <%=patientinfo.apartment_number %>
-                </p>
-            </div>
-            <div class="col-md-6">
-                <label for="inputCity" class="form-label"><b>City</b></label>
-
-                <p>
-                    <%=patientinfo.city %>
-                </p>
-            </div>
-
-            <div class="col-md-4">
-                <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
-                <p>
-                    <%=patientinfo.province %>
-                </p>
-            </div>
-            <div class="col-md-2">
-                <label for="inputZip" class="form-label"><b>Zip</b></label>
-
-                <p>
-                    <%=patientinfo.zipcode %>
-                </p>
-            </div>
-            <div class="covid">
-                <center>
-                    <div class="col-md-12">
-                        <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
-
-                        <%
+                                <%
                             if(patientinfo.covid==1){
                         
                                                  
@@ -172,32 +167,32 @@
 
 
 
-                            <p style="background-color: #e6aaaa; color: #4f1212; font-weight:700;" class="covid">POSITIVE</p>
-                            <%  }else if (patientinfo.covid==0) { %>
-                                <p style="background-color: #caedc7; color: #325230;font-weight:700;" class="covid">NEGATIVE</p>
-                                <% } %>
-                    </div>
+                                    <p style="background-color: #e6aaaa; color: #4f1212; font-weight:700; " class="covid ">POSITIVE</p>
+                                    <%  }else if (patientinfo.covid==0) { %>
+                                        <p style="background-color: #caedc7; color: #325230;font-weight:700; " class="covid ">NEGATIVE</p>
+                                        <% } %>
+                            </div>
 
-                    <!--
-                        <div class="col-md-12 covid" style="background-color: beige;">
-                            <label for="inputEmail4" class="form-label"><b>Symptoms</b></label>
+                            <!--
+                        <div class="col-md-12 covid " style="background-color: beige; ">
+                            <label for="inputEmail4 " class="form-label "><b>Symptoms</b></label>
                             
                             <p>- Fever of 38 degrees<br>- Persistent cough<br>- Sore throat<br>- Loss of apetite</p>
                         </div>-->
-                </center>
-            </div>
-            <% } else{ %>
-                <tr>
-                    <td colspan="7">Patient Not Found</td>
-                </tr>
-                <% } %>
+                        </center>
+                    </div>
+                    <% } else{ %>
+                        <tr>
+                            <td colspan="7 ">Patient Not Found</td>
+                        </tr>
+                        <% } %>
 
-        </form>
-
-
+                </form>
 
 
-    </div>
+
+
+        </div>
 
     </div>
 
@@ -211,21 +206,21 @@
     </script>
     <!--Footer Bar-->
     <!--Footer-->
-    <div class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
-                <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
-                <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
-                <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
+    <div class="footer ">
+        <div class="container-fluid ">
+            <div class="row ">
+                <div class="col-sm-3 "><i class="fas fa-calendar-alt "></i> Stay Informed</div>
+                <div class="col-sm-3 "><i class="fas fa-phone "></i> (514) 123-456</div>
+                <div class="col-sm-3 "><i class="fas fa-envelope-square "></i> inquiries@covidconnect.ca</div>
+                <div class="col-sm-3 "><i class="fab fa-facebook "></i> @CovidConnect</div>
             </div>
         </div>
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN " crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
 
 
 </body>
