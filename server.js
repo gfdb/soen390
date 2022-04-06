@@ -1273,11 +1273,12 @@ app.get('/statistics', (req, res) => {
     //##############################################################################//
     //////////////////////////////////////////////////////////////////////////////////
 
-    //query that gets all the patients' covid status 
+    //query that gets all the patients
     var all_patients = `
     SELECT Patient.user_uuid
     FROM Patient`;
 
+    //query that gets all the verfied workers
     var all_workers = `
     SELECT Worker.role
     FROM Worker
@@ -1332,7 +1333,23 @@ app.get('/statistics', (req, res) => {
     
 })
 app.get('/healthOfficialPatientList', (req, res) => {
-    res.render('health_official_patient_list.ejs')
+    sql = `
+    SELECT User.first_name, User.last_name, Patient.user_uuid, Patient.covid
+    FROM Patient, User
+    WHERE Patient.user_uuid = User.uuid
+    ORDER BY Patient.covid DESC
+    `;
+    allpatients = [];
+    db.query(sql, function(err, result) {
+        if (err) console.log(err)
+        
+        for (let i = 0; i < result.length; i++) {
+
+            allpatients.push(result[i]);
+        }
+        res.render('health_official_patient_list.ejs', {allpatients: allpatients})
+    })
+    
 })
 
 //server start on port 3000
