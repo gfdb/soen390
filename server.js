@@ -204,6 +204,8 @@ app.get('/patientsAssign', checkAdmin, (req, res) => {
 
         // select all patients who don't have a doctor 
         // and all doctors
+
+
         const sql = `
             SELECT * 
             FROM User
@@ -228,9 +230,28 @@ app.get('/patientsAssign', checkAdmin, (req, res) => {
                         doctorCount++
                     }
                 }
+                const countSql = `SELECT Doctor.user_uuid, COUNT(*) As count FROM Doctor GROUP BY Doctor.user_uuid`
+                db.query(countSql, (err, result1) => {
+                    if (err) console.log(err)
+                        // console.log(result1, 'result1')
+                    for (let i = 0; i < doctors.length; i++) {
+                        doctors[i].count = 0
+                        for (let j = 0; j < result1.length; j++) {
+                            if (doctors[i].uuid === result1[j].user_uuid) {
+                                doctors[i].count = result1[j].count
+                                continue
+                            }
+                            // console.log(doctors[i])
+                        }
+                    }
 
-                res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
+                    result1.forEach(element => {
+                        console.log(element)
+                    })
 
+
+                    res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
+                })
             } catch {
                 res.status(403).render("patients_assign.ejs", { error: err })
             }
