@@ -652,7 +652,8 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
 })
 
 app.get('/doctorIndex', checkDoctor, (req, res) => {
-    res.render('doctor_index.ejs')
+    
+    res.render('doctor_index.ejs',{name: req.session.user.name,lastname:req.session.user.lastname})
 })
 
 //query symptoms from database
@@ -1158,9 +1159,8 @@ app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
     
 })
 
-//app routes for health official page
-app.get('/healthOfficialIndex',checkHealthOfficial, (req, res) => {
-    res.render('health_official_index.ejs')
+app.get('/healthOfficialIndex', checkHealthOfficial, (req, res) => {
+    res.render('health_official_index.ejs',{name : req.session.user.name,lastname:req.session.user.lastname})
 })
 app.get('/statistics', checkHealthOfficial, (req, res) => {
     //query that gets all the patients' covid status 
@@ -1364,6 +1364,122 @@ app.get('/healthOfficialPatientList', checkHealthOfficial, (req, res) => {
         res.render('health_official_patient_list.ejs', {allpatients: allpatients})
     })
     
+})
+
+app.get('/expose', checkAuthenticated ,(req, res) => {
+    var exposedPatients = []
+    const houuid = req.session.user.uuid
+    const sql = `Select A.uuid,User.first_name,User.last_name,User.email,A.postalcode,A.datetime,TIMEDIFF(A.datetime,B.datetime) 
+                FROM Tracking A,Tracking B, Patient C,Patient D ,User
+                WHERE (A.postalcode = B.postalcode AND A.uuid = User.uuid AND ABS(TIMEDIFF(A.datetime,B.datetime)) < '30:00:00' AND A.uuid <> B.uuid AND A.uuid = C.user_uuid AND B.uuid = D.user_uuid AND C.covid = 0 AND D.covid = 1)`
+
+    db.query(sql, function (err, result) {
+        try {
+            if (err) console.log(err);
+
+            for (i = 0; i < result.length; i++) {
+                exposedPatients.push(result[i])
+            }
+            //console.log(appointment)
+            res.render('healthofficialexposelist.ejs',{exposedPatients:exposedPatients})
+        }
+        catch (err) {
+            console.log(err)
+        }
+    })       
+    
+})
+
+app.get('/informexposed/:patient_uuid/:datetime/:postalcode',checkAuthenticated, (req, res) => {
+
+    const houuid = req.session.user.uuid
+    const patient_uuid = req.params.patient_uuid
+    const datetime = req.params.datetime
+    const postalcode = req.params.postalcode
+    const message = "Hi! You have been in contact with some how tested positive for COVID-19 in "+ postalcode+" at "+datetime+". Please do a PCR test and isolate yourself. Stay Safe, Stay Strong!  "
+    let date_ob = new Date();
+    console.log(message)
+    // current date
+    // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+
+    // current hours
+    let hours = date_ob.getHours();
+
+    // current minutes
+    let minutes = date_ob.getMinutes();
+
+    // current seconds
+    let seconds = date_ob.getSeconds();
+    const sql = "INSERT INTO Messages  VALUES ('" + houuid + "','" + patient_uuid + "','" + message + "','" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')";
+
+    db.query(sql, function (err, result) {
+        try {
+            if (err) console.log(err);
+
+            res.redirect('/expose')
+            
+         
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }) 
+    
+    
+})
+
+app.get('/patientExposed', checkAuthenticated, function(req, res) {
+    var messageList = []
+    const patient_uuid = req.session.user.uuid
+    
+    const sql = `SELECT * FROM (SELECT message.sender_uuid,message.receiver_uuid,message.message,message.first_name as senderFirstName, message.last_name AS senderLastName, message.date_time,receiver.first_name AS receiverFirstName, receiver.last_name AS receiverLastName
+                FROM (Select sender_uuid,receiver_uuid,message,date_time,User.first_name,User.last_name 
+                FROM Messages, User 
+                WHERE receiver_uuid = '${patient_uuid}' 
+                AND sender_uuid = User.uuid 
+                ORDER BY date_time DESC) As message, 
+                (SELECT User.first_name,User.last_name,User.uuid 
+                FROM User 
+                WHERE User.uuid = '${patient_uuid}') AS receiver
+                WHERE message.receiver_uuid = receiver.uuid AND message.sender_uuid NOT IN (SELECT Doctor.user_uuid FROM Doctor WHERE Doctor.patient_uuid = '${patient_uuid}') ) as temp`
+
+    try{
+        db.query(sql, function(err, result) {
+            try{
+                if (err) console.log(err);
+
+                for (i=0;i<result.length;i++)
+                {
+                    messageList.push(result[i])
+                }
+
+                res.render('patient_messaging_healthO.ejs',{messageList:messageList})
+
+            }
+            catch(err)
+            {
+
+            }
+            
+
+               
+            })
+            
+
+        }
+        catch(err)
+        {console.log(err)}
+
+        
+
+
 })
 
 //server start on port 3000
