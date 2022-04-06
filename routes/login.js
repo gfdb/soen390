@@ -88,6 +88,9 @@ function login(req, res) {
                 } else if (user.permissionLevel === 'admin') {
                     req.session.save(() => { res.status(200).redirect('/adminIndex') })
                 }
+                else if(user.permissionLevel === 'health official') {
+                    req.session.save(() => { res.status(200).redirect('/healthOfficialIndex') })
+                }
                 //if not a patient redirect to home page after login
                 else {
                     // console.log(req.session.address)

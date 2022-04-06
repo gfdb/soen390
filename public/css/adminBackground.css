@@ -191,6 +191,16 @@ h4.message {
     background: none;
 }
 
+.stats{
+    margin: 0% 20% 5% 20%;
+    padding: 2%;
+}
+
+.text {
+    text-align: left;
+    margin-left: 5%;
+}
+
 
 /* 
 table {
