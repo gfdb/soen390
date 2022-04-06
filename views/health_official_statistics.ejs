@@ -48,11 +48,32 @@
         <h1 class="title"><i class="fas fa-chart-bar"></i> Statistics</h1>
         <div class="form">
 
-            
-            <canvas id="covidRatioChart" style="width:100%;max-width:700px"></canvas>
+            <h4>Covid Status</h4>
+            <p class="text">The graph below shows the ratio between patients who are currently covid positive and those who are covid negative. 
+                <br>This graph is updated in real time as soon as the page is refreshed.
+            </p>
+
+            <div class="stats mb-12">
+                <canvas id="covidRatioChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+
+            <h4>Covid Symptoms</h4>
+            <p class="text">The graph below shows the ratios of the different symptoms experienced by the patients.
+                <br>This graph is updated in real time as soon as the page is refreshed.
+            </p>
+
+            <div class="stats mb-12">
             <canvas id="symptomRatioChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+
+            <h4>User Types</h4>
+            <p class="text">The graph below shows the number of each type of users present in the system.
+                <br>This graph is updated in real time as soon as the page is refreshed.
+            </p>
+
+            <div class="stats mb-12"> 
             <canvas id="usersChart" style="width:100%;max-width:700px"></canvas>
-            
+            </div>
         </div>
 
     </div>
