@@ -72,8 +72,8 @@
                     <center>
 
                         <form action="/doctorsPatientProfile/<%= patientinfo.uuid %>" method="POST">
-                            <div class="col-md-4 ">
-                                <label for="severity " class="form-label ">Patient Severity</label>
+                            <label for="severity " class="form-label ">Patient Severity</label>
+                            <div class="col-md-1 severity">
                                 <select class="form-select " aria-label="Default select example " name="severity" onchange="this.form.submit() "> 
             <option selected><%= patientinfo.criticality %> </option>
             <option value="1 ">1</option>
