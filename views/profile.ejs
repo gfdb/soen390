@@ -40,12 +40,12 @@
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
         <!-- Brand -->
         <a class="navbar-brand" href="/"><i class="fab fa-canadian-maple-leaf"></i>CovidConnect</a>
-  
+
         <!-- Toggler/collapsibe Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
+
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
@@ -68,29 +68,30 @@
                     <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
                 </li>
             </ul>
-  
+
             <ul class="navbar-nav ml-auto">
-  
-  
-  
+
+
+
                 <!-- Dropdown -->
-  
-  
+
+
                 <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
-  
-  
+
+
             </ul>
         </div>
-  
+
     </nav>
 
 
 
     <div class="content">
         <h1 class="title"><i class="fa fa-user-circle fa-2x"></i><br>
-        <%= user.name %> <%= user.lastname %>
+            <%= user.name %>
+                <%= user.lastname %>
         </h1>
 
         <div class="form">
@@ -100,59 +101,74 @@
 
                 <ul class="list-group list-group-flush">
 
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
                         <label for="inputEmail4" class="form-label"><b>Name</b></label>
-                        <p > <%= user.name %> <%= user.lastname %></p>
-                  </li>
+                        <p>
+                            <%= user.name %>
+                                <%= user.lastname %>
+                        </p>
+                    </li>
 
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                         <label for="inputEmail4" class="form-label"><b>Email</b></label>
-                         <p > <%= user.email %> </p>
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputEmail4" class="form-label"><b>Email</b></label>
+                        <p>
+                            <%= user.email %>
+                        </p>
 
-                  </li>
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                         <label for="inputAddress" class="form-label"><b>Address</b></label>
-                         <p><%= address.street_name %> </p>
-                  </li>
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                    </li>
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputAddress" class="form-label"><b>Address</b></label>
+                        <p>
+                            <%= address.street_name %>
+                        </p>
+                    </li>
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
                         <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
-                        <p>appt. <%= address.apartment_number %> </p>
+                        <p>appt.
+                            <%= address.apartment_number %>
+                        </p>
 
-                  </li>
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                    </li>
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
                         <label for="inputCity" class="form-label"><b>City</b></label>
-                        <p> <%= address.city %></p>
+                        <p>
+                            <%= address.city %>
+                        </p>
 
-                  </li>
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                         <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
-                         <p><%= address.province %></p>
+                    </li>
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
+                        <p>
+                            <%= address.province %>
+                        </p>
 
-                  </li>
-                  <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                         <label for="inputZip" class="form-label"><b>Zip</b></label>
-                         <p><%= address.zip %></p>
-                  </li>
+                    </li>
+                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
+                        <label for="inputZip" class="form-label"><b>Zip</b></label>
+                        <p>
+                            <%= address.zip %>
+                        </p>
+                    </li>
 
-                  <li class="list-group-item" style="border-bottom: none;">
-                         <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
+                    <li class="list-group-item" style="border-bottom: none;">
+                        <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
 
-                       <!--  <ul class="list-group">-->
+                        <ul class="list-group">
                             <% if(patient.covid==1){ %>
-                            <li class="list-group-item list-group-item-danger" style="text-align: center;">POSITIVE</li>
+                                <li class="list-group-item list-group-item-danger" style="text-align: center;">POSITIVE</li>
 
-                            <% } else if (patient.covid==0) { %>
-                            <li class="list-group-item list-group-item-success" style="text-align: center;">NEGATIVE</li>
-                            <% } %>
+                                <% } else if (patient.covid==0) { %>
+                                    <li class="list-group-item list-group-item-success" style="text-align: center;">NEGATIVE</li>
+                                    <% } %>
 
-                      <!--   </ul>-->
+                        </ul>
 
-                  </li>
+                    </li>
 
                 </ul>
 
 
-               <a href="profile/edit" class="editing"><i class="fas fa-marker"></i> Edit Profile</a>
+                <a href="profile/edit" class="editing"><i class="fas fa-marker"></i> Edit Profile</a>
 
 
             </form>

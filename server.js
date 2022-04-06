@@ -188,7 +188,49 @@ app.post('/denyWorker', checkAdmin, function(req, res) {
 
 //app get requests for doctor and admin pages
 app.get('/doctorMonitor', checkAdmin, (req, res) => {
-    res.render('doctor_monitor.ejs')
+
+    const sql = `
+            SELECT * 
+            FROM User
+            WHERE (permission_level = 'patient' OR (permission_level='doctor' AND User.uuid IN (SELECT Worker.user_uuid
+                                                                                                FROM Worker
+                                                                                                WHERE Worker.verified = 1))) 
+            AND User.uuid NOT IN (SELECT Doctor.patient_uuid 
+                                FROM Doctor)`
+    db.query(sql, (err, result) => {
+        if (err) throw new Error()
+
+        let patients = []
+        let doctors = []
+        let doctorCount = 0
+        let patientCount = 0
+        for (let i = 0; i < result.length; i++) {
+            if (result[i].permission_level == 'patient') {
+                patients[patientCount] = result[i]
+                patientCount++
+            } else {
+                doctors[doctorCount] = result[i]
+                doctorCount++
+            }
+        }
+        const countSql = `SELECT Doctor.user_uuid, COUNT(*) As count FROM Doctor GROUP BY Doctor.user_uuid`
+        db.query(countSql, (err, result1) => {
+            if (err) console.log(err)
+                // console.log(result1, 'result1')
+            for (let i = 0; i < doctors.length; i++) {
+                doctors[i].count = 0
+                for (let j = 0; j < result1.length; j++) {
+                    if (doctors[i].uuid === result1[j].user_uuid) {
+                        doctors[i].count = result1[j].count
+                        continue
+                    }
+                    // console.log(doctors[i])
+                }
+            }
+            res.render('doctor_monitor.ejs', { doctors: doctors })
+
+        })
+    })
 })
 
 app.get('/assignedPatients', checkAdmin, (req, res) => {
@@ -703,87 +745,84 @@ app.get('/doctorIndex', checkDoctor, (req, res) => {
 })
 
 //query symptoms from database
-app.get('/symptoms',  checkAuthenticated,  (req, res) => {
-    try{
-        console.log(req.session.user.uuid)
-        //fetching the info from history ordered by descending time where its the current user uuid 
-        var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
-        var symptoms = [];
-        
-        db.query(sql, function(err, rows) {
-            try{
-                //console.log(rows[0])
-                if (err) console.log(err);
-                
-                for (let i = 0; i < rows.length; i++){
-                    //converting the date time into a different format 
-                    rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
-                    symptoms.push(rows[i])
-                   // dates.push(rows[i].datetime)
+app.get('/symptoms', checkAuthenticated, (req, res) => {
+        try {
+            console.log(req.session.user.uuid)
+                //fetching the info from history ordered by descending time where its the current user uuid 
+            var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
+            var symptoms = [];
+
+            db.query(sql, function(err, rows) {
+                try {
+                    //console.log(rows[0])
+                    if (err) console.log(err);
+
+                    for (let i = 0; i < rows.length; i++) {
+                        //converting the date time into a different format 
+                        rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
+                        symptoms.push(rows[i])
+                            // dates.push(rows[i].datetime)
+                    }
+                    //console.log(symptoms);
+                    //rendering the patient symptom page 
+                    res.render('patient_symptoms.ejs', { symptoms: symptoms })
+                } catch (err) {
+                    console.log(err)
                 }
-                //console.log(symptoms);
-                //rendering the patient symptom page 
-                res.render('patient_symptoms.ejs',{symptoms: symptoms})
-            }
-            catch(err){
-                console.log(err)
-            }
-        })
-        
-    }
-    catch(err){
-        console.log('error')
-    }
-    
-})
-//post postal symptoms into database from form
-app.post('/symptoms',  checkAuthenticated,  (req, res) => {
-    try{
+            })
+
+        } catch (err) {
+            console.log('error')
+        }
+
+    })
+    //post postal symptoms into database from form
+app.post('/symptoms', checkAuthenticated, (req, res) => {
+    try {
         let date_ob = new Date();
 
         // current date
         // adjust 0 before single digit date
         let date = ("0" + date_ob.getDate()).slice(-2);
-    
+
         // current month
         let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    
+
         // current year
         let year = date_ob.getFullYear();
-    
+
         // current hours
         let hours = date_ob.getHours();
-    
+
         // current minutes
         let minutes = date_ob.getMinutes();
-    
+
         // current seconds
         let seconds = date_ob.getSeconds();
-        
-        var sql = "INSERT INTO History(uuid, symptom, datetime) Values ('"+ req.session.user.uuid 
-        + "', '" + req.body.newSymptom + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
+
+        var sql = "INSERT INTO History(uuid, symptom, datetime) Values ('" + req.session.user.uuid +
+            "', '" + req.body.newSymptom + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
         db.query(sql, (err, result) => {
-            try{
+            try {
                 if (err) console.log(err);
                 //console.log('hi')
-            }catch(err){
+            } catch (err) {
                 //console.log(err)
             }
 
         })
 
 
-        var sql1 = "Select * from Doctor Where patient_uuid = '"+req.session.user.uuid+"'"
+        var sql1 = "Select * from Doctor Where patient_uuid = '" + req.session.user.uuid + "'"
         db.query(sql1, (err1, result1) => {
-            try{
+            try {
                 console.log(result1)
                 if (err1) console.log(err1);
-                if (result1.length > 0)
-                {
+                if (result1.length > 0) {
                     console.log(result1.user_uuid)
-                    var message = "Hi! I have a new Symptom: " + req.body.newSymptom +" on date " + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds 
-                    var sql2 = "Insert into Messages Values ('"+req.session.user.uuid+"','"+result1[0].user_uuid+"' , '"+message+"', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')"
-                    
+                    var message = "Hi! I have a new Symptom: " + req.body.newSymptom + " on date " + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+                    var sql2 = "Insert into Messages Values ('" + req.session.user.uuid + "','" + result1[0].user_uuid + "' , '" + message + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')"
+
                     console.log(sql2)
                     db.query(sql2, (err2, result2) => {
                         try {
@@ -794,13 +833,12 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
                         }
 
                     })
-                }
-                else if (result1.length <=0){
+                } else if (result1.length <= 0) {
 
                     console.log("No doctor Available")
-                    
+
                 }
-            }catch(err1){
+            } catch (err1) {
                 console.log(err1)
             }
 
@@ -808,129 +846,124 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
 
 
         res.redirect('./symptoms')
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 })
 
 //post postal codes into database from form
-app.post('/locations',  checkAuthenticated,  (req, res) => {
-    try{
-        let date_ob = new Date();
+app.post('/locations', checkAuthenticated, (req, res) => {
+        try {
+            let date_ob = new Date();
 
-        // current date
-        // adjust 0 before single digit date
-        let date = ("0" + date_ob.getDate()).slice(-2);
-    
-        // current month
-        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    
-        // current year
-        let year = date_ob.getFullYear();
-    
-        // current hours
-        let hours = date_ob.getHours();
-    
-        // current minutes
-        let minutes = date_ob.getMinutes();
-    
-        // current seconds
-        let seconds = date_ob.getSeconds();
-        // inserting the values into the database
-        var sql = "INSERT INTO Tracking(uuid, postalcode, datetime) Values ('"+ req.session.user.uuid 
-        + "', '" + req.body.postalCode + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
-        db.query(sql, (err, result) => {
-            try{
-                if (err) console.log(err);
-                
-            }catch(err){
-                console.log(err)
-            }
+            // current date
+            // adjust 0 before single digit date
+            let date = ("0" + date_ob.getDate()).slice(-2);
 
-        })
+            // current month
+            let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+            // current year
+            let year = date_ob.getFullYear();
+
+            // current hours
+            let hours = date_ob.getHours();
+
+            // current minutes
+            let minutes = date_ob.getMinutes();
+
+            // current seconds
+            let seconds = date_ob.getSeconds();
+            // inserting the values into the database
+            var sql = "INSERT INTO Tracking(uuid, postalcode, datetime) Values ('" + req.session.user.uuid +
+                "', '" + req.body.postalCode + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
+            db.query(sql, (err, result) => {
+                try {
+                    if (err) console.log(err);
+
+                } catch (err) {
+                    console.log(err)
+                }
+
+            })
 
 
-        res.redirect('./locations')
-    }
-    catch(err){
+            res.redirect('./locations')
+        } catch (err) {
 
-    }
-    
-})
-//query locations from database
-app.get('/locations',  checkAuthenticated,  (req, res) => {
-    try{
+        }
+
+    })
+    //query locations from database
+app.get('/locations', checkAuthenticated, (req, res) => {
+    try {
         console.log(req.session.user.uuid)
-        //fetching the info from the current user by descending date time 
+            //fetching the info from the current user by descending date time 
         var sql = "SELECT * FROM Tracking WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
         var postalCodes = [];
-        
+
         db.query(sql, function(err, rows) {
-            try{
+            try {
                 console.log(rows[0])
                 if (err) console.log(err);
-                
-                for (let i = 0; i < rows.length; i++){
+
+                for (let i = 0; i < rows.length; i++) {
                     //converting the datetime into a different format 
                     rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
                     postalCodes.push(rows[i])
-                   
+
                 }
                 console.log(postalCodes);
                 //rendering the location page 
-                res.render('locations.ejs',{postalCodes:postalCodes})
-            }
-            catch(err){
+                res.render('locations.ejs', { postalCodes: postalCodes })
+            } catch (err) {
                 console.log(err)
             }
         })
-        
-    }
-    catch(err){
+
+    } catch (err) {
         console.log('error')
     }
-    
+
 })
 
 app.get('/symptomsMonitor', (req, res) => {
     res.render('doctor_symptoms.ejs')
 })
-app.get('/patientAppointment', checkAuthenticated,(req, res) => {
+app.get('/patientAppointment', checkAuthenticated, (req, res) => {
     console.log("inside patient appointment")
-    var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '"+req.session.user.uuid+"'"
-        db.query(sql, (err, result) => {
-            //try{
-                if (err) console.log(err);
-                console.log("Query success")
-                console.log(result)
-                if (result.length > 0)
-                {
-                    console.log("I have doctor")
-                    const DfirstName = result[0].doctorfn
-                    const DlastName = result[0].doctorln
-                    const Duuid = result[0].doctoruuid
-                    res.render('patient_appointments.ejs', {doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid})
-                    //date format YYYY-MM-DD hh:mm:ss
-                }
-                else //if (result.lenght <=0)
-                {
-                    console.log("Inside no patient doctor")
-                    const DfirstName = 'NA'
-                    const DlastName = 'NA'
-                    const Duuid = '0' // default doctor for patients with no doctor
-                    res.render('patient_appointments.ejs', {doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid})
-                    
-                    console.log("this patient have no doctor")
-                }
-          //  }catch(err){
-           //     console.log(err)
-           // }
+    var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '" + req.session.user.uuid + "'"
+    db.query(sql, (err, result) => {
+        //try{
+        if (err) console.log(err);
+        console.log("Query success")
+        console.log(result)
+        if (result.length > 0) {
+            console.log("I have doctor")
+            const DfirstName = result[0].doctorfn
+            const DlastName = result[0].doctorln
+            const Duuid = result[0].doctoruuid
+            res.render('patient_appointments.ejs', { doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid })
+                //date format YYYY-MM-DD hh:mm:ss
+        } else //if (result.lenght <=0)
+        {
+            console.log("Inside no patient doctor")
+            const DfirstName = 'NA'
+            const DlastName = 'NA'
+            const Duuid = '0' // default doctor for patients with no doctor
+            res.render('patient_appointments.ejs', { doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid })
 
-        })
+            console.log("this patient have no doctor")
+        }
+        //  }catch(err){
+        //     console.log(err)
+        // }
+
+    })
 
 })
 
-app.post('/patientAppointment', checkAuthenticated,function(req, res) {
+app.post('/patientAppointment', checkAuthenticated, function(req, res) {
 
     // TODO
     // receive data from frontend
@@ -943,50 +976,49 @@ app.post('/patientAppointment', checkAuthenticated,function(req, res) {
     const doctor_last_name = req.body.doctor_last_name
     const patient_first_name = req.session.user.name
     const patient_last_name = req.session.user.lastname
-    //console.log("patient uuid: "+patient_uuid)
-   // console.log("doctor uuid: "+doctor_uuid)
-    console.log("datetime: "+datetime)
-    console.log("description: "+description)
-    console.log("doctor fn: "+doctor_first_name)
-    console.log("doctor ln: "+doctor_last_name)
-    console.log("patient fn: "+patient_first_name)
-    console.log("patient ln: "+patient_last_name)
+        //console.log("patient uuid: "+patient_uuid)
+        // console.log("doctor uuid: "+doctor_uuid)
+    console.log("datetime: " + datetime)
+    console.log("description: " + description)
+    console.log("doctor fn: " + doctor_first_name)
+    console.log("doctor ln: " + doctor_last_name)
+    console.log("patient fn: " + patient_first_name)
+    console.log("patient ln: " + patient_last_name)
     var sql = `INSERT INTO Appointment Values ('${doctor_uuid}','${patient_uuid}','${datetime}','${description}')`
-    try{
-    db.query(sql, (err, result) => {
-        if (err) console.log(err)
-        try{
+    try {
+        db.query(sql, (err, result) => {
+            if (err) console.log(err)
+            try {
 
-            if (description === '') {
-                description = 'none'
-                console.log(description)
-            } else {
-                console.log("I am inside else")
-               
-                console.log(description)
-                
+                if (description === '') {
+                    description = 'none'
+                    console.log(description)
+                } else {
+                    console.log("I am inside else")
+
+                    console.log(description)
+
+                }
+                res.redirect('/patientAppointmentConfirmation/' + datetime)
+
+            } catch (err) {
+                console.log(err)
             }
-            res.redirect('/patientAppointmentConfirmation/'+datetime)
-           
-        }catch(err){
-            console.log(err)
-        }
 
-    })
-    console.log('inside')
-    //res.render('patient_appointments_confirmation.ejs')
-    // console.log(req.body)
-    }
-    catch{
+        })
+        console.log('inside')
+            //res.render('patient_appointments_confirmation.ejs')
+            // console.log(req.body)
+    } catch {
 
     }
 })
 
-app.get('/patientAppointmentConfirmation/:datetime',checkAuthenticated, (req, res) => {
+app.get('/patientAppointmentConfirmation/:datetime', checkAuthenticated, (req, res) => {
 
     const datetime = req.params.datetime
-    
-    
+
+
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' AND Appointment.datetime = '${datetime}' ) AS patient ,
@@ -995,19 +1027,18 @@ app.get('/patientAppointmentConfirmation/:datetime',checkAuthenticated, (req, re
     (SELECT User.first_name AS doctor_first_name, User.last_name As doctor_last_name, User.uuid, Doctor.patient_uuid As patient_uuid FROM User,Doctor Where User.uuid = Doctor.user_uuid ) AS TEMP 
     WHERE patient.uuid = TEMP.patient_uuid  `
 
-    
-    var description
-    var doctor_first_name 
-    var doctor_last_name 
-    var patient_first_name 
-    var patient_last_name 
 
-    try{
+    var description
+    var doctor_first_name
+    var doctor_last_name
+    var patient_first_name
+    var patient_last_name
+
+    try {
         db.query(sql, (err, result) => {
             if (err) console.log(err)
-            try{
-                if (result.length == 0)
-                {
+            try {
+                if (result.length == 0) {
                     const sql2 = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description
                     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
                           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' AND Appointment.datetime = '${datetime}' ) AS patient`
@@ -1028,38 +1059,36 @@ app.get('/patientAppointmentConfirmation/:datetime',checkAuthenticated, (req, re
                         }
 
                     })
-                    
-                }
-                else if(result.length !=0){
-                description = result[0].description
-                doctor_first_name = result[0].doctor_first_name
-                doctor_last_name = result[0].doctor_last_name
-                patient_first_name = req.session.user.name
-                patient_last_name = req.session.user.lastname
-                
-                res.render('./patient_appointments_confirmation.ejs',{datetime:datetime, description:description, doctor_first_name:doctor_first_name, doctor_last_name:doctor_last_name,patient_first_name:patient_first_name,patient_last_name:patient_last_name})
-            
+
+                } else if (result.length != 0) {
+                    description = result[0].description
+                    doctor_first_name = result[0].doctor_first_name
+                    doctor_last_name = result[0].doctor_last_name
+                    patient_first_name = req.session.user.name
+                    patient_last_name = req.session.user.lastname
+
+                    res.render('./patient_appointments_confirmation.ejs', { datetime: datetime, description: description, doctor_first_name: doctor_first_name, doctor_last_name: doctor_last_name, patient_first_name: patient_first_name, patient_last_name: patient_last_name })
+
                 }
 
-            }catch(err){
+            } catch (err) {
                 console.log(err)
             }
-    
+
         })
-    
-        
-        }
-        catch{
-    
-        }
 
 
-    
-  
-   
+    } catch {
+
+    }
+
+
+
+
+
 })
 
-app.get('/allAppointmentsPatient',checkAuthenticated, (req, res) => {
+app.get('/allAppointmentsPatient', checkAuthenticated, (req, res) => {
 
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
@@ -1068,72 +1097,67 @@ app.get('/allAppointmentsPatient',checkAuthenticated, (req, res) => {
     
     (SELECT User.first_name AS doctor_first_name, User.last_name As doctor_last_name, User.uuid, Doctor.patient_uuid As patient_uuid FROM User,Doctor Where User.uuid = Doctor.user_uuid ) AS TEMP 
     WHERE patient.uuid = TEMP.patient_uuid Order BY ABS( DATEDIFF(  patient.datetime, NOW() ) ) `
-    
+
     var appointment = []
-    try{
+    try {
         db.query(sql, (err, result) => {
             if (err) console.log(err)
-            try{
+            try {
 
-                if (result.length > 0)
-                {
-                    for (i=0;i< result.length; i++)
-                    {
+                if (result.length > 0) {
+                    for (i = 0; i < result.length; i++) {
 
                         appointment.push(result[i])
                     }
 
-                    res.render('allAppointmentsPatient.ejs', {appointment:appointment})
-                }
-                else{
+                    res.render('allAppointmentsPatient.ejs', { appointment: appointment })
+                } else {
 
                     const sql2 = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description
                     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
                     FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' ) AS patient Order BY ABS( DATEDIFF(  patient.datetime, NOW() ) ) `
-    
-                    try{
+
+                    try {
                         db.query(sql2, (err, result1) => {
                             if (err) console.log(err)
-                            try{
-                                
+                            try {
+
                                 for (i = 0; i < result1.length; i++) {
 
                                     appointment.push(result1[i])
                                     appointment[i].doctor_first_name = "To Be Determined"
                                     appointment[i].doctor_last_name = "To Be Determined"
                                 }
-                            
-                                res.render('allAppointmentsPatient.ejs', {appointment:appointment})
-                            }catch(err){
+
+                                res.render('allAppointmentsPatient.ejs', { appointment: appointment })
+                            } catch (err) {
                                 console.log(err)
                             }
-                           
+
                         })
                         console.log('inside lonely')
-                        //res.render('patient_appointments_confirmation.ejs')
-                        // console.log(req.body)
-                        }
-                        catch{
-                    
-                        }
-                
+                            //res.render('patient_appointments_confirmation.ejs')
+                            // console.log(req.body)
+                    } catch {
+
+                    }
+
 
                 }
-               
-            }catch(err){
-                
+
+            } catch (err) {
+
             }
-           
+
         })
         console.log('inside')
-        //res.render('patient_appointments_confirmation.ejs')
-        // console.log(req.body)
-        }
-        catch{
-    
-        }
+            //res.render('patient_appointments_confirmation.ejs')
+            // console.log(req.body)
+    } catch {
 
-   
+    }
+
+
 })
 
 app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) => {
@@ -1154,27 +1178,24 @@ app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) =
     `
 
     console.log("I am after query dec")
-    
+
     res.setHeader('Content-Type', 'application/json');
     db.query(sql, function(err, result) {
-        try{
+        try {
             if (err) console.log(err);
             if (result.length === 0) {
-                res.end(JSON.stringify({message: 'sucess'}));
-            }
-            else
-            {
+                res.end(JSON.stringify({ message: 'sucess' }));
+            } else {
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({message: 'There is already an apointment at that time.'}));
-                
+                res.end(JSON.stringify({ message: 'There is already an apointment at that time.' }));
+
             }
-        }
-        catch(err){
+        } catch (err) {
             console.log(err)
         }
     })
 })
-app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
+app.get('/doctorAllAppointments', checkAuthenticated, (req, res) => {
     var appointment = []
     const doctor_uuid = req.session.user.uuid
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
@@ -1186,23 +1207,21 @@ app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
     WHERE patient.uuid = TEMP.patient_uuid Order BY ABS( DATEDIFF(  patient.datetime, NOW()))`
 
     db.query(sql, function(err, result) {
-        try{
+        try {
             if (err) console.log(err);
-            
-            for (i=0;i<result.length;i++)
-            {
+
+            for (i = 0; i < result.length; i++) {
                 appointment.push(result[i])
-                
+
 
             }
             console.log(appointment)
-            res.render('doctor_all_appointments.ejs',{appointment:appointment})
-        }
-        catch(err){
+            res.render('doctor_all_appointments.ejs', { appointment: appointment })
+        } catch (err) {
             console.log(err)
         }
     })
-    
+
 })
 
 app.get('/healthOfficialIndex', (req, res) => {
