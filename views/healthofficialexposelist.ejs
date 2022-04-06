@@ -13,7 +13,7 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Home</title>
+    <title>CovidConnect |Exposed Patients</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
@@ -38,12 +38,58 @@
 
 
     <div class="content">
-        <h1 class="title">Welcome Agent <%= name %> <%= lastname %>!</h1>
+        <h1 class="title"><i class="fas fa-hospital-user"></i>Exposed Patients</h1>
         <div class="form">
 
-            <img alt="Qries" src="/img/healthofficial.png" style="  display: block; margin-left: auto; margin-right: auto;">
 
-            <p style="font-size: xx-small;">Illustration by <a href="https://icons8.com/illustrations/author/259386">Gregory Avoyan</a> from <a href="https://icons8.com/illustrations">Ouch!</a></p>
+            <div class="col-md-12 frame">
+                <h2 style="padding-left:0px;">Exposed Patients</h2>
+                    <div class="col-md-6">
+          
+          
+                    </div>
+                      
+                   
+          
+          
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Exposure Date</th>
+                              <th scope="col">At</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <%
+                            if(exposedPatients.length!=0){
+                              var i=1;
+                            exposedPatients.forEach(function(data){                     
+                            %>
+                            <tr>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.datetime %></td>
+                              <td><%=data.postalcode %></td>
+                              <td><a href = "/informexposed/<%= data.uuid %>/<%=data.datetime %>/<%=data.postalcode %>" type="submit" class="btn btn-info"><i > Inform </i></a></td>
+                            </tr>
+
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Patients Found</td>
+                              </tr>
+                            <% } %>
+                          </tbody>
+                      </table>
+                      
+                </div>
+
+
         </div>
 
     </div>

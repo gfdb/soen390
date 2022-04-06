@@ -13,7 +13,7 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Messaging</title>
+    <title>CovidConnect | Health Offical Notifications</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
@@ -81,6 +81,7 @@
       <!-- Navbar links -->
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
+            
               <li class="nav-item">
                   <a class="nav-link" href="/profile"><i class="fas fa-address-card"></i> Profile</a>
               </li>
@@ -100,8 +101,8 @@
                 <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/patientExposed"><i class="fas fa-book-medical"></i> Health Official Notifications</a>
-          </li>
+                <a class="nav-link" href="/patientExposed"><i class="fas fa-book-medical"></i> Health Official Notifications</a>
+            </li>
           </ul>
 
           <ul class="navbar-nav ml-auto">
@@ -123,8 +124,8 @@
 
     <div class="sidebar-option">
         <div class="sidebar" style="background-color: #ededed">
-            <a ><h4>Meet your doctor!</h4></a>
-            <a ><h6>Send them a message if you have any questions.</h6></a>
+            <a ><h4>Health Oficial Notifications</h4></a>
+            <a ><h6>You will receive notifications from your health official about possible COVID-19 exposure</h6></a>
 
           </div>
     </div>
@@ -135,8 +136,8 @@
                 <div class="msg-header-img">
                   <img src="/img/doctor_user.png">
                 </div>
-                <div class="activated">
-                  <h4>Dr. <%=doctorLastName %> </h4>
+                <div class="activated" style="width: 60%;">
+                  <h4> Health Official Agent</h4>
                   
                 </div>
               </div>
@@ -150,21 +151,7 @@
                         <% messageList.forEach(function(data){%>                     
                       
       
-                      <% if (data.sender_uuid == patient_uuid){ %>
-                        <div class="outgoing-chats">
-
-                          <div class="outgoing-chats-msg">
-                              <p style="background-color: #a8a8a8"><%=data.message%></p>
-                              <span class="time"><%=data.date_time%>  </span>
-
-                          </div>
-                          
-                          <div class="outgoing-chats-img">
-                            <img src="/img/user2.png">
-                          </div>
-                        </div>
-                        
-                        <% } else {%>
+                      
                           <div class="received-chats">
                             <div class="received-chats-img">
                               <img src="/img/doctor_user.png">
@@ -176,10 +163,10 @@
                               </div>
                             </div>
                           </div>
-                        <% } i++; }) %>
+                        <%  i++; }) %>
                       <% } else{ %>
                           <tr>
-                              <td colspan="7">No Previous Conversation Found</td>
+                              <td colspan="7">No Notifications Found</td>
                           </tr>
                         <% } %>
                         
@@ -188,17 +175,7 @@
                   </div>
                 </div>
 
-                <div class="msg-bottom">
-                  <div class="input-group" >
-                    <form action="/patientMessaging" method="POST" style="display: inline; width:100%;">
-                    
-                      <input class="form-control" type="text" placeholder="Write a message..." name="patientmessage">
-                      <div class="input-group-append">
-                        <span><button class="input-group-text" type="submit" data-bs-toggle="button"><i class="fa fa-paper-plane"></i></button></span>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+               
 
               </div>
 

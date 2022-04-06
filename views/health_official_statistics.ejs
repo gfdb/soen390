@@ -23,6 +23,14 @@
 
 </head>
 
+<!--Adding Chart.js-->
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+
+
+
+
 <body>
    <!--Sidebar for Navigation-->
    <div class="sidebar">
@@ -30,18 +38,43 @@
     <a class="active" href="/healthOfficialIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
     <a href="/healthOfficialPatientList"><i class="fas fa-hospital-user"></i> Patients</a>
     <a href="/statistics"><i class="fas fa-chart-bar"></i> Statistics</a>
+    <a href="/expose"><i class = "fas fa-virus" ></i> Exposed Patients</a>
     <div>
         <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </div>
   </div>
 
-
+  
     <div class="content">
         <h1 class="title"><i class="fas fa-chart-bar"></i> Statistics</h1>
         <div class="form">
 
-            Some statistics?
+            <h4>Covid Status</h4>
+            <p class="text">The graph below shows the ratio between patients who are currently covid positive and those who are covid negative. 
+                <br>This graph is updated in real time as soon as the page is refreshed.
+            </p>
 
+            <div class="stats mb-12">
+                <canvas id="covidRatioChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+
+            <h4>Covid Symptoms</h4>
+            <p class="text">The graph below shows the ratios of the different symptoms experienced by the patients.
+                <br>This graph is updated in real time as soon as the page is refreshed.
+            </p>
+
+            <div class="stats mb-12">
+            <canvas id="symptomRatioChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+
+            <h4>User Types</h4>
+            <p class="text">The graph below shows the number of each type of users present in the system.
+                <br>This graph is updated in real time as soon as the page is refreshed.
+            </p>
+
+            <div class="stats mb-12"> 
+            <canvas id="usersChart" style="width:100%;max-width:700px"></canvas>
+            </div>
         </div>
 
     </div>
@@ -69,5 +102,76 @@
 
 
 </body>
+
+<!--Generate charts-->
+<script type="text/javascript">
+
+    var ctx = document.getElementById('covidRatioChart');
+    var xValues = ["Covid Positive", "Not infected"];
+    var yValues = ["<%=covid_ratio[0] %>", "<%=covid_ratio[1] %>"];
+    var barColors = ["red", "blue"];
+
+    var chart1 = new Chart("covidRatioChart", {
+    type: "pie",
+    data: {
+        labels: xValues,
+        datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+        }]
+    },
+    options: {
+        title: {
+        display: true,
+        text: "Ratio of Patients with Covid (Percentage (%))"
+        }
+  }
+    });
+
+
+
+    xValues = ["Cough", "Fever", "Tiredness", "Loss of Taste or Smell", "Sore Throat", "Headache", "Diarrhea", "Aches and Pains", "Chest Pain", "Other"];
+    yValues = ["<%=symptom_ratio[0] %>", "<%=symptom_ratio[1] %>", "<%=symptom_ratio[2] %>", "<%=symptom_ratio[3] %>", "<%=symptom_ratio[4] %>", "<%=symptom_ratio[5] %>", "<%=symptom_ratio[6] %>", "<%=symptom_ratio[7] %>", "<%=symptom_ratio[8] %>", "<%=symptom_ratio[9] %>"];
+    barColors = ["blue", "red", "green", "yellow", "aquamarine", "chartreuse", "darkviolet", "lightsalmon", "darkolivegreen", "beige"];
+
+    var chart2 = new Chart("symptomRatioChart", {
+    type: "pie",
+    data: {
+        labels: xValues,
+        datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+        }]
+    },
+    options: {
+        title: {
+        display: true,
+        text: "Ratio of Symptoms Experienced by Patients (Percentage (%))"
+        }
+  }
+    });
+
+    var xValues = ["Patients", "Doctors", "Nurses", "Health Officials", "Immigration Officers"];
+    var yValues = ["<%=sys_users[0] %>", "<%=sys_users[1] %>", "<%=sys_users[2] %>", "<%=sys_users[3] %>", "<%=sys_users[4] %>"];
+    var barColors = ["red", "blue", "green", "yellow", "purple"];
+
+    var chart1 = new Chart("usersChart", {
+    type: "bar",
+    data: {
+        labels: xValues,
+        datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+        }]
+    },
+    options: {
+        legend: {display: false},
+        title: {
+        display: true,
+        text: "User Types in the System (Number of Individuals)"
+        }
+  }
+    });
+</script>
 
 </html>

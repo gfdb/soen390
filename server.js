@@ -7,6 +7,8 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require("express")
 const app = express()
 
+const nodemailer = require("nodemailer")
+
 app.use(express.urlencoded({ extended: false }))
 
 //initializing db 
@@ -69,6 +71,19 @@ function checkDoctor(req, res, next) {
     }
     // check if they are a doctor
     else if (req.session.user.permissionLevel.localeCompare('doctor') === 0)
+        return next()
+            // 403 forbidden if the user is not a doctor
+    return res.status(403).redirect('/')
+}
+
+// check if current user is a doctor
+function checkHealthOfficial(req, res, next) {
+    if (!req.session.authenticated) {
+        // redirect to login if user is not logged in
+        return res.status(403).redirect('/login')
+    }
+    // check if they are a doctor
+    else if (req.session.user.permissionLevel.localeCompare('health official') === 0)
         return next()
             // 403 forbidden if the user is not a doctor
     return res.status(403).redirect('/')
@@ -741,7 +756,8 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
 })
 
 app.get('/doctorIndex', checkDoctor, (req, res) => {
-    res.render('doctor_index.ejs')
+
+    res.render('doctor_index.ejs', { name: req.session.user.name, lastname: req.session.user.lastname })
 })
 
 //query symptoms from database
@@ -927,8 +943,37 @@ app.get('/locations', checkAuthenticated, (req, res) => {
 
 })
 
-app.get('/symptomsMonitor', (req, res) => {
-    res.render('doctor_symptoms.ejs')
+
+//page where doctors can see patients symptoms history
+app.get('/symptomsMonitor/:patient_id', checkDoctor, (req, res) => {
+    const patient_uuid = req.params.patient_id
+    console.log(req.params.patient_id)
+
+    //fetching the info from history ordered by descending time where its the current user uuid 
+    var sql = "SELECT * FROM History WHERE uuid = '" + req.params.patient_id + "' order by datetime desc;"
+    var symptoms = [];
+
+    db.query(sql, function(err, rows) {
+        try {
+            //console.log(rows[0])
+            if (err) console.log(err);
+
+            for (let i = 0; i < rows.length; i++) {
+                //converting the date time into a different format 
+                rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
+                symptoms.push(rows[i])
+                    // dates.push(rows[i].datetime)
+            }
+            console.log(symptoms)
+            console.log('here1')
+                //rendering the doctors patient symptom page 
+            res.render('doctor_symptoms.ejs', { symptoms: symptoms, patient_id: patient_uuid })
+        } catch (err) {
+            console.log(err)
+        }
+    })
+
+
 })
 app.get('/patientAppointment', checkAuthenticated, (req, res) => {
     console.log("inside patient appointment")
@@ -1005,12 +1050,40 @@ app.post('/patientAppointment', checkAuthenticated, function(req, res) {
                 console.log(err)
             }
 
-        })
-        console.log('inside')
-            //res.render('patient_appointments_confirmation.ejs')
-            // console.log(req.body)
-    } catch {
+            // send email to patient
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'francodumoulin123@gmail.com',
+                    pass: 'tsrydtqiwovvjxkz' // good thing I trust my team ._.
+                }
+            });
 
+            var mailOptions = {
+                from: 'francodumoulin123@gmail.com',
+                to: req.session.user.email,
+                subject: 'CovidConnect: Upcoming Appointment',
+                text: `Hello, \n\nThis email is to confirm your appointment with a CovidConnect doctor at ${datetime}.\n\nHave a great day,\n\n-CovidConnect\n\nYou are receiving this email because you booked an appointment on CovidConnect. This is apart of a school project for SOEN 390 at Concordia University in Montreal, Quebec. If you don't know what I am talking about please disregard this email.`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error) {
+                    console.log("Could not send email to " + req.session.user.email)
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
+
+
+            res.redirect('/patientAppointmentConfirmation/' + datetime)
+
+
+
+        })
+    } catch (err) {
+        console.log(err)
     }
 })
 
@@ -1224,14 +1297,325 @@ app.get('/doctorAllAppointments', checkAuthenticated, (req, res) => {
 
 })
 
-app.get('/healthOfficialIndex', (req, res) => {
-    res.render('health_official_index.ejs')
+app.get('/healthOfficialIndex', checkHealthOfficial, (req, res) => {
+    res.render('health_official_index.ejs', { name: req.session.user.name, lastname: req.session.user.lastname })
 })
-app.get('/statistics', (req, res) => {
-    res.render('health_official_statistics.ejs')
+app.get('/statistics', checkHealthOfficial, (req, res) => {
+    //query that gets all the patients' covid status 
+    var total_covid = `
+    SELECT Patient.covid
+    FROM Patient`;
+
+    var covid_list = [];
+    db.query(total_covid, function(err, result) {
+        if (err) console.log(err)
+
+        covidRatio(result);
+        //renderPage();
+    })
+
+    var covid = 0;
+    var no_covid = 0;
+
+    function covidRatio(value) {
+        covid_list = value;
+
+        for (let i = 0; i < covid_list.length; i++) {
+            if (covid_list[i].covid == 1) {
+                covid += 1;
+
+            } else if (covid_list[i].covid == 0) {
+                no_covid += 1;
+            }
+        }
+        total = covid + no_covid;
+        covid = ((covid / total) * 100).toFixed(2)
+        no_covid = ((no_covid / total) * 100).toFixed(2)
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //##############################################################################//
+    //////////////////////////////////////////////////////////////////////////////////
+
+    var symptomQ = `
+    SELECT History.symptom
+    FROM History`;
+
+    var symptom_list = [];
+    db.query(symptomQ, function(err, result) {
+        if (err) console.log(err)
+
+        symptomRatio(result);
+        //renderPage();
+    })
+
+    var cough = 0;
+    var fever = 0;
+    var tiredness = 0;
+    var taste_or_smell = 0;
+    var sore_throat = 0;
+    var headache = 0;
+    var diarrhea = 0;
+    var aches_and_pains = 0;
+    var chest_pain = 0;
+    var other = 0;
+
+    function symptomRatio(value) {
+        symptom_list = value;
+        var total = 0;
+        for (let i = 0; i < symptom_list.length; i++) {
+            var symptom = symptom_list[i].symptom;
+            //console.log(symptom)
+
+            if (symptom === "cough") {
+                cough += 1;
+                total += 1;
+
+            } else if (symptom === "fever") {
+                fever += 1;
+                total += 1;
+
+            } else if (symptom === "tiredness") {
+                tiredness += 1;
+                total += 1;
+
+            } else if (symptom === "lost of taste or smell") {
+                taste_or_smell += 1;
+                total += 1;
+
+            } else if (symptom === "sore throat") {
+                sore_throat += 1;
+                total += 1;
+
+            } else if (symptom === "headache") {
+                headache += 1;
+                total += 1;
+
+            } else if (symptom === "diarrhea") {
+                diarrhea += 1;
+                total += 1;
+
+            } else if (symptom === "aches and pains") {
+                aches_and_pains += 1;
+                total += 1;
+
+            } else if (symptom === "chest pain") {
+                chest_pain += 1;
+                total += 1;
+
+            } else if (symptom !== "") {
+                other += 1;
+                total += 1;
+
+            }
+        }
+
+        cough = ((cough / total) * 100).toFixed(2)
+        fever = ((fever / total) * 100).toFixed(2)
+        tiredness = ((tiredness / total) * 100).toFixed(2)
+        taste_or_smell = ((taste_or_smell / total) * 100).toFixed(2)
+        sore_throat = ((sore_throat / total) * 100).toFixed(2)
+        headache = ((headache / total) * 100).toFixed(2)
+        diarrhea = ((diarrhea / total) * 100).toFixed(2)
+        aches_and_pains = ((aches_and_pains / total) * 100).toFixed(2)
+        chest_pain = ((chest_pain / total) * 100).toFixed(2)
+        other = ((other / total) * 100).toFixed(2)
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //##############################################################################//
+    //////////////////////////////////////////////////////////////////////////////////
+
+    //query that gets all the patients
+    var all_patients = `
+    SELECT Patient.user_uuid
+    FROM Patient`;
+
+    //query that gets all the verfied workers
+    var all_workers = `
+    SELECT Worker.role
+    FROM Worker
+    WHERE verified = 1`;
+
+    var patient_list = [];
+    var worker_list = [];
+    db.query(all_patients, function(err, result1) {
+        if (err) console.log(err)
+        db.query(all_workers, function(err, result2) {
+            if (err) console.log(err)
+
+            users(result1, result2);
+            renderPage();
+        })
+    })
+
+    var patient = 0;
+    var doctor = 0;
+    var nurse = 0;
+    var health_official = 0;
+    var immigration_officer = 0;
+
+    function users(value1, value2) {
+        patient_list = value1;
+        worker_list = value2;
+        patient = patient_list.length;
+        for (let i = 0; i < worker_list.length; i++) {
+            role = worker_list[i].role;
+
+            if (role === "doctor") {
+                doctor += 1;
+
+            } else if (role === "nurse") {
+                nurse += 1;
+
+            } else if (role === "health official") {
+                health_official += 1;
+
+            } else if (role === "immigration officer") {
+                immigration_officer += 1;
+
+            }
+        }
+    }
+    //render the health official's statistics page
+    function renderPage() {
+        res.render('health_official_statistics.ejs', {
+            covid_ratio: [covid, no_covid],
+            symptom_ratio: [cough, fever, tiredness, taste_or_smell, sore_throat, headache, diarrhea, aches_and_pains, chest_pain, other],
+            sys_users: [patient, doctor, nurse, health_official, immigration_officer]
+        })
+    }
+
+
 })
-app.get('/healthOfficialPatientList', (req, res) => {
-    res.render('health_official_patient_list.ejs')
+
+app.get('/healthOfficialPatientList', checkHealthOfficial, (req, res) => {
+    sql = `
+    SELECT User.first_name, User.last_name, Patient.user_uuid, Patient.covid
+    FROM Patient, User
+    WHERE Patient.user_uuid = User.uuid
+    ORDER BY Patient.covid DESC
+    `;
+    allpatients = [];
+    db.query(sql, function(err, result) {
+        if (err) console.log(err)
+
+        for (let i = 0; i < result.length; i++) {
+
+            allpatients.push(result[i]);
+        }
+        res.render('health_official_patient_list.ejs', { allpatients: allpatients })
+    })
+
+})
+
+app.get('/expose', checkAuthenticated, (req, res) => {
+    var exposedPatients = []
+    const houuid = req.session.user.uuid
+    const sql = `Select A.uuid,User.first_name,User.last_name,User.email,A.postalcode,A.datetime,TIMEDIFF(A.datetime,B.datetime) 
+                FROM Tracking A,Tracking B, Patient C,Patient D ,User
+                WHERE (A.postalcode = B.postalcode AND A.uuid = User.uuid AND ABS(TIMEDIFF(A.datetime,B.datetime)) < '30:00:00' AND A.uuid <> B.uuid AND A.uuid = C.user_uuid AND B.uuid = D.user_uuid AND C.covid = 0 AND D.covid = 1)`
+
+    db.query(sql, function(err, result) {
+        try {
+            if (err) console.log(err);
+
+            for (i = 0; i < result.length; i++) {
+                exposedPatients.push(result[i])
+            }
+            //console.log(appointment)
+            res.render('healthofficialexposelist.ejs', { exposedPatients: exposedPatients })
+        } catch (err) {
+            console.log(err)
+        }
+    })
+
+})
+
+app.get('/informexposed/:patient_uuid/:datetime/:postalcode', checkAuthenticated, (req, res) => {
+
+    const houuid = req.session.user.uuid
+    const patient_uuid = req.params.patient_uuid
+    const datetime = req.params.datetime
+    const postalcode = req.params.postalcode
+    const message = "Hi! You have been in contact with some how tested positive for COVID-19 in " + postalcode + " at " + datetime + ". Please do a PCR test and isolate yourself. Stay Safe, Stay Strong!  "
+    let date_ob = new Date();
+    console.log(message)
+        // current date
+        // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+
+    // current hours
+    let hours = date_ob.getHours();
+
+    // current minutes
+    let minutes = date_ob.getMinutes();
+
+    // current seconds
+    let seconds = date_ob.getSeconds();
+    const sql = "INSERT INTO Messages  VALUES ('" + houuid + "','" + patient_uuid + "','" + message + "','" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')";
+
+    db.query(sql, function(err, result) {
+        try {
+            if (err) console.log(err);
+
+            res.redirect('/expose')
+
+
+        } catch (err) {
+            console.log(err)
+        }
+    })
+
+
+})
+
+app.get('/patientExposed', checkAuthenticated, function(req, res) {
+    var messageList = []
+    const patient_uuid = req.session.user.uuid
+
+    const sql = `SELECT * FROM (SELECT message.sender_uuid,message.receiver_uuid,message.message,message.first_name as senderFirstName, message.last_name AS senderLastName, message.date_time,receiver.first_name AS receiverFirstName, receiver.last_name AS receiverLastName
+                FROM (Select sender_uuid,receiver_uuid,message,date_time,User.first_name,User.last_name 
+                FROM Messages, User 
+                WHERE receiver_uuid = '${patient_uuid}' 
+                AND sender_uuid = User.uuid 
+                ORDER BY date_time DESC) As message, 
+                (SELECT User.first_name,User.last_name,User.uuid 
+                FROM User 
+                WHERE User.uuid = '${patient_uuid}') AS receiver
+                WHERE message.receiver_uuid = receiver.uuid AND message.sender_uuid NOT IN (SELECT Doctor.user_uuid FROM Doctor WHERE Doctor.patient_uuid = '${patient_uuid}') ) as temp`
+
+    try {
+        db.query(sql, function(err, result) {
+            try {
+                if (err) console.log(err);
+
+                for (i = 0; i < result.length; i++) {
+                    messageList.push(result[i])
+                }
+
+                res.render('patient_messaging_healthO.ejs', { messageList: messageList })
+
+            } catch (err) {
+
+            }
+
+
+
+        })
+
+
+    } catch (err) { console.log(err) }
+
+
+
+
 })
 
 //server start on port 3000
