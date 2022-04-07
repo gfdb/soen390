@@ -950,8 +950,9 @@ app.get('/locations', checkAuthenticated, (req, res) => {
 
 //page where doctors can see patients symptoms history
 app.get('/symptomsMonitor/:patient_id', checkDoctor, (req, res) => {
+    //store patient_uuid from parameters
     const patient_uuid = req.params.patient_id
-    console.log(req.params.patient_id)
+    
 
     //fetching the info from history ordered by descending time where its the current user uuid 
     var sql = "SELECT * FROM History WHERE uuid = '" + req.params.patient_id + "' order by datetime desc;"
@@ -959,18 +960,17 @@ app.get('/symptomsMonitor/:patient_id', checkDoctor, (req, res) => {
 
     db.query(sql, function(err, rows) {
         try {
-            //console.log(rows[0])
+            
             if (err) console.log(err);
 
             for (let i = 0; i < rows.length; i++) {
                 //converting the date time into a different format 
                 rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
                 symptoms.push(rows[i])
-                    // dates.push(rows[i].datetime)
+                
             }
-            console.log(symptoms)
-            console.log('here1')
-                //rendering the doctors patient symptom page 
+            
+            //rendering the doctors patient symptom page 
             res.render('doctor_symptoms.ejs', { symptoms: symptoms, patient_id: patient_uuid })
         } catch (err) {
             console.log(err)
@@ -1297,6 +1297,8 @@ app.get('/doctorAllAppointments', checkAuthenticated, (req, res) => {
 })
 
 app.get('/healthOfficialIndex', checkHealthOfficial, (req, res) => {
+
+    //passes the users name and lastname in the the ejs template
     res.render('health_official_index.ejs', { name: req.session.user.name, lastname: req.session.user.lastname })
 })
 app.get('/statistics', checkHealthOfficial, (req, res) => {
@@ -1316,6 +1318,7 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     var covid = 0;
     var no_covid = 0;
 
+    //function to count the number of covid positive versus covid negative patients
     function covidRatio(value) {
         covid_list = value;
 
@@ -1335,7 +1338,8 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     //////////////////////////////////////////////////////////////////////////////////
     //##############################################################################//
     //////////////////////////////////////////////////////////////////////////////////
-
+    
+    //select all symptoms from the symptom history data table
     var symptomQ = `
     SELECT History.symptom
     FROM History`;
@@ -1359,6 +1363,7 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     var chest_pain = 0;
     var other = 0;
 
+    //function to count the number of occurences of each symptom
     function symptomRatio(value) {
         symptom_list = value;
         var total = 0;
@@ -1487,8 +1492,9 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
 
 
 })
-
+//app route to display the patients list on the health official site
 app.get('/healthOfficialPatientList', checkHealthOfficial, (req, res) => {
+    //query to select all patients from the database
     sql = `
     SELECT User.first_name, User.last_name, Patient.user_uuid, Patient.covid
     FROM Patient, User
@@ -1496,6 +1502,7 @@ app.get('/healthOfficialPatientList', checkHealthOfficial, (req, res) => {
     ORDER BY Patient.covid DESC
     `;
     allpatients = [];
+    //passes a list of all patients to the ejs template
     db.query(sql, function(err, result) {
         if (err) console.log(err)
 
