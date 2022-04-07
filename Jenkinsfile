@@ -21,7 +21,7 @@ pipeline {
         steps{
           //run integration tests from github files
             echo 'Testing app'
-            bat 'npm test'
+            bat 'npm run testsuite'
         }
     }
     
