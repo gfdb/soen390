@@ -19,8 +19,11 @@ router.get('/', (req, res) => {
     db.query(sql, (err, result) => {
         console.log(result, 'result')
         if (err) console.log(err)
+        if (result.length === 0) {
+            doctorFname = 'NA'
+            doctorLname = ''
 
-        else {
+        } else {
             doctorFname = result[0].first_name
             doctorLname = result[0].last_name
             console.log(doctorFname)
