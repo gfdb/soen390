@@ -24,41 +24,40 @@
 </head>
 
 <body>
-   <!--Sidebar for Navigation-->
-   <div class="sidebar">
-    <a class="logoside" href="/adminIndex"><img class="logo" src="img/logo.png" alt="logo"></a>
-    <a class="active" href="/adminIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
-    <a href="/approveRoles"><i class="fas fa-user-check"></i> Approve Roles</a>
-    <button class="dropdown-btn"><i class="fas fa-folder"></i> Doctor-Patient
+    <!--Sidebar for Navigation-->
+    <div class="sidebar">
+        <a class="logoside" href="/adminIndex"><img class="logo" src="img/logo.png" alt="logo"></a>
+        <a class="active" href="/adminIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
+        <a href="/approveRoles"><i class="fas fa-user-check"></i> Approve Roles</a>
+        <button class="dropdown-btn"><i class="fas fa-folder"></i> Doctor-Patient
       <i class="fa fa-caret-down"></i>
     </button>
-    <div class="dropdown-container">
-    <a href="/patientsAssign">Assign Patients to Doctors</a>
-    <a href="/doctorMonitor">Monitor Patient Assignment</a>
-  </div>
-  <div>
-    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-  </div>
-  </div>
+        <div class="dropdown-container">
+            <a href="/patientsAssign">Assign Patients to Doctors</a>
+            <a href="/doctorMonitor">Monitor Patient Assignment</a>
+        </div>
+        <div>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
 
-  <!-- javascript to make dropdown functional & easy to add more elements -->
-  <script>
-  var dropdown = document.getElementsByClassName("dropdown-btn");
-  var i;
+    <!-- javascript to make dropdown functional & easy to add more elements -->
+    <script>
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
 
-  for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    }
-    else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-  </script>
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+    </script>
 
 
 
@@ -66,135 +65,64 @@
         <h1 class="title"><i class="fas fa-eye"></i> Monitor Doctors' Patients Assignment</h1>
 
         <div class="form">
-                <div class="col-md-12 doctors">
-                    <div class="col-md-6">
-                        <h2>Doctors</h2>
+            <div class="col-md-12 doctors">
+                <div class="col-md-6">
+                    <h2>Doctors</h2>
 
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">First Name</th>
-                              <th scope="col">Last Name</th>
-                              <th scope="col">#Patients Assigned</th>
-                              <th scope="col" style="text-align: right;">View List of Patients</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Bruce</td>
-                              <td>Banner</td>
-                              <td>17</td>
-                              <td style="text-align: right;">
-                                <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Scott</td>
-                                <td>Lang</td>
-                                <td>23</td>
-                                <td style="text-align: right;">
-                                    <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                              </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Clint</td>
-                              <td>Barton</td>
-                              <td>12</td>
-                              <td style="text-align: right;">
-                                <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">4</th>
-                              <td>Shang-chi</td>
-                              <td>Xu</td>
-                              <td>16</td>
-                              <td style="text-align: right;">
-                                <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                           </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>Yelena</td>
-                                <td>Belova</td>
-                                <td>19</td>
-                                <td style="text-align: right;">
-                                    <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">5</th>
-                                <td>Peggy</td>
-                                <td>Carter</td>
-                                <td>26</td>
-                                <td style="text-align: right;">
-                                    <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">6</th>
-                                <td>Marc</td>
-                                <td>Spector</td>
-                                <td>7</td>
-                                <td style="text-align: right;">
-                                    <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                              </tr>
-
-
-                              <tr>
-                                <th scope="row">7</th>
-                                <td>Erik</td>
-                                <td>Lehnsherr</td>
-                                <td>14</td>
-                                <td style="text-align: right;">
-                                    <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">8</th>
-                                <td>Billy</td>
-                                <td>Maximoff</td>
-                                <td>16</td>
-                                <td style="text-align: right;">
-                                    <a href="/assignedPatients"><button type="button" class="btn btn-info"><i class="fas fa-angle-double-right"></i></button></a>
-                             </td>
-                              </tr>
-                          </tbody>
-                      </table>
                 </div>
-            
- <!-- pagination nav -->
- <nav aria-label="Page navigation">
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Previous</span>
-        </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Next</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">#Patients Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i<doctors.length; i++){%>
+                            <tr>
+                                <th scope="row">
+                                    <%= i+1 %>
+                                </th>
+                                <td>
+                                    <%= doctors[i].first_name %>
+                                </td>
+                                <td>
+                                    <%= doctors[i].last_name %>
+                                </td>
+                                <td>
+                                    <%= doctors[i].count %>
+                                </td>
+                            </tr>
+                            <%} %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- pagination nav -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
-    
+
     </div>
 
 

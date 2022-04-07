@@ -73,7 +73,6 @@ h6.title{
       display: inline-block;
       font-size: 18px;
       cursor: pointer;
-      float: center;
       width: 100%;
 }
 a.editing:hover{
@@ -96,7 +95,11 @@ div.history{
     overflow-y:auto;
     margin-left: 2.5%;
     /*text-align: center;*/
-    text-size: 18px;
+    font-size: 18px;
+}
+
+.severity{
+    margin-bottom: 5%;
 }
 /* Create two equal columns that floats next to each other
 .column {

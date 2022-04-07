@@ -26,7 +26,7 @@ function login(req, res) {
         //Query to find user infor that matched the login form email, outputs user info and their address info
         db.query('SELECT * FROM User, Address WHERE User.email = \'' + req.body.email + '\' AND User.uuid=Address.uuid', async(err, rows) => {
             try {
-                
+
                 //log any query errors and throw an error if now rows are found
 
                 if (err) console.log(err)
@@ -55,36 +55,35 @@ function login(req, res) {
                         try {
                             //query to find patient info using user email and user id
                             db.query('Select * From User, Patient Where User.email = \'' + req.body.email + '\' AND User.uuid=Patient.user_uuid', async(err, rows2) => {
-                                try{
+                                try {
                                     //set session patient variable with patient model
                                     const patient = new Patient(rows2[0].user_uuid, rows2[0].covid, rows2[0].symptoms, rows2[0].diary)
                                     req.session.patient = patient
                                     console.log(req.session.patient)
                                     req.session.save(() => { res.status(200).redirect('/profile') })
-                               }
-                                catch{
+                                } catch {
                                     //catch error and display invalid credentials
                                     res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                                 }
-   
+
                             })
 
-                        }catch{
+                        } catch {
                             //catch error and display invalid credentials
                             res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                         }
 
 
-                    }catch{
+                    } catch {
                         //catch error and display invalid credentials
                         console.log(rows[0])
                         res.status(403).render("login_patient.ejs", { error: 'Invalid Credentials' })
                     }
-                    
-                // if the user is a doctor, bring them straight to doctor page
+
+                    // if the user is a doctor, bring them straight to doctor page
                 } else if (user.permissionLevel === 'doctor') {
                     req.session.save(() => { res.status(200).redirect('/doctorIndex') })
-                // if user is admin, bring them directly to admin page
+                        // if user is admin, bring them directly to admin page
                 } else if (user.permissionLevel === 'admin') {
                     req.session.save(() => { res.status(200).redirect('/adminIndex') })
                 }
@@ -110,7 +109,7 @@ function login(req, res) {
         })
     } catch (err) {
         console.log('here')
-        //renders an error on login_patient page
+            //renders an error on login_patient page
         res.status(403).render("login_patient.ejs", { error: err })
 
     }

@@ -72,7 +72,7 @@ function checkDoctor(req, res, next) {
     // check if they are a doctor
     else if (req.session.user.permissionLevel.localeCompare('doctor') === 0)
         return next()
-    // 403 forbidden if the user is not a doctor
+            // 403 forbidden if the user is not a doctor
     return res.status(403).redirect('/')
 }
 
@@ -85,7 +85,7 @@ function checkHealthOfficial(req, res, next) {
     // check if they are a doctor
     else if (req.session.user.permissionLevel.localeCompare('health official') === 0)
         return next()
-    // 403 forbidden if the user is not a doctor
+            // 403 forbidden if the user is not a doctor
     return res.status(403).redirect('/')
 }
 
@@ -203,7 +203,49 @@ app.post('/denyWorker', checkAdmin, function(req, res) {
 
 //app get requests for doctor and admin pages
 app.get('/doctorMonitor', checkAdmin, (req, res) => {
-    res.render('doctor_monitor.ejs')
+
+    const sql = `
+            SELECT * 
+            FROM User
+            WHERE (permission_level = 'patient' OR (permission_level='doctor' AND User.uuid IN (SELECT Worker.user_uuid
+                                                                                                FROM Worker
+                                                                                                WHERE Worker.verified = 1))) 
+            AND User.uuid NOT IN (SELECT Doctor.patient_uuid 
+                                FROM Doctor)`
+    db.query(sql, (err, result) => {
+        if (err) throw new Error()
+
+        let patients = []
+        let doctors = []
+        let doctorCount = 0
+        let patientCount = 0
+        for (let i = 0; i < result.length; i++) {
+            if (result[i].permission_level == 'patient') {
+                patients[patientCount] = result[i]
+                patientCount++
+            } else {
+                doctors[doctorCount] = result[i]
+                doctorCount++
+            }
+        }
+        const countSql = `SELECT Doctor.user_uuid, COUNT(*) As count FROM Doctor GROUP BY Doctor.user_uuid`
+        db.query(countSql, (err, result1) => {
+            if (err) console.log(err)
+                // console.log(result1, 'result1')
+            for (let i = 0; i < doctors.length; i++) {
+                doctors[i].count = 0
+                for (let j = 0; j < result1.length; j++) {
+                    if (doctors[i].uuid === result1[j].user_uuid) {
+                        doctors[i].count = result1[j].count
+                        continue
+                    }
+                    // console.log(doctors[i])
+                }
+            }
+            res.render('doctor_monitor.ejs', { doctors: doctors })
+
+        })
+    })
 })
 
 app.get('/assignedPatients', checkAdmin, (req, res) => {
@@ -219,6 +261,8 @@ app.get('/patientsAssign', checkAdmin, (req, res) => {
 
         // select all patients who don't have a doctor 
         // and all doctors
+
+
         const sql = `
             SELECT * 
             FROM User
@@ -243,9 +287,28 @@ app.get('/patientsAssign', checkAdmin, (req, res) => {
                         doctorCount++
                     }
                 }
+                const countSql = `SELECT Doctor.user_uuid, COUNT(*) As count FROM Doctor GROUP BY Doctor.user_uuid`
+                db.query(countSql, (err, result1) => {
+                    if (err) console.log(err)
+                        // console.log(result1, 'result1')
+                    for (let i = 0; i < doctors.length; i++) {
+                        doctors[i].count = 0
+                        for (let j = 0; j < result1.length; j++) {
+                            if (doctors[i].uuid === result1[j].user_uuid) {
+                                doctors[i].count = result1[j].count
+                                continue
+                            }
+                            // console.log(doctors[i])
+                        }
+                    }
 
-                res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
+                    result1.forEach(element => {
+                        console.log(element)
+                    })
 
+
+                    res.status(200).render("patients_assign.ejs", { patients: patients, doctors: doctors })
+                })
             } catch {
                 res.status(403).render("patients_assign.ejs", { error: err })
             }
@@ -256,7 +319,7 @@ app.get('/patientsAssign', checkAdmin, (req, res) => {
 })
 
 app.post('/patientsAssign', checkAdmin, (req, res) => {
-   
+
     const sql = `INSERT INTO Doctor (user_uuid, patient_uuid) 
         VALUES ('${req.body.doctor}', '${req.body.patient_uuid}')`
 
@@ -279,19 +342,24 @@ app.get('/doctorsPatientList', checkDoctor, (req, res) => {
     var negativepatientList = []
     var allpatients = []
         //Queries for the list of workers that have yet to be approved by the admin
+    db.query(`SELECT * FROM Patient`, (err, result) => {
+        console.log(result[0])
+    })
+
+
     var sql = `
-        Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid 
+        Select u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms, u1.uuid, Patient.criticality
         FROM User u1, Patient
         WHERE Patient.user_uuid in (SELECT Patient.user_uuid from Doctor, Patient 
                                     WHERE Doctor.user_uuid = '${doctor_uuid}' 
                                     AND Doctor.patient_uuid = Patient.user_uuid) 
-        AND Patient.user_uuid = u1.uuid;`
+        AND Patient.user_uuid = u1.uuid order by Patient.criticality asc;`
 
-    db.query(sql, function(err, result) {
+    db.query(sql, (err, result) => {
         if (err) console.log(err)
 
         for (let i = 0; i < result.length; i++) {
-
+            // console.log(result[i])
             covid = result[i].covid
             allpatients.push(result[i])
                 //Sorts users based on role
@@ -320,7 +388,7 @@ app.get('/doctorsPatientProfile/:patient_id', checkDoctor, function(req, res) {
 
     //Query for the list of patients of the logged in doctor
     var sql = `
-        Select  u1.uuid ,u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms,Patient.diary, Address.street_number,Address.street_name , Address.apartment_number, Address.city, Address.province, Address.country, Address.zipcode
+        Select  u1.uuid ,u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms,Patient.diary, Patient.criticality, Address.street_number,Address.street_name , Address.apartment_number, Address.city, Address.province, Address.country, Address.zipcode
         FROM User u1, Patient,Address
         WHERE Patient.user_uuid = '${patient_uuid}'
         AND Patient.user_uuid = u1.uuid AND Address.uuid = u1.uuid;`
@@ -339,6 +407,40 @@ app.get('/doctorsPatientProfile/:patient_id', checkDoctor, function(req, res) {
     })
 })
 
+app.post('/doctorsPatientProfile/:patient_id', checkDoctor, function(req, res) {
+        // patient uuid
+        const patient_uuid = req.params.patient_id
+
+        // initialize patient list
+        var patientinfo = []
+        const sqlSeverity = `UPDATE Patient SET criticality=${req.body.severity} WHERE Patient.user_uuid='${patient_uuid}'`
+            // result/error handling
+        db.query(sqlSeverity, (err, result) => {
+                if (err) console.log(err)
+                else
+                    console.log("Number of records inserted: " + result)
+            })
+            //Query for the list of patients of the logged in doctor
+        var sql = `
+        Select  u1.uuid ,u1.first_name, u1.last_name, u1.email, Patient.covid, Patient.symptoms,Patient.diary, Patient.criticality, Address.street_number,Address.street_name , Address.apartment_number, Address.city, Address.province, Address.country, Address.zipcode
+        FROM User u1, Patient,Address
+        WHERE Patient.user_uuid = '${patient_uuid}'
+        AND Patient.user_uuid = u1.uuid AND Address.uuid = u1.uuid;`
+
+        // query the database with above query
+        db.query(sql, function(err, result) {
+            // if error, print it
+            if (err) console.log(err)
+
+            // create list of patients returned from the query
+            for (let i = 0; i < result.length; i++)
+                patientinfo.push(result[i])
+
+
+            res.render('doctors_patient_profile.ejs', { patientinfo: patientinfo[0] })
+        })
+    })
+    // action="/signup" method="POST"
 
 
 
@@ -375,7 +477,7 @@ app.get('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
     const doctor_uuid = req.session.user.uuid
 
     var messageList = []
- 
+
     // This query will get the list of messages that the doctor and patient engaged in ordered by time
     const sql = `
         SELECT * FROM (SELECT message.sender_uuid,message.receiver_uuid,message.message,message.first_name as senderFirstName, message.last_name AS senderLastName, message.date_time,receiver.first_name AS receiverFirstName, receiver.last_name AS receiverLastName
@@ -419,7 +521,7 @@ app.get('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
                 if (err) console.log(err)
 
                 console.log(result1)
-               
+
                 patientFirstName = result1[0].first_name
                 patientLastName = result1[0].last_name
                 console.log("I m inside am empty message for doctor")
@@ -443,14 +545,14 @@ app.get('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
             }
 
             for (let i = 0; i < result.length; i++) // loop to get all the messages and their data.
-                {messageList.push(result[i])}
+            { messageList.push(result[i]) }
 
-        
-                res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
+
+            res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
         }
-         //res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
+        //res.render('doctor_messaging.ejs', { doctor_uuid: doctor_uuid, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
         console.log("after sedning message")
-       
+
     })
 
 })
@@ -463,7 +565,7 @@ app.post('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
         doctor_uuid = req.session.user.uuid
         message = req.body.doctormessage
         console.log(patient_uuid)
-        
+
         let date_ob = new Date();
 
         // current date
@@ -485,13 +587,14 @@ app.post('/doctorMessaging/:patient_uuid', checkDoctor, function(req, res) {
         // current seconds
         let seconds = date_ob.getSeconds();
         // This query will insert the message that the doctor sent to the Messages table in the database
-        var sql = "INSERT INTO Messages  VALUES ('"+doctor_uuid+"','"+patient_uuid+"','"+message+"','"+year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds+"')";
+        var sql = "INSERT INTO Messages  VALUES ('" + doctor_uuid + "','" + patient_uuid + "','" + message + "','" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')";
         db.query(sql, function(err, result) {
             if (err) throw err;
-           
+
             res.status(200).redirect(req.originalUrl)
-        
-    });})
+
+        });
+    })
 
 })
 
@@ -561,11 +664,11 @@ app.get('/patientMessaging', checkAuthenticated, function(req, res) {
 
                             doctorFirstName = result1[0].first_name
                             doctorLastName = result1[0].last_name
-                            
+
                             console.log(doctorFirstName)
                             console.log(doctorLastName)
 
-                            res.render('patient_messaging.ejs', { doctor_uuid: doctor_uuid, doctorLastName:doctorLastName,patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
+                            res.render('patient_messaging.ejs', { doctor_uuid: doctor_uuid, doctorLastName: doctorLastName, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
                         })
                     } else { // if doctor is the sender of the message
                         if (doctor_uuid == result[0].sender_uuid) {
@@ -582,17 +685,16 @@ app.get('/patientMessaging', checkAuthenticated, function(req, res) {
                             patientLastName = result[0].senderLastName
                         }
 
-                        for (let i = 0; i < result.length; i++)
-                            {messageList.push(result[i])}
+                        for (let i = 0; i < result.length; i++) { messageList.push(result[i]) }
 
                         console.log("I am desplaying messaginges")
                         console.log(messageList)
-                        res.render('patient_messaging.ejs', { doctor_uuid: doctor_uuid,doctorLastName:doctorLastName, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
+                        res.render('patient_messaging.ejs', { doctor_uuid: doctor_uuid, doctorLastName: doctorLastName, patient_uuid: patient_uuid, patientFirstName: patientFirstName, patientLastName: patientLastName, messageList: messageList })
 
 
                     }
 
-                    
+
                 })
             }
 
@@ -654,92 +756,89 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
 })
 
 app.get('/doctorIndex', checkDoctor, (req, res) => {
-    
-    res.render('doctor_index.ejs',{name: req.session.user.name,lastname:req.session.user.lastname})
+
+    res.render('doctor_index.ejs', { name: req.session.user.name, lastname: req.session.user.lastname })
 })
 
 //query symptoms from database
-app.get('/symptoms',  checkAuthenticated,  (req, res) => {
-    try{
-        console.log(req.session.user.uuid)
-        //fetching the info from history ordered by descending time where its the current user uuid 
-        var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
-        var symptoms = [];
-        
-        db.query(sql, function(err, rows) {
-            try{
-                //console.log(rows[0])
-                if (err) console.log(err);
-                
-                for (let i = 0; i < rows.length; i++){
-                    //converting the date time into a different format 
-                    rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
-                    symptoms.push(rows[i])
-                   // dates.push(rows[i].datetime)
+app.get('/symptoms', checkAuthenticated, (req, res) => {
+        try {
+            console.log(req.session.user.uuid)
+                //fetching the info from history ordered by descending time where its the current user uuid 
+            var sql = "SELECT * FROM History WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
+            var symptoms = [];
+
+            db.query(sql, function(err, rows) {
+                try {
+                    //console.log(rows[0])
+                    if (err) console.log(err);
+
+                    for (let i = 0; i < rows.length; i++) {
+                        //converting the date time into a different format 
+                        rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
+                        symptoms.push(rows[i])
+                            // dates.push(rows[i].datetime)
+                    }
+                    //console.log(symptoms);
+                    //rendering the patient symptom page 
+                    res.render('patient_symptoms.ejs', { symptoms: symptoms })
+                } catch (err) {
+                    console.log(err)
                 }
-                //console.log(symptoms);
-                //rendering the patient symptom page 
-                res.render('patient_symptoms.ejs',{symptoms: symptoms})
-            }
-            catch(err){
-                console.log(err)
-            }
-        })
-        
-    }
-    catch(err){
-        console.log('error')
-    }
-    
-})
-//post postal symptoms into database from form
-app.post('/symptoms',  checkAuthenticated,  (req, res) => {
-    try{
+            })
+
+        } catch (err) {
+            console.log('error')
+        }
+
+    })
+    //post postal symptoms into database from form
+app.post('/symptoms', checkAuthenticated, (req, res) => {
+    try {
         let date_ob = new Date();
 
         // current date
         // adjust 0 before single digit date
         let date = ("0" + date_ob.getDate()).slice(-2);
-    
+
         // current month
         let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    
+
         // current year
         let year = date_ob.getFullYear();
-    
+
         // current hours
         let hours = date_ob.getHours();
-    
+
         // current minutes
         let minutes = date_ob.getMinutes();
-    
+
         // current seconds
         let seconds = date_ob.getSeconds();
-        
-        var sql = "INSERT INTO History(uuid, symptom, datetime) Values ('"+ req.session.user.uuid 
-        + "', '" + req.body.newSymptom + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
+
+        var sql = "INSERT INTO History(uuid, symptom, datetime) Values ('" + req.session.user.uuid +
+            "', '" + req.body.newSymptom + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
         db.query(sql, (err, result) => {
-            try{
+            try {
                 if (err) console.log(err);
                 //console.log('hi')
-            }catch(err){
+            } catch (err) {
                 //console.log(err)
             }
 
         })
 
 
-        var sql1 = "Select * from Doctor Where patient_uuid = '"+req.session.user.uuid+"'"
+        var sql1 = "Select * from Doctor Where patient_uuid = '" + req.session.user.uuid + "'"
         db.query(sql1, (err1, result1) => {
-            try{
+            try {
                 console.log(result1)
                 if (err1) console.log(err1);
-                if (result1.length > 0)
-                {
+                if (result1.length > 0) {
                     console.log(result1.user_uuid)
-                    var message = "Hi! I have a new Symptom: " + req.body.newSymptom +" on date " + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds 
-                    var sql2 = "Insert into Messages Values ('"+req.session.user.uuid+"','"+result1[0].user_uuid+"' , '"+message+"', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')"
-                    
+                    var message = "Hi! I have a new Symptom: " + req.body.newSymptom + " on date " + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+                    var sql2 = "Insert into Messages Values ('" + req.session.user.uuid + "','" + result1[0].user_uuid + "' , '" + message + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')"
+
                     console.log(sql2)
                     db.query(sql2, (err2, result2) => {
                         try {
@@ -750,13 +849,12 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
                         }
 
                     })
-                }
-                else if (result1.length <=0){
+                } else if (result1.length <= 0) {
 
                     console.log("No doctor Available")
-                    
+
                 }
-            }catch(err1){
+            } catch (err1) {
                 console.log(err1)
             }
 
@@ -764,161 +862,153 @@ app.post('/symptoms',  checkAuthenticated,  (req, res) => {
 
 
         res.redirect('./symptoms')
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 })
 
 //post postal codes into database from form
-app.post('/locations',  checkAuthenticated,  (req, res) => {
-    try{
-        let date_ob = new Date();
+app.post('/locations', checkAuthenticated, (req, res) => {
+        try {
+            let date_ob = new Date();
 
-        // current date
-        // adjust 0 before single digit date
-        let date = ("0" + date_ob.getDate()).slice(-2);
-    
-        // current month
-        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    
-        // current year
-        let year = date_ob.getFullYear();
-    
-        // current hours
-        let hours = date_ob.getHours();
-    
-        // current minutes
-        let minutes = date_ob.getMinutes();
-    
-        // current seconds
-        let seconds = date_ob.getSeconds();
-        // inserting the values into the database
-        var sql = "INSERT INTO Tracking(uuid, postalcode, datetime) Values ('"+ req.session.user.uuid 
-        + "', '" + req.body.postalCode + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
-        db.query(sql, (err, result) => {
-            try{
-                if (err) console.log(err);
-                
-            }catch(err){
-                console.log(err)
-            }
+            // current date
+            // adjust 0 before single digit date
+            let date = ("0" + date_ob.getDate()).slice(-2);
 
-        })
+            // current month
+            let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+            // current year
+            let year = date_ob.getFullYear();
+
+            // current hours
+            let hours = date_ob.getHours();
+
+            // current minutes
+            let minutes = date_ob.getMinutes();
+
+            // current seconds
+            let seconds = date_ob.getSeconds();
+            // inserting the values into the database
+            var sql = "INSERT INTO Tracking(uuid, postalcode, datetime) Values ('" + req.session.user.uuid +
+                "', '" + req.body.postalCode + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
+            db.query(sql, (err, result) => {
+                try {
+                    if (err) console.log(err);
+
+                } catch (err) {
+                    console.log(err)
+                }
+
+            })
 
 
-        res.redirect('./locations')
-    }
-    catch(err){
+            res.redirect('./locations')
+        } catch (err) {
 
-    }
-    
-})
-//query locations from database
-app.get('/locations',  checkAuthenticated,  (req, res) => {
-    try{
+        }
+
+    })
+    //query locations from database
+app.get('/locations', checkAuthenticated, (req, res) => {
+    try {
         console.log(req.session.user.uuid)
-        //fetching the info from the current user by descending date time 
+            //fetching the info from the current user by descending date time 
         var sql = "SELECT * FROM Tracking WHERE uuid = '" + req.session.user.uuid + "' order by datetime desc;"
         var postalCodes = [];
-        
+
         db.query(sql, function(err, rows) {
-            try{
+            try {
                 console.log(rows[0])
                 if (err) console.log(err);
-                
-                for (let i = 0; i < rows.length; i++){
+
+                for (let i = 0; i < rows.length; i++) {
                     //converting the datetime into a different format 
                     rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
                     postalCodes.push(rows[i])
-                   
+
                 }
                 console.log(postalCodes);
                 //rendering the location page 
-                res.render('locations.ejs',{postalCodes:postalCodes})
-            }
-            catch(err){
+                res.render('locations.ejs', { postalCodes: postalCodes })
+            } catch (err) {
                 console.log(err)
             }
         })
-        
-    }
-    catch(err){
+
+    } catch (err) {
         console.log('error')
     }
-    
+
 })
 
 
 //page where doctors can see patients symptoms history
-app.get('/symptomsMonitor/:patient_id',checkDoctor, (req, res) => {
+app.get('/symptomsMonitor/:patient_id', checkDoctor, (req, res) => {
     const patient_uuid = req.params.patient_id
     console.log(req.params.patient_id)
-    
+
     //fetching the info from history ordered by descending time where its the current user uuid 
     var sql = "SELECT * FROM History WHERE uuid = '" + req.params.patient_id + "' order by datetime desc;"
     var symptoms = [];
-    
+
     db.query(sql, function(err, rows) {
-        try{
+        try {
             //console.log(rows[0])
             if (err) console.log(err);
-            
-            for (let i = 0; i < rows.length; i++){
+
+            for (let i = 0; i < rows.length; i++) {
                 //converting the date time into a different format 
                 rows[i].datetime = rows[i].datetime.toISOString().slice(0, 19).replace('T', ' ')
                 symptoms.push(rows[i])
-               // dates.push(rows[i].datetime)
+                    // dates.push(rows[i].datetime)
             }
             console.log(symptoms)
             console.log('here1')
-            //rendering the doctors patient symptom page 
-            res.render('doctor_symptoms.ejs',{symptoms: symptoms, patient_id:patient_uuid})
-        }
-        catch(err){
+                //rendering the doctors patient symptom page 
+            res.render('doctor_symptoms.ejs', { symptoms: symptoms, patient_id: patient_uuid })
+        } catch (err) {
             console.log(err)
         }
     })
-    
-    
+
+
 })
-
-
-app.get('/patientAppointment', checkAuthenticated,(req, res) => {
+app.get('/patientAppointment', checkAuthenticated, (req, res) => {
     console.log("inside patient appointment")
-    var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '"+req.session.user.uuid+"'"
-        db.query(sql, (err, result) => {
-            //try{
-                if (err) console.log(err);
-                console.log("Query success")
-                console.log(result)
-                if (result.length > 0)
-                {
-                    console.log("I have doctor")
-                    const DfirstName = result[0].doctorfn
-                    const DlastName = result[0].doctorln
-                    const Duuid = result[0].doctoruuid
-                    res.render('patient_appointments.ejs', {doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid})
-                    //date format YYYY-MM-DD hh:mm:ss
-                }
-                else //if (result.lenght <=0)
-                {
-                    console.log("Inside no patient doctor")
-                    const DfirstName = 'NA'
-                    const DlastName = 'NA'
-                    const Duuid = '0' // default doctor for patients with no doctor
-                    res.render('patient_appointments.ejs', {doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid})
-                    
-                    console.log("this patient have no doctor")
-                }
-          //  }catch(err){
-           //     console.log(err)
-           // }
+    var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '" + req.session.user.uuid + "'"
+    db.query(sql, (err, result) => {
+        //try{
+        if (err) console.log(err);
+        console.log("Query success")
+        console.log(result)
+        if (result.length > 0) {
+            console.log("I have doctor")
+            const DfirstName = result[0].doctorfn
+            const DlastName = result[0].doctorln
+            const Duuid = result[0].doctoruuid
+            res.render('patient_appointments.ejs', { doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid })
+                //date format YYYY-MM-DD hh:mm:ss
+        } else //if (result.lenght <=0)
+        {
+            console.log("Inside no patient doctor")
+            const DfirstName = 'NA'
+            const DlastName = 'NA'
+            const Duuid = '0' // default doctor for patients with no doctor
+            res.render('patient_appointments.ejs', { doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid })
 
-        })
+            console.log("this patient have no doctor")
+        }
+        //  }catch(err){
+        //     console.log(err)
+        // }
+
+    })
 
 })
 
-app.post('/patientAppointment', checkAuthenticated,function(req, res) {
+app.post('/patientAppointment', checkAuthenticated, function(req, res) {
 
     // TODO
     // receive data from frontend
@@ -931,78 +1021,77 @@ app.post('/patientAppointment', checkAuthenticated,function(req, res) {
     const doctor_last_name = req.body.doctor_last_name
     const patient_first_name = req.session.user.name
     const patient_last_name = req.session.user.lastname
-    //console.log("patient uuid: "+patient_uuid)
-   // console.log("doctor uuid: "+doctor_uuid)
-    console.log("datetime: "+datetime)
-    console.log("description: "+description)
-    console.log("doctor fn: "+doctor_first_name)
-    console.log("doctor ln: "+doctor_last_name)
-    console.log("patient fn: "+patient_first_name)
-    console.log("patient ln: "+patient_last_name)
+        //console.log("patient uuid: "+patient_uuid)
+        // console.log("doctor uuid: "+doctor_uuid)
+    console.log("datetime: " + datetime)
+    console.log("description: " + description)
+    console.log("doctor fn: " + doctor_first_name)
+    console.log("doctor ln: " + doctor_last_name)
+    console.log("patient fn: " + patient_first_name)
+    console.log("patient ln: " + patient_last_name)
     var sql = `INSERT INTO Appointment Values ('${doctor_uuid}','${patient_uuid}','${datetime}','${description}')`
-    try{
-    db.query(sql, (err, result) => {
-        if (err) console.log(err)
-        try{
+    try {
+        db.query(sql, (err, result) => {
+            if (err) console.log(err)
+            try {
 
-            if (description === '') {
-                description = 'none'
-                console.log(description)
-            } else {
-                console.log("I am inside else")
-               
-                console.log(description)
-                
+                if (description === '') {
+                    description = 'none'
+                    console.log(description)
+                } else {
+                    console.log("I am inside else")
+
+                    console.log(description)
+
+                }
+                // res.redirect('/patientAppointmentConfirmation/' + datetime)
+
+            } catch (err) {
+                console.log(err)
             }
 
             // send email to patient
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                  user: 'francodumoulin123@gmail.com',
-                  pass: 'tsrydtqiwovvjxkz' // good thing I trust my team ._.
+                    user: 'francodumoulin123@gmail.com',
+                    pass: 'tsrydtqiwovvjxkz' // good thing I trust my team ._.
                 }
             });
-            
+
             var mailOptions = {
-            from: 'francodumoulin123@gmail.com',
-            to: req.session.user.email,
-            subject: 'CovidConnect: Upcoming Appointment',
-            text: `Hello, \n\nThis email is to confirm your appointment with a CovidConnect doctor at ${datetime}.\n\nHave a great day,\n\n-CovidConnect\n\nYou are receiving this email because you booked an appointment on CovidConnect. This is apart of a school project for SOEN 390 at Concordia University in Montreal, Quebec. If you don't know what I am talking about please disregard this email.`
+                from: 'francodumoulin123@gmail.com',
+                to: req.session.user.email,
+                subject: 'CovidConnect: Upcoming Appointment',
+                text: `Hello, \n\nThis email is to confirm your appointment with a CovidConnect doctor at ${datetime}.\n\nHave a great day,\n\n-CovidConnect\n\nYou are receiving this email because you booked an appointment on CovidConnect. This is apart of a school project for SOEN 390 at Concordia University in Montreal, Quebec. If you don't know what I am talking about please disregard this email.`
             };
-            
-            transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log("Could not send email to " + req.session.user.email)
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-            }); 
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error) {
+                    console.log("Could not send email to " + req.session.user.email)
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
 
 
 
-            res.redirect('/patientAppointmentConfirmation/'+datetime)
-           
-        }catch(err){
-            console.log(err)
-        }
+            res.redirect('/patientAppointmentConfirmation/' + datetime)
 
-    })
-    console.log('inside')
-    //res.render('patient_appointments_confirmation.ejs')
-    // console.log(req.body)
-    }
-    catch{
 
+
+        })
+    } catch (err) {
+        console.log(err)
     }
 })
 
-app.get('/patientAppointmentConfirmation/:datetime',checkAuthenticated, (req, res) => {
+app.get('/patientAppointmentConfirmation/:datetime', checkAuthenticated, (req, res) => {
 
     const datetime = req.params.datetime
-    
-    
+
+
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' AND Appointment.datetime = '${datetime}' ) AS patient ,
@@ -1011,19 +1100,18 @@ app.get('/patientAppointmentConfirmation/:datetime',checkAuthenticated, (req, re
     (SELECT User.first_name AS doctor_first_name, User.last_name As doctor_last_name, User.uuid, Doctor.patient_uuid As patient_uuid FROM User,Doctor Where User.uuid = Doctor.user_uuid ) AS TEMP 
     WHERE patient.uuid = TEMP.patient_uuid  `
 
-    
-    var description
-    var doctor_first_name 
-    var doctor_last_name 
-    var patient_first_name 
-    var patient_last_name 
 
-    try{
+    var description
+    var doctor_first_name
+    var doctor_last_name
+    var patient_first_name
+    var patient_last_name
+
+    try {
         db.query(sql, (err, result) => {
             if (err) console.log(err)
-            try{
-                if (result.length == 0)
-                {
+            try {
+                if (result.length == 0) {
                     const sql2 = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description
                     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
                           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' AND Appointment.datetime = '${datetime}' ) AS patient`
@@ -1044,38 +1132,36 @@ app.get('/patientAppointmentConfirmation/:datetime',checkAuthenticated, (req, re
                         }
 
                     })
-                    
-                }
-                else if(result.length !=0){
-                description = result[0].description
-                doctor_first_name = result[0].doctor_first_name
-                doctor_last_name = result[0].doctor_last_name
-                patient_first_name = req.session.user.name
-                patient_last_name = req.session.user.lastname
-                
-                res.render('./patient_appointments_confirmation.ejs',{datetime:datetime, description:description, doctor_first_name:doctor_first_name, doctor_last_name:doctor_last_name,patient_first_name:patient_first_name,patient_last_name:patient_last_name})
-            
+
+                } else if (result.length != 0) {
+                    description = result[0].description
+                    doctor_first_name = result[0].doctor_first_name
+                    doctor_last_name = result[0].doctor_last_name
+                    patient_first_name = req.session.user.name
+                    patient_last_name = req.session.user.lastname
+
+                    res.render('./patient_appointments_confirmation.ejs', { datetime: datetime, description: description, doctor_first_name: doctor_first_name, doctor_last_name: doctor_last_name, patient_first_name: patient_first_name, patient_last_name: patient_last_name })
+
                 }
 
-            }catch(err){
+            } catch (err) {
                 console.log(err)
             }
-    
+
         })
-    
-        
-        }
-        catch{
-    
-        }
 
 
-    
-  
-   
+    } catch {
+
+    }
+
+
+
+
+
 })
 
-app.get('/allAppointmentsPatient',checkAuthenticated, (req, res) => {
+app.get('/allAppointmentsPatient', checkAuthenticated, (req, res) => {
 
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
@@ -1084,72 +1170,67 @@ app.get('/allAppointmentsPatient',checkAuthenticated, (req, res) => {
     
     (SELECT User.first_name AS doctor_first_name, User.last_name As doctor_last_name, User.uuid, Doctor.patient_uuid As patient_uuid FROM User,Doctor Where User.uuid = Doctor.user_uuid ) AS TEMP 
     WHERE patient.uuid = TEMP.patient_uuid Order BY ABS( DATEDIFF(  patient.datetime, NOW() ) ) `
-    
+
     var appointment = []
-    try{
+    try {
         db.query(sql, (err, result) => {
             if (err) console.log(err)
-            try{
+            try {
 
-                if (result.length > 0)
-                {
-                    for (i=0;i< result.length; i++)
-                    {
+                if (result.length > 0) {
+                    for (i = 0; i < result.length; i++) {
 
                         appointment.push(result[i])
                     }
 
-                    res.render('allAppointmentsPatient.ejs', {appointment:appointment})
-                }
-                else{
+                    res.render('allAppointmentsPatient.ejs', { appointment: appointment })
+                } else {
 
                     const sql2 = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description
                     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
                     FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' ) AS patient Order BY ABS( DATEDIFF(  patient.datetime, NOW() ) ) `
-    
-                    try{
+
+                    try {
                         db.query(sql2, (err, result1) => {
                             if (err) console.log(err)
-                            try{
-                                
+                            try {
+
                                 for (i = 0; i < result1.length; i++) {
 
                                     appointment.push(result1[i])
                                     appointment[i].doctor_first_name = "To Be Determined"
                                     appointment[i].doctor_last_name = "To Be Determined"
                                 }
-                            
-                                res.render('allAppointmentsPatient.ejs', {appointment:appointment})
-                            }catch(err){
+
+                                res.render('allAppointmentsPatient.ejs', { appointment: appointment })
+                            } catch (err) {
                                 console.log(err)
                             }
-                           
+
                         })
                         console.log('inside lonely')
-                        //res.render('patient_appointments_confirmation.ejs')
-                        // console.log(req.body)
-                        }
-                        catch{
-                    
-                        }
-                
+                            //res.render('patient_appointments_confirmation.ejs')
+                            // console.log(req.body)
+                    } catch {
+
+                    }
+
 
                 }
-               
-            }catch(err){
-                
+
+            } catch (err) {
+
             }
-           
+
         })
         console.log('inside')
-        //res.render('patient_appointments_confirmation.ejs')
-        // console.log(req.body)
-        }
-        catch{
-    
-        }
+            //res.render('patient_appointments_confirmation.ejs')
+            // console.log(req.body)
+    } catch {
 
-   
+    }
+
+
 })
 
 app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) => {
@@ -1170,27 +1251,24 @@ app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) =
     `
 
     console.log("I am after query dec")
-    
+
     res.setHeader('Content-Type', 'application/json');
     db.query(sql, function(err, result) {
-        try{
+        try {
             if (err) console.log(err);
             if (result.length === 0) {
-                res.end(JSON.stringify({message: 'sucess'}));
-            }
-            else
-            {
+                res.end(JSON.stringify({ message: 'sucess' }));
+            } else {
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({message: 'There is already an apointment at that time.'}));
-                
+                res.end(JSON.stringify({ message: 'There is already an apointment at that time.' }));
+
             }
-        }
-        catch(err){
+        } catch (err) {
             console.log(err)
         }
     })
 })
-app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
+app.get('/doctorAllAppointments', checkAuthenticated, (req, res) => {
     var appointment = []
     const doctor_uuid = req.session.user.uuid
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
@@ -1202,27 +1280,25 @@ app.get('/doctorAllAppointments',checkAuthenticated, (req, res) => {
     WHERE patient.uuid = TEMP.patient_uuid Order BY ABS( DATEDIFF(  patient.datetime, NOW()))`
 
     db.query(sql, function(err, result) {
-        try{
+        try {
             if (err) console.log(err);
-            
-            for (i=0;i<result.length;i++)
-            {
+
+            for (i = 0; i < result.length; i++) {
                 appointment.push(result[i])
-                
+
 
             }
             console.log(appointment)
-            res.render('doctor_all_appointments.ejs',{appointment:appointment})
-        }
-        catch(err){
+            res.render('doctor_all_appointments.ejs', { appointment: appointment })
+        } catch (err) {
             console.log(err)
         }
     })
-    
+
 })
 
 app.get('/healthOfficialIndex', checkHealthOfficial, (req, res) => {
-    res.render('health_official_index.ejs',{name : req.session.user.name,lastname:req.session.user.lastname})
+    res.render('health_official_index.ejs', { name: req.session.user.name, lastname: req.session.user.lastname })
 })
 app.get('/statistics', checkHealthOfficial, (req, res) => {
     //query that gets all the patients' covid status 
@@ -1233,27 +1309,28 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     var covid_list = [];
     db.query(total_covid, function(err, result) {
         if (err) console.log(err)
-        
+
         covidRatio(result);
         //renderPage();
     })
 
     var covid = 0;
     var no_covid = 0;
+
     function covidRatio(value) {
         covid_list = value;
-        
-        for(let i = 0; i < covid_list.length; i++){
-            if(covid_list[i].covid == 1){
-                covid+=1;
-                
-            }else if(covid_list[i].covid == 0){
-                no_covid+=1;
+
+        for (let i = 0; i < covid_list.length; i++) {
+            if (covid_list[i].covid == 1) {
+                covid += 1;
+
+            } else if (covid_list[i].covid == 0) {
+                no_covid += 1;
             }
         }
         total = covid + no_covid;
-        covid = ((covid/total)*100).toFixed(2)
-        no_covid = ((no_covid/total)*100).toFixed(2)
+        covid = ((covid / total) * 100).toFixed(2)
+        no_covid = ((no_covid / total) * 100).toFixed(2)
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -1267,7 +1344,7 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     var symptom_list = [];
     db.query(symptomQ, function(err, result) {
         if (err) console.log(err)
-        
+
         symptomRatio(result);
         //renderPage();
     })
@@ -1282,66 +1359,67 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     var aches_and_pains = 0;
     var chest_pain = 0;
     var other = 0;
+
     function symptomRatio(value) {
         symptom_list = value;
         var total = 0;
-        for(let i = 0; i < symptom_list.length; i++){
+        for (let i = 0; i < symptom_list.length; i++) {
             var symptom = symptom_list[i].symptom;
             //console.log(symptom)
-            
-            if(symptom === "cough"){
-                cough+=1;
-                total+=1;
 
-            }else if(symptom === "fever"){
-                fever+=1;
-                total+=1;
+            if (symptom === "cough") {
+                cough += 1;
+                total += 1;
 
-            }else if(symptom === "tiredness"){
-                tiredness+=1;
-                total+=1;
-                
-            }else if(symptom === "lost of taste or smell"){
-                taste_or_smell+=1;
-                total+=1;
+            } else if (symptom === "fever") {
+                fever += 1;
+                total += 1;
 
-            }else if(symptom === "sore throat"){
-                sore_throat+=1;
-                total+=1;
+            } else if (symptom === "tiredness") {
+                tiredness += 1;
+                total += 1;
 
-            }else if(symptom === "headache"){
-                headache+=1;
-                total+=1;
+            } else if (symptom === "lost of taste or smell") {
+                taste_or_smell += 1;
+                total += 1;
 
-            }else if(symptom === "diarrhea"){
-                diarrhea+=1;
-                total+=1;
+            } else if (symptom === "sore throat") {
+                sore_throat += 1;
+                total += 1;
 
-            }else if(symptom === "aches and pains"){
-                aches_and_pains+=1;
-                total+=1;
+            } else if (symptom === "headache") {
+                headache += 1;
+                total += 1;
 
-            }else if(symptom === "chest pain"){
-                chest_pain+=1;
-                total+=1;
+            } else if (symptom === "diarrhea") {
+                diarrhea += 1;
+                total += 1;
 
-            }else if(symptom !== ""){
-                other+=1;
-                total+=1;
+            } else if (symptom === "aches and pains") {
+                aches_and_pains += 1;
+                total += 1;
+
+            } else if (symptom === "chest pain") {
+                chest_pain += 1;
+                total += 1;
+
+            } else if (symptom !== "") {
+                other += 1;
+                total += 1;
 
             }
         }
-        
-        cough = ((cough/total)*100).toFixed(2)
-        fever = ((fever/total)*100).toFixed(2)
-        tiredness = ((tiredness/total)*100).toFixed(2)
-        taste_or_smell = ((taste_or_smell/total)*100).toFixed(2)
-        sore_throat = ((sore_throat/total)*100).toFixed(2)
-        headache = ((headache/total)*100).toFixed(2)
-        diarrhea = ((diarrhea/total)*100).toFixed(2)
-        aches_and_pains = ((aches_and_pains/total)*100).toFixed(2)
-        chest_pain = ((chest_pain/total)*100).toFixed(2)
-        other = ((other/total)*100).toFixed(2)
+
+        cough = ((cough / total) * 100).toFixed(2)
+        fever = ((fever / total) * 100).toFixed(2)
+        tiredness = ((tiredness / total) * 100).toFixed(2)
+        taste_or_smell = ((taste_or_smell / total) * 100).toFixed(2)
+        sore_throat = ((sore_throat / total) * 100).toFixed(2)
+        headache = ((headache / total) * 100).toFixed(2)
+        diarrhea = ((diarrhea / total) * 100).toFixed(2)
+        aches_and_pains = ((aches_and_pains / total) * 100).toFixed(2)
+        chest_pain = ((chest_pain / total) * 100).toFixed(2)
+        other = ((other / total) * 100).toFixed(2)
     }
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -1365,7 +1443,7 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
         if (err) console.log(err)
         db.query(all_workers, function(err, result2) {
             if (err) console.log(err)
-            
+
             users(result1, result2);
             renderPage();
         })
@@ -1376,36 +1454,39 @@ app.get('/statistics', checkHealthOfficial, (req, res) => {
     var nurse = 0;
     var health_official = 0;
     var immigration_officer = 0;
+
     function users(value1, value2) {
         patient_list = value1;
         worker_list = value2;
         patient = patient_list.length;
-        for(let i = 0; i < worker_list.length; i++){
+        for (let i = 0; i < worker_list.length; i++) {
             role = worker_list[i].role;
-            
-            if(role === "doctor"){
-                doctor+=1;
 
-            }else if(role === "nurse"){
-                nurse+=1;
+            if (role === "doctor") {
+                doctor += 1;
 
-            }else if(role === "health official"){
-                health_official+=1;
+            } else if (role === "nurse") {
+                nurse += 1;
 
-            }else if(role === "immigration officer"){
-                immigration_officer+=1;
+            } else if (role === "health official") {
+                health_official += 1;
+
+            } else if (role === "immigration officer") {
+                immigration_officer += 1;
 
             }
         }
     }
     //render the health official's statistics page
-    function renderPage(){
-        res.render('health_official_statistics.ejs', { covid_ratio: [covid, no_covid], 
-                                                     symptom_ratio: [cough, fever, tiredness, taste_or_smell, sore_throat, headache, diarrhea, aches_and_pains, chest_pain, other],
-                                                     sys_users: [patient, doctor, nurse, health_official, immigration_officer] })
+    function renderPage() {
+        res.render('health_official_statistics.ejs', {
+            covid_ratio: [covid, no_covid],
+            symptom_ratio: [cough, fever, tiredness, taste_or_smell, sore_throat, headache, diarrhea, aches_and_pains, chest_pain, other],
+            sys_users: [patient, doctor, nurse, health_official, immigration_officer]
+        })
     }
-    
-    
+
+
 })
 
 app.get('/healthOfficialPatientList', checkHealthOfficial, (req, res) => {
@@ -1418,24 +1499,24 @@ app.get('/healthOfficialPatientList', checkHealthOfficial, (req, res) => {
     allpatients = [];
     db.query(sql, function(err, result) {
         if (err) console.log(err)
-        
+
         for (let i = 0; i < result.length; i++) {
 
             allpatients.push(result[i]);
         }
-        res.render('health_official_patient_list.ejs', {allpatients: allpatients})
+        res.render('health_official_patient_list.ejs', { allpatients: allpatients })
     })
-    
+
 })
 
-app.get('/expose', checkAuthenticated ,(req, res) => {
+app.get('/expose', checkAuthenticated, (req, res) => {
     var exposedPatients = []
     const houuid = req.session.user.uuid
     const sql = `Select A.uuid,User.first_name,User.last_name,User.email,A.postalcode,A.datetime,TIMEDIFF(A.datetime,B.datetime) 
                 FROM Tracking A,Tracking B, Patient C,Patient D ,User
                 WHERE (A.postalcode = B.postalcode AND A.uuid = User.uuid AND ABS(TIMEDIFF(A.datetime,B.datetime)) < '30:00:00' AND A.uuid <> B.uuid AND A.uuid = C.user_uuid AND B.uuid = D.user_uuid AND C.covid = 0 AND D.covid = 1)`
 
-    db.query(sql, function (err, result) {
+    db.query(sql, function(err, result) {
         try {
             if (err) console.log(err);
 
@@ -1443,26 +1524,25 @@ app.get('/expose', checkAuthenticated ,(req, res) => {
                 exposedPatients.push(result[i])
             }
             //console.log(appointment)
-            res.render('healthofficialexposelist.ejs',{exposedPatients:exposedPatients})
-        }
-        catch (err) {
+            res.render('healthofficialexposelist.ejs', { exposedPatients: exposedPatients })
+        } catch (err) {
             console.log(err)
         }
-    })       
-    
+    })
+
 })
 
-app.get('/informexposed/:patient_uuid/:datetime/:postalcode',checkAuthenticated, (req, res) => {
+app.get('/informexposed/:patient_uuid/:datetime/:postalcode', checkAuthenticated, (req, res) => {
 
     const houuid = req.session.user.uuid
     const patient_uuid = req.params.patient_uuid
     const datetime = req.params.datetime
     const postalcode = req.params.postalcode
-    const message = "Hi! You have been in contact with some how tested positive for COVID-19 in "+ postalcode+" at "+datetime+". Please do a PCR test and isolate yourself. Stay Safe, Stay Strong!  "
+    const message = "Hi! You have been in contact with some how tested positive for COVID-19 in " + postalcode + " at " + datetime + ". Please do a PCR test and isolate yourself. Stay Safe, Stay Strong!  "
     let date_ob = new Date();
     console.log(message)
-    // current date
-    // adjust 0 before single digit date
+        // current date
+        // adjust 0 before single digit date
     let date = ("0" + date_ob.getDate()).slice(-2);
 
     // current month
@@ -1481,26 +1561,25 @@ app.get('/informexposed/:patient_uuid/:datetime/:postalcode',checkAuthenticated,
     let seconds = date_ob.getSeconds();
     const sql = "INSERT INTO Messages  VALUES ('" + houuid + "','" + patient_uuid + "','" + message + "','" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')";
 
-    db.query(sql, function (err, result) {
+    db.query(sql, function(err, result) {
         try {
             if (err) console.log(err);
 
             res.redirect('/expose')
-            
-         
-        }
-        catch (err) {
+
+
+        } catch (err) {
             console.log(err)
         }
-    }) 
-    
-    
+    })
+
+
 })
 
 app.get('/patientExposed', checkAuthenticated, function(req, res) {
     var messageList = []
     const patient_uuid = req.session.user.uuid
-    
+
     const sql = `SELECT * FROM (SELECT message.sender_uuid,message.receiver_uuid,message.message,message.first_name as senderFirstName, message.last_name AS senderLastName, message.date_time,receiver.first_name AS receiverFirstName, receiver.last_name AS receiverLastName
                 FROM (Select sender_uuid,receiver_uuid,message,date_time,User.first_name,User.last_name 
                 FROM Messages, User 
@@ -1512,34 +1591,29 @@ app.get('/patientExposed', checkAuthenticated, function(req, res) {
                 WHERE User.uuid = '${patient_uuid}') AS receiver
                 WHERE message.receiver_uuid = receiver.uuid AND message.sender_uuid NOT IN (SELECT Doctor.user_uuid FROM Doctor WHERE Doctor.patient_uuid = '${patient_uuid}') ) as temp`
 
-    try{
+    try {
         db.query(sql, function(err, result) {
-            try{
+            try {
                 if (err) console.log(err);
 
-                for (i=0;i<result.length;i++)
-                {
+                for (i = 0; i < result.length; i++) {
                     messageList.push(result[i])
                 }
 
-                res.render('patient_messaging_healthO.ejs',{messageList:messageList})
+                res.render('patient_messaging_healthO.ejs', { messageList: messageList })
+
+            } catch (err) {
 
             }
-            catch(err)
-            {
 
-            }
-            
 
-               
-            })
-            
 
-        }
-        catch(err)
-        {console.log(err)}
+        })
 
-        
+
+    } catch (err) { console.log(err) }
+
+
 
 
 })
