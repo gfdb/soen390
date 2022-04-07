@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--Meta Tags-->
+    <meta charset="UTF-8">
+    <meta name="keywords" content="HTML, CSS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--Link to kit's Code for Icons-->
+    <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
+
+    <!--Title of Page-->
+    <title>CovidConnect |Exposed Patients</title>
+
+    <!--Favicon/icon in browser tab-->
+    <link rel="icon" href="/img/favicon.png">
+
+    <!--Link to CSS-->
+    <link rel="stylesheet" href="/css/adminBackground.css">
+
+</head>
+
+<body>
+   <!--Sidebar for Navigation-->
+   <div class="sidebar">
+    <a class="logoside" href="/healthOfficialIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
+    <a class="active" href="/healthOfficialIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
+    <a href="/healthOfficialPatientList"><i class="fas fa-hospital-user"></i> Patients</a>
+    <a href="/statistics"><i class="fas fa-chart-bar"></i> Statistics</a>
+    <a href="/expose"><i class = "fas fa-virus" ></i> Exposed Patients</a>
+    <div>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+  </div>
+
+
+    <div class="content">
+        <h1 class="title"><i class="fas fa-hospital-user"></i>Exposed Patients</h1>
+        <div class="form">
+
+
+            <div class="col-md-12 frame">
+                <h2 style="padding-left:0px;">Exposed Patients</h2>
+                    <div class="col-md-6">
+          
+          
+                    </div>
+                      
+                   
+          
+          
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Exposure Date</th>
+                              <th scope="col">At</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <%
+                            if(exposedPatients.length!=0){
+                              var i=1;
+                            exposedPatients.forEach(function(data){                     
+                            %>
+                            <tr>
+                              <th scope="row"><%=i; %></th>
+                              <td><%=data.first_name %></td>
+                              <td><%=data.last_name %></td>
+                              <td><%=data.datetime %></td>
+                              <td><%=data.postalcode %></td>
+                              <td><a href = "/informexposed/<%= data.uuid %>/<%=data.datetime %>/<%=data.postalcode %>" type="submit" class="btn btn-info"><i > Inform </i></a></td>
+                            </tr>
+
+                            <%  i++; }) %>
+                            <% } else{ %>
+                              <tr>
+                                  <td colspan="7">No Patients Found</td>
+                              </tr>
+                            <% } %>
+                          </tbody>
+                      </table>
+                      
+                </div>
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <!--Footer Bar-->
+    <!--Footer-->
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
+                <div class="col-sm-3"><i class="fas fa-phone"></i> (514) 123-456</div>
+                <div class="col-sm-3"><i class="fas fa-envelope-square"></i> inquiries@covidconnect.ca</div>
+                <div class="col-sm-3"><i class="fab fa-facebook"></i> @CovidConnect</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

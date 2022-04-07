@@ -38,7 +38,7 @@
         </div>
         <div>
             <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
+        </div>
     </div>
 
     <!-- javascript to make dropdown functional & easy to add more elements -->
@@ -95,7 +95,7 @@
                                     <td><select class="form-select form-select-doctor" aria-label="Default select example" name="doctor" required>
                                         <option value="" disabled="disabled" selected></option>
                                     <% for(let i=0; i<doctors.length; i++){%>
-                                        <option value='<%=doctors[i].uuid %>' > <%= doctors[i].first_name%> <%= doctors[i].last_name%></option>
+                                        <option value='<%=doctors[i].uuid %>' >Name: <%= doctors[i].last_name%>,<p style="color:red;"> # Of Patients: <%= doctors[i].count %> </p></option>
                                     <%} %> 
                                       
                                     </select>

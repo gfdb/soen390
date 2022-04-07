@@ -11,6 +11,7 @@
 
     <!--Link to kit's Code for Icons-->
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
+
     <!--Title of Page-->
     <title>CovidConnect | Profile</title>
 
@@ -40,19 +41,15 @@
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
         <!-- Brand -->
         <a class="navbar-brand" href="/"><i class="fab fa-canadian-maple-leaf"></i>CovidConnect</a>
-
+  
         <!-- Toggler/collapsibe Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+  
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="">Welcome <%= user.name%></a>
-                </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="/profile"><i class="fas fa-address-card"></i> Profile</a>
                 </li>
@@ -75,125 +72,135 @@
                     <a class="nav-link" href="/patientExposed"><i class="fas fa-book-medical"></i> Health Official Notifications</a>
                 </li>
             </ul>
-
+  
             <ul class="navbar-nav ml-auto">
-
-
-
+  
+  
+  
                 <!-- Dropdown -->
-
-
+  
+  
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                 </li>
-
-
-
-
+  
+  
             </ul>
         </div>
-
+  
     </nav>
 
 
 
     <div class="content">
-        <h1 class="title"><i class="fa fa-user-circle fa-2x"></i><br>
-            <%= user.name %>
-                <%= user.lastname %>
-        </h1>
+
+        <h1 class="title"><i class="fas fa-bacterium"></i> Symptoms</h1>
+        <h6 class="title">On this page, you will be able to enter the symptoms you are feeling. This will enable help your doctor monitor your Covid-19 status.</h6>
 
         <div class="form">
-            <!--<a href="/symptoms" class="symptom-button">Update Your Symptoms</a>-->
+        <ul style="list-style-type:none; padding-left: 0px;">
+            <h3 style="margin-left:2.5%;">Current Symptom(s)</h3>
 
-            <form>
+            <form action="/symptoms" method="POST">
+                <div class="form-row align-items-center">
+                    <div class="col-md-4">
+                        
+                        <label for="inputState" class="form-label">Please enter a symptom one at a time</label>
+                        <input type="text" list="symptoms"  name = newSymptom class="form-control">
+                        <datalist id="symptoms">
+                            <option>fever</option>
 
-                <ul class="list-group list-group-flush">
+                            <option>cough</option> 
 
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputEmail4" class="form-label"><b>Name</b></label>
-                        <p>
-                            <%= user.name %>
-                                <%= user.lastname %>
-                        </p>
-                    </li>
+                            <option>tiredness</option>
 
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputEmail4" class="form-label"><b>Doctor's Name</b></label>
-                        <p>
-                            <%= doctorFname %>
-                                <%= doctorLname %>
-                        </p>
-                    </li>
+                            <option>loss of taste or smell</option> 
 
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputEmail4" class="form-label"><b>Email</b></label>
-                        <p>
-                            <%= user.email %>
-                        </p>
+                            <option>sore throat</option>
 
-                    </li>
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputAddress" class="form-label"><b>Address</b></label>
-                        <p>
-                            <%= address.street_name %>
-                        </p>
-                    </li>
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputAddress2" class="form-label"><b>Address 2</b></label>
-                        <p>appt.
-                            <%= address.apartment_number %>
-                        </p>
+                            <option>headache</option>
 
-                    </li>
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputCity" class="form-label"><b>City</b></label>
-                        <p>
-                            <%= address.city %>
-                        </p>
+                            <option>diarrhea</option>
 
-                    </li>
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputState" class="form-label"> <b>Province/Territory</b></label>
-                        <p>
-                            <%= address.province %>
-                        </p>
+                            <option>aches and pains</option>
 
-                    </li>
-                    <li class="list-group-item" style="border-bottom: 2px solid lightgrey;">
-                        <label for="inputZip" class="form-label"><b>Zip</b></label>
-                        <p>
-                            <%= address.zip %>
-                        </p>
-                    </li>
-
-                    <li class="list-group-item" style="border-bottom: none;">
-                        <label for="inputEmail4" class="form-label"><b>Covid Status</b></label>
-
-                        <ul class="list-group">
-                            <% if(patient.covid==1){ %>
-                                <li class="list-group-item list-group-item-danger" style="text-align: center;">POSITIVE</li>
-
-                                <% } else if (patient.covid==0) { %>
-                                    <li class="list-group-item list-group-item-success" style="text-align: center;">NEGATIVE</li>
-                                    <% } %>
-
-                        </ul>
-
-                    </li>
-
-                </ul>
-
-
-                <a href="profile/edit" class="editing"><i class="fas fa-marker"></i> Edit Profile</a>
-
+                            <option>chest pain</option>
+                        </datalist>
+                        
+                        
+                        
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
+                    </div>
+                    
+                    <!--
+                  <li>
+                    <div class="col-auto">
+                      <label for="inlineFormInput">Please enter your symptoms, one at a time:</label>
+                      <input type="text" name="newSymptom" class="form-control" id="inlineFormInput" placeholder="symptom">
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-auto">
+                      <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
+                    </div>
+                  </li>
+                  -->
+                </div>
 
             </form>
+         </ul>
+            
+
+            <!-- <h3 style="padding-top: 9%;">History of Symptom(s)</h3>
+                        <div class="history">
+                            <div class="row">
+                              <div class="column">
+                                <h5>Symptom</h5>
+                                
+                                      
+                                            
+                                        
+                                    
+                              </div>
+                              <div class="column">
+                                <h5>Date</h5>
+                                    
+                                        
+                                
+                                    
+                              </div>
+                        </div> -->
+            <h3 style="padding-top: 9%; margin-left:2.5%;">History of Symptom(s)</h3>
+            <div class="history">
+                        <table>
+                            <tr>
+                                <th style="width:45%"><h5>Symptom</h5></th>
+                                <th style="width:55%"><h5>Date</h5></th>
+                            </tr>
+                            <tr>
+                            <td>
+                                <% for(let i = 0; i < symptoms.length; i++ ){ %>
+                                    <p>
+                                        <%= symptoms[i].symptom%> <br>
+                                    </p> <% } %>
+                                </td>
+                                <td>
+                                                
+                                <% for(let j = 0; j < symptoms.length; j++ ){ %>
+                                    <p>
+                                        <%= symptoms[j].datetime%><br>
+                                    </p> <% } %>
+                                </td>
+
+                            </tr>
+                        </table>
 
 
+                    </div>
 
         </div>
-
     </div>
 
 
@@ -209,6 +216,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

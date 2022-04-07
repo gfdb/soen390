@@ -13,18 +13,27 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Homepage</title>
+    <title>CovidConnect | Appointment</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/homepage.css">
+    <link rel="stylesheet" href="/css/background.css">
+    <script type = "text/javascript" src="/helpers/helpers.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
 </head>
 
 <body>
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -62,6 +71,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patientExposed"><i class="fas fa-book-medical"></i> Health Official Notifications</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -69,25 +81,11 @@
 
 
                 <!-- Dropdown -->
-                <% if (authenticated) { %>
-                    <li>
-                        <a class="nav-link" href="/logout"><i></i>Logout</a>
-                    </li>
-                    <%} else { %>
-                        <li>
-                            <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <!--Backend should add a way to modify login button to logout button-->
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="/login">Login</a>
-                            </div>
 
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
 
-                        </li>
-                        <% } %>
-
+                <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                </li>
 
 
             </ul>
@@ -97,27 +95,58 @@
 
 
 
-    <div class="info homePad">
-        <!--
-        <h1>Welcome!</h1>
-        
-        <h2>Get ready to explore our many features <br>designed just for you.<br><br></h2>
+    <div class="content">
+        <h1 class="title"><i class="fas fa-calendar-check"></i> Book an Appointment</h1>
 
-        <div class="zoom">
-            <h5><a id=links href="/signup"><i class="fas fa-user-plus"></i> Create your account today.<br><br></a></h5>
+        <div class="appointment">
+
+            <h6>Doctor's Information</h6>
+
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= doctor_first_name%></th>
+                    <td><%= doctor_last_name%></td>
+                  </tr>
+                </tbody>
+            </table>
+            
+            <center>
+            <div class="roundcorner">
+            <h4>Appointment</h4>
+            <p>Note that all appointments are scheduled for 1 hour. The time indicated below is the beginning time.</p>
+            <p id ="err-message" style ="color: red; display: none;" ></p>
+            <form action="/patientAppointment" method="POST">
+                <div class="col-md-6 centering">
+                    <label for="AppointmentDatepicker" class="form-label">Date: </label>
+                    <input type="datetime-local" id="AppointmentDatepicker" class="form-control" name="datetime" >
+                </div>
+                <div class="col-md-6 centering">
+                    <label for="description">Description: </label>
+                    <input type="text" class="form-control center" id="description" name="description">
+                    <input type="hidden" class="form-control center" id="doctor_uuid" name="doctor_uuid" value ="<%= doctor_uuid%>" >
+                    <input type="hidden" class="form-control center" id="doctor_first_name" name="doctor_first_name" value ="<%= doctor_first_name%>" >
+                    <input type="hidden" class="form-control center" id="doctor_last_name" name="doctor_last_name" value ="<%= doctor_last_name%>" >
+                </div>
+                <button type = "button" onClick = "check_if_available('<%=doctor_uuid%>')" class="btn btn-outline-danger btn-lg" CausesValidation="False" id = "check-availability">Check Availability</button>
+                <button type = "submit"  class="btn btn-outline-danger btn-lg" style = "display: none;" id="book-appointment">Book Appointment</button>
+                <a href = "/patientAppointment" class = "btn btn-outline-danger btn-lg" id = "change" style = "display: none; color: red;">Change</a>
+
+            </form>
         </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-briefcase-medical"></i> Stay connected with a doctor.<br><br></a></h5>
+        </center>
+
+
+
         </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-info-circle"></i> Stay informed about Covid-19 in your area.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-virus-slash"></i> Stay healthy.<br><br></a></h5>
-        </div>-->
 
     </div>
-
 
 
     <!--Footer Bar-->
@@ -134,20 +163,10 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
 
-
-    <script type="text/javascript">
-        (function() {
-            window['__CF$cv$params'] = {
-                r: '6d5727649af5ecf6',
-                m: '9A7zZ98kbxg1cgV9t4ZvNg1YBTYZQLm_X7n81rJQjsA-1643508521-0-Adg+mguxHRy+Cz4VKKK3+JvoQYdeHGUxFlMe6KVfw/+BqVvcAIc51i2n/HJJNWKem97N4PxoYDKj4BxnBuX+SpOwrcz8b42/mNLwlwz9SY/x6r5i+EBcb+3fLsTxWi/GybhiL0s9pv5rSjgHipQ+xM5v+LxG8QhsCC3C4kEHrEAS4qVENkAFyZg3C9zhXgzhQm+4dHgCW0kYyFH+Omfcl1w=',
-                s: [0x72d2a314ec, 0xaf0bd8589b],
-            }
-        })();
-    </script>
 </body>
 
 </html>

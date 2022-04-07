@@ -52,6 +52,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/locations"><i class="fas fa-location-arrow"></i> Tracking</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/symptoms"><i class="fas fa-bacterium"></i> Symptoms</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patientAppointment"><i class="fas fa-calendar-check"></i> Take Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -61,9 +70,9 @@
                 <!-- Dropdown -->
 
 
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                </li>
 
 
             </ul>
@@ -82,20 +91,20 @@
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">First Name</label>
-                    <input type="text" class="form-control" name="firstName" value="<%= user.name %> " aria-label="First name">
+                    <input type="text" class="form-control" name="firstName" value="<%= user.name %> " aria-label="First name" required>
                 </div>
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" name="lastName" value="<%= user.lastname %>" aria-label="Last name">
+                    <input type="text" class="form-control" name="lastName" value="<%= user.lastname %>" aria-label="Last name" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= user.email %>">
+                    <input type="email" class="form-control" id="inputEmail4" name="email" value="<%= user.email %>" readonly = 'readonly'>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" name="address" value="<%=address.street_name %>">
+                    <input type="text" class="form-control" id="inputAddress" name="address" value="<%=address.street_name %>" required>
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label">Address 2</label>
@@ -103,11 +112,11 @@
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label">City</label>
-                    <input type="text" class="form-control" id="inputCity" name="city" value="<%= address.city %>">
+                    <input type="text" class="form-control" id="inputCity" name="city" value="<%= address.city %>" required>
                 </div>
                 <div class="col-md-4">
                     <label for="inputState" class="form-label">Province/Territory</label>
-                    <select class="form-select" aria-label="Default select example" name="province">
+                    <select class="form-select" aria-label="Default select example" name="province" required>
             <option selected><%= address.province %></option>
             <option value="AB">Alberta</option>
             <option value="BC">British Columbia</option>
@@ -126,9 +135,9 @@
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="inputZip" name="zip" value="<%= address.zip %>">
+                    <input type="text" class="form-control" id="inputZip" name="zip" value="<%= address.zip %>" required>
                 </div>
-        
+        <!--
                 <div class="col-12">
                     <label for="inputSymptoms" class="form-label">Symptoms</label>
                     <textarea class="form-control" id="inputSymptoms" rows="3" name="symptoms" aria-label="With textarea"><%= patient.symptoms %></textarea>
@@ -137,10 +146,10 @@
                 <div class="col-12">
                     <label for="inputSymptoms" class="form-label">Diary</label>
                     <textarea class="form-control" id="inputSymptoms" rows="3" name="diary" aria-label="With textarea" ><%= patient.diary %></textarea>
-                </div>
+                </div> -->
                 <div class="submitbtn">
                     <button type="submit" class="btn btn-outline-danger btn-lg">Submit</button>
-                    <a href = '/profile' style = 'color: red;' class="btn btn-outline-danger btn-lg">Cancel</a>
+                    <button type = "button" onclick="window.location.href = '/profile' " class="btn btn-outline-danger btn-lg" CausesValidation="False">Cancel</button>
                 </div>
 
 

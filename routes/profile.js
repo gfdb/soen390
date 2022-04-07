@@ -4,9 +4,30 @@ const db = require('../database')
 
 // profile
 router.get('/', (req, res) => {
+    let doctorFname = ''
+    let doctorLname = ''
+        //render profile page and send session user, address and patient info
+        // const sql = `
+        //         SELECT * FROM User WHERE  User.uuid='${req.session.patient.user_uuid}' AND User.uuid IN (SELECT Doctor.patient_uuid FROM Doctor)`
+    const sql = `
+        Select User.first_name, User.last_name
+        From User
+        Where User.uuid IN (Select Doctor.user_uuid 
+        from Doctor 
+        Where Doctor.patient_uuid = '${req.session.user.uuid}')`
 
-    //render profile page and send session user, address and patient info
-    res.render('profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient })
+    db.query(sql, (err, result) => {
+        console.log(result, 'result')
+        if (err) console.log(err)
+
+        else {
+            doctorFname = result[0].first_name
+            doctorLname = result[0].last_name
+            console.log(doctorFname)
+        }
+        res.render('profile.ejs', { user: req.session.user, address: req.session.address, patient: req.session.patient, doctorFname: doctorFname, doctorLname: doctorLname })
+
+    })
 
 })
 
@@ -22,15 +43,15 @@ router.post('/edit', (req, res) => {
         var sql = 'Update User, Address, Patient SET User.first_name = \'' + req.body.firstName + '\', User.last_name = \'' +
             req.body.lastName + '\', User.email= \'' + req.body.email + '\', Address.street_name = \'' +
             req.body.address + '\', Address.apartment_number = \'' + req.body.appartment + '\', Address.city = \'' + req.body.city + '\', Address.province = \'' +
-            req.body.province + '\', Address.zipcode = \'' + req.body.zip + '\' , Patient.symptoms = \'' + req.body.symptoms 
-            + '\' , Patient.diary = \'' + req.body.diary + '\'  WHERE User.uuid = \'' + req.session.user.uuid + '\' AND Address.uuid = \'' + req.session.address.uuid 
-            + '\' AND Patient.user_uuid = \'' + req.session.user.uuid + '\' '
+            req.body.province + '\', Address.zipcode = \'' + req.body.zip + '\' , Patient.symptoms = \'' + req.body.symptoms +
+            '\' , Patient.diary = \'' + req.body.diary + '\'  WHERE User.uuid = \'' + req.session.user.uuid + '\' AND Address.uuid = \'' + req.session.address.uuid +
+            '\' AND Patient.user_uuid = \'' + req.session.user.uuid + '\' '
         db.query(sql, (err, result) => {
             try {
                 //throw error if query fails
                 if (err) throw new Error(err)
                     // console.log(result[0])
-                
+
 
                 //updating user in session
                 req.session.user.name = req.body.firstName
@@ -53,7 +74,7 @@ router.post('/edit', (req, res) => {
 
 
 
-                
+
 
             } catch (err) {
                 console.log(err, '1')

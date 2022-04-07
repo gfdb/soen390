@@ -21,6 +21,23 @@
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/adminBackground.css">
 
+        <style>
+            div.history{
+                border: 1px solid lightgrey;
+                background-color: white;
+                height: 625px;
+                width:800px;
+                overflow-y:auto;
+                text-align: center;
+                font-size: 18px;
+            }
+            .column {
+              float: left;
+              width: 50%;
+              padding: 10px;
+            }
+        </style>
+
 </head>
 
 <body>
@@ -37,17 +54,34 @@
 
 
     <div class="content">
-        <h1 class="title"> Welcome Doctor <%= name %> <%= lastname %>!</h1>
-        <div class="form">
-
-
-
-            <img alt="Qries" src="/img/doctor.png" style="display: block; margin-left: auto; margin-right: auto;">
-
-            <p style="font-size: xx-small;">Illustration by <a href="https://icons8.com/illustrations/author/CkHJmwURlxnt">Olha Khomich</a> from <a href="https://icons8.com/illustrations">Ouch!</a></p>
-
-        </div>
-
+         <h1 class="title">History of Symptoms</h1>
+         <div class="form">
+         <a href="/doctorsPatientProfile/<%=patient_id%>" style="color: black;"><i class="fas fa-arrow-left"></i> Back to patient profile</a>
+                                <div class="history" style="margin-top: 3%; margin-left: 20%; margin-right: 20%;">
+                                            <table>
+                                                <tr>
+                                                    <th style="width:70%"><h4>Symptom</h4></th>
+                                                    <th style="width:70%"><h4>Date</h4></th>
+                                                </tr>
+                                                <tr>
+                                                <td>
+                                                    <% for(let i = 0; i < symptoms.length; i++ ){ %>
+                                                        <p>
+                                                            <%= symptoms[i].symptom%> <br>
+                                                        </p> <% } %>
+                                                    </td>
+                                                    <td>
+                                                                    
+                                                    <% for(let j = 0; j < symptoms.length; j++ ){ %>
+                                                        <p>
+                                                            <%= symptoms[j].datetime%><br>
+                                                        </p> <% } %>
+                                                    </td>
+                    
+                                                </tr>
+                                            </table>
+                    
+                    
     </div>
 
 

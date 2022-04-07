@@ -13,18 +13,25 @@
     <script src="https://kit.fontawesome.com/e56d36b0a0.js" crossorigin="anonymous"></script>
 
     <!--Title of Page-->
-    <title>CovidConnect | Homepage</title>
+    <title>CovidConnect | Profile</title>
 
     <!--Favicon/icon in browser tab-->
     <link rel="icon" href="/img/favicon.png">
 
     <!--Link to CSS-->
-    <link rel="stylesheet" href="/css/homepage.css">
+    <link rel="stylesheet" href="/css/profile.css">
 
-    <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script>
 </head>
 
 <body>
+    <script>
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
     <!--Heading-->
     <div class="header" style="margin-bottom:0">
         <a class="navbar-brand" href="/"><img class="logo" src="/img/logo.png" alt="logo"></a>
@@ -43,7 +50,6 @@
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                
                 <li class="nav-item">
                     <a class="nav-link" href="/profile"><i class="fas fa-address-card"></i> Profile</a>
                 </li>
@@ -62,6 +68,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/allAppointmentsPatient"><i class="fas fa-book-medical"></i> View My Appointments</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/patientExposed"><i class="fas fa-book-medical"></i> Health Official Notifications</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -69,25 +78,11 @@
 
 
                 <!-- Dropdown -->
-                <% if (authenticated) { %>
-                    <li>
-                        <a class="nav-link" href="/logout"><i></i>Logout</a>
-                    </li>
-                    <%} else { %>
-                        <li>
-                            <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <!--Backend should add a way to modify login button to logout button-->
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="/login">Login</a>
-                            </div>
 
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><i class = "fas fa-user"></i></a>
 
-                        </li>
-                        <% } %>
-
+                <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                </li>
 
 
             </ul>
@@ -97,27 +92,79 @@
 
 
 
-    <div class="info homePad">
-        <!--
-        <h1>Welcome!</h1>
-        
-        <h2>Get ready to explore our many features <br>designed just for you.<br><br></h2>
+    <div class="content">
 
-        <div class="zoom">
-            <h5><a id=links href="/signup"><i class="fas fa-user-plus"></i> Create your account today.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-briefcase-medical"></i> Stay connected with a doctor.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-info-circle"></i> Stay informed about Covid-19 in your area.<br><br></a></h5>
-        </div>
-        <div class="zoom">
-            <h5><a><i class="fas fa-virus-slash"></i> Stay healthy.<br><br></a></h5>
-        </div>-->
+        <h1 class="title"><i class="fas fa-location-arrow"></i> Tracking</h1>
+        <h6 class="title">On this page, you will be able to enter the postal codes you have visited and view the history of those locations. This will enable the app to notify you if you have been in the same location as someone who has tested positive for Covid-19.</h6>
 
+
+
+        <div class="form">
+            <h3 style="margin-left:2.5%;">Current Location(s)</h3>
+
+          
+            <form action="/locations" method="POST">
+                <ul style="list-style-type:none; padding-left: 0px;">
+
+                    <div class="form-row align-items-center">
+                        <li>
+                                <div class="col-auto">
+                                  <label for="inlineFormInput">Please enter the postal codes you have visited:</label>
+                                  <input type="text" name="postalCode" class="form-control" id="inlineFormInput" placeholder="Postal code">
+                                </div>
+                        </li>
+                        <li>
+                            <div class="col-auto">
+                              <button type="submit" class="btn btn-outline-danger btn-lg" style="margin-top: 48%; padding: 4.5%;">Submit</button>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </form>
+
+            <!-- <h3 style="padding-top: 9%;">History of Location(s)</h3>
+            <div class="history">
+            <div class="row">
+              <div class="column">
+                <h5>Location</h5>
+                  
+              </div>
+              <div class="column">
+                <h5>Date</h5>
+                   
+              </div>
+            </div> -->
+            <h3 style="padding-top: 9%; margin-left:2.5%;">History of Location(s)</h3>
+        <div class="history">
+            <table>
+                <tr>
+                    <th style="width: 45%;"><h5>Location</h5></th>
+                    <th style="width: 55%;"><h5>Date</h5></th>
+                </tr>
+                <tr>
+                    <td>
+                        <% for(let i = 0; i < postalCodes.length; i++ ){ %>
+                            <p>
+                                <%= postalCodes[i].postalcode%><br>
+                            </p> <% } %>
+                    </td>
+                    <td>
+                        <% for(let i = 0; i < postalCodes.length; i++ ){ %>
+                            <p>
+                                <%= postalCodes[i].datetime%><br>
+                            </p> <% } %>
+                    </td>
+
+                </tr>
+            </table>
+
+
+        </div>
+
+
+
+        </div>
     </div>
-
 
 
     <!--Footer Bar-->
@@ -139,15 +186,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
-    <script type="text/javascript">
-        (function() {
-            window['__CF$cv$params'] = {
-                r: '6d5727649af5ecf6',
-                m: '9A7zZ98kbxg1cgV9t4ZvNg1YBTYZQLm_X7n81rJQjsA-1643508521-0-Adg+mguxHRy+Cz4VKKK3+JvoQYdeHGUxFlMe6KVfw/+BqVvcAIc51i2n/HJJNWKem97N4PxoYDKj4BxnBuX+SpOwrcz8b42/mNLwlwz9SY/x6r5i+EBcb+3fLsTxWi/GybhiL0s9pv5rSjgHipQ+xM5v+LxG8QhsCC3C4kEHrEAS4qVENkAFyZg3C9zhXgzhQm+4dHgCW0kYyFH+Omfcl1w=',
-                s: [0x72d2a314ec, 0xaf0bd8589b],
-            }
-        })();
-    </script>
 </body>
 
 </html>

@@ -20,115 +20,139 @@
 
     <!--Link to CSS-->
     <link rel="stylesheet" href="/css/adminBackground.css">
-   
+
 </head>
 
 <body>
-  <!--Sidebar for Navigation-->
-  <div class="sidebar">
-    <a class="logoside" href="/doctorIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
-    <a class="active" href="/doctorIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
-    <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My patients</a>
-    <!-- <a href=""><i class="fas fa-comment-medical"></i> Contact Patients</a> -->
-
-    <div>
-      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <!--Sidebar for Navigation-->
+    <div class="sidebar">
+        <a class="logoside" href="/doctorIndex"><img class="logo" src="/img/logo.png" alt="logo"></a>
+        <a class="active" href="/doctorIndex"><i class="fab fa-canadian-maple-leaf"></i> Home</a>
+        <a href="/doctorsPatientList"><i class="fas fa-hospital-user"></i> My Patients</a>
+        <a href="/doctorAllAppointments"><i class="far fa-calendar-check"></i> My Appointments</a>
+        <div>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
     </div>
- 
-  </div>
+
+    <div class="content">
+        <h1 class="title"><i class="fas fa-hospital-user"></i> My patients</h1>
+        <div class="form">
+            <div class="col-md-12 frame">
+                <h2 style="padding-left:0px;">Patients</h2>
+                <div class="col-md-6">
 
 
-  <div class="content">
-    <h1 class="title"><i class="fas fa-hospital-user"></i> My patients</h1>
-    <div class="form">
-      <div class="col-md-12 frame">
-          <div class="col-md-6">
-              <h2>Patients Assigned to me</h2>
-
-          </div>
-          <h2>Covid Status</h2>
-          <select id="list1" onchange="myFunction()" class='form-control'>
-            <option></option>
+                </div>
+                <label for="list1" class="form-label">Covid Status:</label>
+                <select class="form-select" id="list1" onchange="myFunction(); redirect(this.value)" class='form-control'>
+            <option value="/doctorsPatientList" selected>ALL</option>
           <option>POSITIVE</option>
           <option>NEGATIVE</option>
           </select>
-          <table class="table table-striped" id="table1">
-              <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Covid Status</th>
-                    <th scope="col" style="text-align: right;">View Patient's Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <%
+
+                <script>
+                    /*
+                     * This method refreshes the page in case "ALL" is selected
+                     * @param {string} src refered to the link that the fuction is redirecting to
+                     */
+                    function redirect(src) {
+                        if (src == "/doctorsPatientList") {
+                            window.location = src;
+                        }
+                    }
+                </script>
+
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Covid Status</th>
+                            <th scope="col">Severity</th>
+                            <th scope="col" style="text-align: right;">View Patient's Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
                             if(allpatients.length!=0){
                               var i=1;
                             allpatients.forEach(function(data){                     
                             %>
-                  <tr>
-                    <th scope="row"><%=i; %></th>
-                    <td><%=data.first_name %></td>
-                    <td><%=data.last_name %></td>
-                    <% if(data.covid == 1){%>
-                      <td>POSITIVE</td>
-                    <%} else {%>
-                      <td>NEGATIVE</td>
-                    <%}%>
-                    <td style="text-align: right;">
-
-                                  
-                    <a href = "/doctorsPatientProfile/<%= data.uuid %>" type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></a>
-
-                      
-                   </td>
-                  </tr>
-                  <%  i++; }) %>
-                            <% } else{ %>
-                              <tr>
-                                  <td colspan="7">No Patients Found</td>
-                              </tr>
-                            <% } %>
-                    
-                </tbody>
-            </table>
-            <!-- pagination nav -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      </div>
+                            <tr>
+                                <th scope="row">
+                                    <%=i; %>
+                                </th>
+                                <td>
+                                    <%=data.first_name %>
+                                </td>
+                                <td>
+                                    <%=data.last_name %>
+                                </td>
 
 
-    
+                                <% if(data.covid == 1){%>
+                                    <td>POSITIVE</td>
+                                    <%} else {%>
+                                        <td>NEGATIVE</td>
+                                        <%}%>
+                                            <td>
+                                                <%=data.criticality %>
+                                            </td>
+                                            <td style="text-align: right;">
 
+
+                                                <a href="/doctorsPatientProfile/<%= data.uuid %> " type="submit" class="btn btn-info"><i class="fas fa-angle-double-right"></i></a>
+
+
+                                            </td>
+
+                            </tr>
+                            <%  i++; }) %>
+                                <% } else{ %>
+                                    <tr>
+                                        <td colspan="7">No Patients Found</td>
+                                    </tr>
+                                    <% } %>
+
+                    </tbody>
+                </table>
+                <!-- pagination nav -->
+                <!-- <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav> -->
+            </div>
+
+
+
+
+
+        </div>
 
     </div>
-
-</div>
 
 
 
     <!--Footer Bar-->
     <!--Footer-->
-    <div class="footer">
+    <div class="footer" onload="sortTable()">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3"><i class="fas fa-calendar-alt"></i> Stay Informed</div>
@@ -145,30 +169,37 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
-    
-    <script language="javascript" type="text/javascript">  
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#table1").DataTable();
+        })
+    </script>
+
+    <script language="javascript" type="text/javascript">
         function myFunction() {
-          var input, filter, table, tr, td, i;
-          input = document.getElementById("list1");
-          filter = input.value.toUpperCase();
-          
-          table = document.getElementById("table1");
-          tr = table.getElementsByTagName("tr");
-          console.log(table);
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2];
-            console.log(td)
-            if (td) {
-              if (td.innerHTML.toUpperCase() == filter ) {
-                tr[i].style.display = "" ;
-              } else {
-                tr[i].style.display = "none";
-              }
-            }       
-          }
-        } 
-    </script> 
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("list1");
+            filter = input.value.toUpperCase();
+
+            table = document.getElementById("table1");
+            tr = table.getElementsByTagName("tr");
+            console.log(table);
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                console.log(td)
+                if (td) {
+                    if (td.innerHTML.toUpperCase() == filter) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>
