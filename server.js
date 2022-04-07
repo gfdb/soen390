@@ -755,6 +755,7 @@ app.post('/patientMessaging', checkAuthenticated, function(req, res) {
 
 })
 
+//load index page of doctor
 app.get('/doctorIndex', checkDoctor, (req, res) => {
 
     res.render('doctor_index.ejs', { name: req.session.user.name, lastname: req.session.user.lastname })
@@ -792,7 +793,7 @@ app.get('/symptoms', checkAuthenticated, (req, res) => {
         }
 
     })
-    //post postal symptoms into database from form
+//post postal symptoms into database from form
 app.post('/symptoms', checkAuthenticated, (req, res) => {
     try {
         let date_ob = new Date();
@@ -816,6 +817,7 @@ app.post('/symptoms', checkAuthenticated, (req, res) => {
         // current seconds
         let seconds = date_ob.getSeconds();
 
+        //This query will insert the new symptom in the symptoms history table
         var sql = "INSERT INTO History(uuid, symptom, datetime) Values ('" + req.session.user.uuid +
             "', '" + req.body.newSymptom + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "');"
         db.query(sql, (err, result) => {
@@ -829,6 +831,7 @@ app.post('/symptoms', checkAuthenticated, (req, res) => {
         })
 
 
+        // This query will fetch the doctor uuid of the patient
         var sql1 = "Select * from Doctor Where patient_uuid = '" + req.session.user.uuid + "'"
         db.query(sql1, (err1, result1) => {
             try {
@@ -837,6 +840,7 @@ app.post('/symptoms', checkAuthenticated, (req, res) => {
                 if (result1.length > 0) {
                     console.log(result1.user_uuid)
                     var message = "Hi! I have a new Symptom: " + req.body.newSymptom + " on date " + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+                    //This query will send the message to the doctor when a new symptom is added
                     var sql2 = "Insert into Messages Values ('" + req.session.user.uuid + "','" + result1[0].user_uuid + "' , '" + message + "', '" + year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "')"
 
                     console.log(sql2)
@@ -849,7 +853,7 @@ app.post('/symptoms', checkAuthenticated, (req, res) => {
                         }
 
                     })
-                } else if (result1.length <= 0) {
+                } else if (result1.length <= 0) { // if this patient has no doctor
 
                     console.log("No doctor Available")
 
@@ -910,7 +914,7 @@ app.post('/locations', checkAuthenticated, (req, res) => {
         }
 
     })
-    //query locations from database
+//query locations from database
 app.get('/locations', checkAuthenticated, (req, res) => {
     try {
         console.log(req.session.user.uuid)
@@ -975,39 +979,39 @@ app.get('/symptomsMonitor/:patient_id', checkDoctor, (req, res) => {
 
 
 })
+//render the booking appointments page with dynamic data (doctor name)
 app.get('/patientAppointment', checkAuthenticated, (req, res) => {
-    console.log("inside patient appointment")
+    // this query will get the name of the doctor for this patient if exist
     var sql = "Select uuid as doctoruuid,first_name as doctorfn, last_name as doctorln from User,Doctor where User.uuid = user_uuid AND Doctor.patient_uuid = '" + req.session.user.uuid + "'"
     db.query(sql, (err, result) => {
         //try{
         if (err) console.log(err);
-        console.log("Query success")
-        console.log(result)
+        
+        
         if (result.length > 0) {
-            console.log("I have doctor")
+            
             const DfirstName = result[0].doctorfn
             const DlastName = result[0].doctorln
             const Duuid = result[0].doctoruuid
             res.render('patient_appointments.ejs', { doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid })
                 //date format YYYY-MM-DD hh:mm:ss
-        } else //if (result.lenght <=0)
+        } else 
         {
-            console.log("Inside no patient doctor")
-            const DfirstName = 'NA'
+           
+            const DfirstName = 'NA' //default doctor for no patients (for emergency or urgent cases only)
             const DlastName = 'NA'
             const Duuid = '0' // default doctor for patients with no doctor
             res.render('patient_appointments.ejs', { doctor_first_name: DfirstName, doctor_last_name: DlastName, doctor_uuid: Duuid })
 
-            console.log("this patient have no doctor")
+           
         }
-        //  }catch(err){
-        //     console.log(err)
-        // }
+        
 
     })
 
 })
 
+// This route will insert the appointment into the database
 app.post('/patientAppointment', checkAuthenticated, function(req, res) {
 
     // TODO
@@ -1021,23 +1025,17 @@ app.post('/patientAppointment', checkAuthenticated, function(req, res) {
     const doctor_last_name = req.body.doctor_last_name
     const patient_first_name = req.session.user.name
     const patient_last_name = req.session.user.lastname
-        //console.log("patient uuid: "+patient_uuid)
-        // console.log("doctor uuid: "+doctor_uuid)
-    console.log("datetime: " + datetime)
-    console.log("description: " + description)
-    console.log("doctor fn: " + doctor_first_name)
-    console.log("doctor ln: " + doctor_last_name)
-    console.log("patient fn: " + patient_first_name)
-    console.log("patient ln: " + patient_last_name)
+        
+    // This query will insert the appointment into appointments table
     var sql = `INSERT INTO Appointment Values ('${doctor_uuid}','${patient_uuid}','${datetime}','${description}')`
     try {
         db.query(sql, (err, result) => {
             if (err) console.log(err)
             try {
 
-                if (description === '') {
+                if (description === '') {// if no description, add none to not fail the URL querying
                     description = 'none'
-                    console.log(description)
+                    
                 } else {
                     console.log("I am inside else")
 
@@ -1087,11 +1085,12 @@ app.post('/patientAppointment', checkAuthenticated, function(req, res) {
     }
 })
 
+// render confirmation page after booking is successfull 
 app.get('/patientAppointmentConfirmation/:datetime', checkAuthenticated, (req, res) => {
 
     const datetime = req.params.datetime
 
-
+    // Query the patient name, doctor name, and appointment details to be desplayed in the confirmation test
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' AND Appointment.datetime = '${datetime}' ) AS patient ,
@@ -1112,6 +1111,7 @@ app.get('/patientAppointmentConfirmation/:datetime', checkAuthenticated, (req, r
             if (err) console.log(err)
             try {
                 if (result.length == 0) {
+                    // Query the appointment details if the patient has no assigned doctor (only has default doctor)
                     const sql2 = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description
                     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
                           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' AND Appointment.datetime = '${datetime}' ) AS patient`
@@ -1119,7 +1119,7 @@ app.get('/patientAppointmentConfirmation/:datetime', checkAuthenticated, (req, r
                     db.query(sql2, (err, result1) => {
                         if (err) console.log(err)
                         try {
-                            console.log("I am inside empty")
+                            
                             description = result1[0].description
                             doctor_first_name = "To be Determined"
                             doctor_last_name = "To be Determined"
@@ -1160,9 +1160,9 @@ app.get('/patientAppointmentConfirmation/:datetime', checkAuthenticated, (req, r
 
 
 })
-
+// Display all appointments for this patient
 app.get('/allAppointmentsPatient', checkAuthenticated, (req, res) => {
-
+    //this query will get all the appointments for the patient in addition of the appointments' details
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' ) AS patient ,
@@ -1185,7 +1185,7 @@ app.get('/allAppointmentsPatient', checkAuthenticated, (req, res) => {
 
                     res.render('allAppointmentsPatient.ejs', { appointment: appointment })
                 } else {
-
+                    // same as query before but for patients with no doctor
                     const sql2 = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description
                     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
                     FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid AND User.uuid = '${req.session.user.uuid}' ) AS patient Order BY ABS( DATEDIFF(  patient.datetime, NOW() ) ) `
@@ -1208,9 +1208,8 @@ app.get('/allAppointmentsPatient', checkAuthenticated, (req, res) => {
                             }
 
                         })
-                        console.log('inside lonely')
-                            //res.render('patient_appointments_confirmation.ejs')
-                            // console.log(req.body)
+                        
+                            
                     } catch {
 
                     }
@@ -1223,16 +1222,14 @@ app.get('/allAppointmentsPatient', checkAuthenticated, (req, res) => {
             }
 
         })
-        console.log('inside')
-            //res.render('patient_appointments_confirmation.ejs')
-            // console.log(req.body)
+      
     } catch {
 
     }
 
 
 })
-
+// Check if the date chosen for the appointment is available 
 app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) => {
 
     doctor_uuid = req.params.doctor_uuid
@@ -1244,13 +1241,13 @@ app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) =
     console.log("The rest is")
     console.log(date_time)
     console.log(description)
-
+    // this query will check if the doctor has an appointment at the time chosen by the patient
     const sql = `
         SELECT * from Appointment 
         Where doctor_uuid = '${doctor_uuid}' AND datetime = '${date_time}' 
     `
 
-    console.log("I am after query dec")
+    
 
     res.setHeader('Content-Type', 'application/json');
     db.query(sql, function(err, result) {
@@ -1268,9 +1265,11 @@ app.post('/checkAvailability/:doctor_uuid/:date_time/:description', (req, res) =
         }
     })
 })
+// Display all appointments for the doctor
 app.get('/doctorAllAppointments', checkAuthenticated, (req, res) => {
     var appointment = []
     const doctor_uuid = req.session.user.uuid
+    //This query will get the appointments and their details for the signed-in doctor
     const sql = `SELECT patient.uuid, patient.first_name AS patient_first_name , patient.last_name As patient_last_name , patient.datetime, patient.descr As description, TEMP.doctor_first_name, TEMP.doctor_last_name
     FROM (SELECT User.uuid, User.first_name  , User.last_name  , Appointment.datetime, Appointment.descr 
           FROM User, Appointment WHERE Appointment.patient_uuid = User.uuid  ) AS patient ,
