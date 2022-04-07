@@ -7,9 +7,13 @@
         "start": "nodemon server.js",
         "test": "mocha  --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js --exit",
         "intTest": "mocha --file ./test/integration-tests/doctor-msg.test.js --file ./test/integration-tests/patient-msg.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js   --file ./test/integration-tests/edit-profile.test.js --exit",
-        "coverage": "nyc --report=text npm run test",
+        "testsuite": "mocha --file ./test/app.test.js --file ./test/login.test.js --file ./test/profile.test.js ./test/signup.test.js ./test/integration-tests/doctor-msg.test.js --file ./test/integration-tests/patient-msg.test.js --file ./test/integration-tests/login.test.js ./test/integration-tests/main-signup.test.js --file ./test/integration-tests/edit-profile.test.js --exit", 
+        "coverage": "nyc --report=text npm run testsuite",
         "teardown": "mocha ./test/teardown.test.js --exit",
-        "coverage-full": "nyc --reporter=lcov --report=text npm run intTest && npm run teardown && npm run test"
+        "coverage-full": "nyc --reporter=lcov --report=text npm run testsuite"
+    },
+    "nyc": {
+        "include": "routes"
     },
     "repository": {
         "type": "git",
