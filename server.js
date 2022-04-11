@@ -1052,13 +1052,13 @@ app.post('/patientAppointment', checkAuthenticated, function(req, res) {
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: 'francodumoulin123@gmail.com',
-                    pass: 'tsrydtqiwovvjxkz' // good thing I trust my team ._.
+                    user: 'covidconnectinquiries@gmail.com',
+                    pass: 'qiihsxhtqrlunlhq'
                 }
             });
 
             var mailOptions = {
-                from: 'francodumoulin123@gmail.com',
+                from: 'covidconnectinquiries@gmail.com',
                 to: req.session.user.email,
                 subject: 'CovidConnect: Upcoming Appointment',
                 text: `Hello, \n\nThis email is to confirm your appointment with a CovidConnect doctor at ${datetime}.\n\nHave a great day,\n\n-CovidConnect\n\nYou are receiving this email because you booked an appointment on CovidConnect. This is apart of a school project for SOEN 390 at Concordia University in Montreal, Quebec. If you don't know what I am talking about please disregard this email.`
